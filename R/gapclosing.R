@@ -190,6 +190,10 @@ gapclosing <- function(
   } else if (!(outcome_name %in% colnames(data))) {
     stop("ERROR: outcome_name was provided by the user, but it appears to not be a column in data")
   }
+  # If the treatment is logical, make it numeric
+  if (is.logical(data[[treatment_name]])) {
+    data[[treatment_name]] <- as.numeric(data[[treatment_name]])
+  }
 
   # Make the point estimate
   if (sample_split == "single_sample") {

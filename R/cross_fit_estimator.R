@@ -68,7 +68,7 @@ cross_fit_estimator <- function(
       outcome_name = outcome_name,
       treatment_name = treatment_name,
       category_name = category_name,
-      counterfactual_assignments = counterfactual_assignments,
+      counterfactual_assignments = counterfactual_assignments[folds == f],
       weight_name = weight_name,
       treatment_algorithm = treatment_algorithm,
       outcome_algorithm = outcome_algorithm
