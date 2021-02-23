@@ -1,13 +1,13 @@
 Package: gapclosing
 Title: Estimate Gap-Closing Estimands
-Version: 0.0.1
+Version: 0.0.1.9000
 Authors@R: 
     person(given = "Ian",
            family = "Lundberg",
            role = c("aut", "cre"),
            email = "ilundberg@princeton.edu",
            comment = c(ORCID = "https://orcid.org/0000-0002-1909-2270"))
-Description: This package provides functions to estimate gap-closing estimands: the disparity across categories (e.g. Black and white) that persists if a treatment variable (e.g. job training) is equalized (Lundberg 2021). This package makes estimates by treatment modeling, outcome modeling, and doubly-robust augmented inverse probability weighting estimation, with standard errors calculated by a nonparametric bootstrap. Survey weights are supported for point estimation but not for standard error estimation; those applying this package with complex survey samples should consult the data distributor to select an appropriate approach for standard error construction, which may involve calling the functions of this package repeatedly for many sets of replicate weights provided by the data distributor.
+Description: This package provides functions to estimate gap-closing estimands: the disparity across categories (e.g. Black and white) that persists if a treatment variable (e.g. college) is equalized (Lundberg 2021). This package makes estimates by treatment modeling, outcome modeling, and doubly-robust augmented inverse probability weighting estimation, with standard errors calculated by a nonparametric bootstrap. Survey weights are supported for point estimation but not for standard error estimation; those applying this package with complex survey samples should consult the data distributor to select an appropriate approach for standard error construction, which may involve calling the functions of this package repeatedly for many sets of replicate weights provided by the data distributor.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
