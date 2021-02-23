@@ -9,7 +9,7 @@
 #' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
 #' @export
 
-plot_two_category <- function(x, category_A, category_B, custom_ylab = "Mean Outcome", custom_xlab = "Category") {
+plot_two_categories <- function(x, category_A, category_B, custom_ylab = "Mean Outcome", custom_xlab = "Category") {
   # Initialize non-standard evaluation variables to avoid R CMD check warnings.
   setting <- category <- estimate <- se <- label <- y <- Factual <- Counterfactual <- NULL
   forplot <- x$primary_estimate %>%
