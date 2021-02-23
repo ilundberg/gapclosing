@@ -11,13 +11,15 @@
 
 \item{return_plots}{Logical, defaults to FALSE. If TRUE, returns a list of the 4 plots without printing. Defaults to FALSE, in which case the console will interactively ask the user to hit "return" to proceed through printouts of the four plots, with no plots returned.}
 
+\item{arranged}{Logical, defaults to FALSE. If TRUE, returns a list of the 4 plots arranged in a 2x2 table. Useful to visualize all four in one screen.}
+
 \item{...}{Other arguments to \code{plot} commands}
 }
 \value{
 If \code{return_plots = TRUE}, returns a list of length 4, each element of which is a ggplot2 object. If \code{return_plots = FALSE} (the default), then nothing is returned.
 }
 \description{
-Summarizes the S3 class object returned by the gapclosing function
+Produces summary plots for a gapclosing object.
 }
 \references{
 Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}

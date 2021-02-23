@@ -42,6 +42,8 @@ point_estimator <- function(
   outcome_algorithm = "lm",
   weight_name = NA
 ) {
+  # Initialize non-standard evaluation variables to avoid R CMD check warnings.
+  weight <- NULL
   # Assign a weight variable
   if (is.na(weight_name)) {
     data_learn$weight <- rep(1,nrow(data_learn))

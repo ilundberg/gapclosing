@@ -1,13 +1,16 @@
 #' Plot function for gapclosing objects
-#' @description Summarizes the S3 class object returned by the gapclosing function
+#' @description Produces summary plots for a gapclosing object.
 #' @param x An object of class \code{gapclosing}, which results from a call to the function \code{gapclosing}
 #' @param return_plots Logical, defaults to FALSE. If TRUE, returns a list of the 4 plots without printing. Defaults to FALSE, in which case the console will interactively ask the user to hit "return" to proceed through printouts of the four plots, with no plots returned.
+#' @param arranged Logical, defaults to FALSE. If TRUE, returns a list of the 4 plots arranged in a 2x2 table. Useful to visualize all four in one screen.
 #' @param ... Other arguments to \code{plot} commands
 #' @return If \code{return_plots = TRUE}, returns a list of length 4, each element of which is a ggplot2 object. If \code{return_plots = FALSE} (the default), then nothing is returned.
 #' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
 #' @export
 
 plot.gapclosing <- function(x, return_plots = F, arranged = F, ...) {
+  # Initialize non-standard evaluation variables to avoid R CMD check warnings.
+  description <- category <- estimate <- ci.min <- ci.max <- NULL
   plot_1 <- x$primary_estimate %>%
     dplyr::filter(description %in% c("Factual mean","Counterfactual mean")) %>%
     dplyr::mutate(description = dplyr::case_when(setting == "factual" ~ "Desriptive mean:\nMean of outcomes as\nthey factually exist",
@@ -15,7 +18,7 @@ plot.gapclosing <- function(x, return_plots = F, arranged = F, ...) {
     dplyr::mutate(description = forcats::fct_rev(description)) %>%
     ggplot2::ggplot(ggplot2::aes(x = category, y = estimate,
                                  color = description, shape = description)) +
-    ggplot2::geom_point(position = position_dodge(width = .5)) +
+    ggplot2::geom_point(position = ggplot2::position_dodge(width = .5)) +
     ggplot2::xlab("Category of Units") +
     ggplot2::ylab("\nEstimated Mean Outcome") +
     ggplot2::theme_bw() +
@@ -35,7 +38,7 @@ plot.gapclosing <- function(x, return_plots = F, arranged = F, ...) {
     dplyr::filter(description %in% c("Factual gap","Counterfactual gap")) %>%
     dplyr::mutate(description = dplyr::case_when(setting == "factual" ~ "Desriptive disparity:\nDisparity in outcomes as\nthey factually exist",
                                                  setting == "counterfactual" ~ "Causal gap-closing estimand:\nDisparity in potential outcomes\nunder the intervention")) %>%
-    dplyr::mutate(description = fct_rev(description)) %>%
+    dplyr::mutate(description = forcats::fct_rev(description)) %>%
     ggplot2::ggplot(ggplot2::aes(x = category, y = estimate,
                                  color = description, shape = description)) +
     ggplot2::geom_point(position = ggplot2::position_dodge(width = .5)) +
