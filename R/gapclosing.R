@@ -50,7 +50,7 @@
 #' # Fit by outcome modeling
 #' estimate <- gapclosing(
 #'   data = simulated_data,
-#'   outcome_formula = formula(outcome ~ confounder + category * treatment),
+#'   outcome_formula = formula(outcome ~ treatment * category + confounder),
 #'   treatment_name = "treatment",
 #'   category_name = "category",
 #'   counterfactual_assignments = 1,
@@ -73,7 +73,7 @@
 #' # You can add standard errors with se = T
 #' estimate <- gapclosing(
 #'   data = simulated_data,
-#'   outcome_formula = formula(outcome ~ confounder + category * treatment),
+#'   outcome_formula = formula(outcome ~ treatment * category + confounder),
 #'   treatment_formula = formula(treatment ~ category + confounder),
 #'   category_name = "category",
 #'   counterfactual_assignments = 1
@@ -84,7 +84,7 @@
 #' # You can add standard errors with se = T
 #' estimate <- gapclosing(
 #'   data = simulated_data,
-#'   outcome_formula = formula(outcome ~ confounder + category),
+#'   outcome_formula = formula(outcome ~ category + confounder),
 #'   treatment_formula = formula(treatment ~ category + confounder),
 #'   category_name = "category",
 #'   counterfactual_assignments = 1,

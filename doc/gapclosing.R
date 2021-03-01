@@ -23,6 +23,9 @@ estimate <- gapclosing(
   se = T
 )
 
+## ---- fig.width = 5, fig.height = 3, out.width = "650px", fig.cap = "Figures produced by `plot_two_categories()` function"----
+plot_two_categories(estimate, "B", "A")
+
 ## ---- fig.width = 10, fig.height = 7, out.width = "650px", fig.cap = "Figures produced by plot() function"----
 plot(estimate, arranged = T)
 

@@ -30,13 +30,13 @@ knitr::opts_chunk$set(dpi = 300, fig.width = 6.5, fig.height = 3, out.width = "6
 t0 <- Sys.time()
 ```
 
-Researchers and policymakers would like to know the degree to which gaps across social categories (e.g. race, class, gender) would close if we intervened to modify a treatment variable (e.g. incarceration, education, occupation). This package provides software to support these gap-closing estimands. The user specifies the category that defines a disparity, the intervention to a binary treatment variable that could help to close that disparity, and models for treatment assignment and or expected outcomes that include covariates to identify the effect of the treatment. The package supports estimation by generalized linear models, ridge regression, generalized additive models, and random forests with and without cross-fitting. This vignette focuses on the software; for additional conceptual details, see the accompanying paper.
+Researchers and policymakers would like to know the degree to which gaps across social categories (e.g. race, class, gender) would close if we intervened to modify a treatment variable (e.g. incarceration, education, occupation). This package provides software to support these gap-closing estimands. The user specifies the category that defines a disparity, the intervention to a binary treatment variable that could help to close that disparity, and models for treatment assignment and or expected outcomes that include covariates to identify the effect of the treatment. The package supports estimation by generalized linear models, ridge regression, generalized additive models, and random forests with and without cross-fitting, and produces visualizations to summarize the result. This vignette focuses on the software; for additional conceptual details, see the accompanying paper.
 
 >Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Working paper available at [https://doi.org/10.31235/osf.io/gx4y3](https://doi.org/10.31235/osf.io/gx4y3).
 
 # Data structure
 
-In a data frame `data`, we have a gap-defining variable (category) such as race, gender, or class; we will never posit a world in which the gap-defining variable were different for any individual. Instead, gap-closing estimands view the category as simply a label on individuals. We care about the disparity in an outcome across those with different category labels.
+In a data frame `data`, we have a gap-defining category such as race, gender, or class; we will never posit a world in which the gap-defining variable were different for any individual. Instead, gap-closing estimands view the category as simply a label on individuals. We care about the disparity in an outcome across those with different category labels.
 
 We also have a binary treatment variable that could have counterfactually been different for any individual. We want to know the degree to which an intervention to change the treatment would close gaps across the categories.
 
@@ -61,7 +61,7 @@ head(simulated_data)
 
 # Quick overview: Functionality
 
-To what degree would the outcome gaps between categories A, B, and C close if we intervened on the treatment `treatment`? A call to `gapclosing()` answers this question.
+To what degree would the outcome gaps between categories A, B, and C close if we intervened on `treatment`? A call to `gapclosing()` answers this question.
 
 ```{r}
 estimate <- gapclosing(
@@ -73,10 +73,14 @@ estimate <- gapclosing(
   se = T
 )
 ```
-By default, the function fits a logistic regression model for the treatment with `treatment_formula` and an OLS regression for the outcome with `outcome_formula`. Then, it combines these in a doubly-robust augmented inverse probability weighting estimator to estimate the mean outcome in each category and the gap across categories if treatment were set to the value given by `counterfactual_assignments`. The function returns a list with the estimated model objects and supports `plot` and `summary` functions.
+By default, the function fits a logistic regression model for the treatment with `treatment_formula` and an OLS regression for the outcome with `outcome_formula`. Then, it combines these in a doubly-robust estimator to estimate the mean outcome in each category and the gap across categories if treatment were set to the value given by `counterfactual_assignments`. The function returns a list with the estimated model objects and supports `plot` and `summary` functions.
 
-In this example, the plots show that the intervention (blue triangles) would eliminate nearly the entire factual disparity (red dots) in outcomes across categories A, B, and C.
+In this example, assigning treatment 1 has almost no effect on outcomes in category B but raises outcomes in Category A, closing the gap almost completely.
+```{r, fig.width = 5, fig.height = 3, out.width = "650px", fig.cap = "Figures produced by `plot_two_categories()` function"}
+plot_two_categories(estimate, "B", "A")
+```
 
+The `plot()` function will produce a series of plots summarizing varies gap-closing quantities of interest.
 ```{r, fig.width = 10, fig.height = 7, out.width = "650px", fig.cap = "Figures produced by plot() function"}
 plot(estimate, arranged = T)
 ```
@@ -242,7 +246,7 @@ The package supports bootstrapped standard error estimation in one setting: if t
 
 >*Example.* (line 2 is the default and can be left implicit)  
 > `se = T`  
-> `bootstrap_samples = 10`
+> `bootstrap_samples = 1000`
 
 Users may need to implement their own standard error procedures to accurately capture sampling variation related to how their data were collected. The way the data were collected could motivate a resampling strategy to mimic the sources of variation in that sampling process, which the user can implement manually by calling `gapclosing` to calculate a point estimate on each resampled dataset with `se = F`.
 

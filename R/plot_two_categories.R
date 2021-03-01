@@ -12,6 +12,15 @@
 plot_two_categories <- function(x, category_A, category_B, custom_ylab = "Mean Outcome", custom_xlab = "Category") {
   # Initialize non-standard evaluation variables to avoid R CMD check warnings.
   setting <- category <- estimate <- se <- label <- y <- Factual <- Counterfactual <- NULL
+  # If the estimated thing is the reverse (e.g. B - A instead of A - B), then create the one the user wants.
+  case_in_x <- any(x$primary_estimate$category == paste(category_A,"-",category_B))
+  if (!case_in_x) {
+    x$primary_estimate$estimate[x$primary_estimate$category == paste(category_B,"-",category_A)] <-
+      -x$primary_estimate$estimate[x$primary_estimate$category == paste(category_B,"-",category_A)]
+    x$primary_estimate$category[x$primary_estimate$category == paste(category_B,"-",category_A)] <-
+      paste(category_A,"-",category_B)
+  }
+  # Create data frame for plot
   forplot <- x$primary_estimate %>%
     dplyr::filter(setting %in% c("factual","counterfactual") &
                     category %in% c(category_A, category_B,paste(category_A,"-",category_B))) %>%
