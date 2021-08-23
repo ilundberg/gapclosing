@@ -111,7 +111,11 @@ gapclosing <- function(
   n_folds = 2,
   folds = NULL
 ) {
-  # Check validity of inputs
+
+  ############################
+  # Check validity of inputs #
+  ############################
+
   if (!(length(counterfactual_assignments) %in% c(1,nrow(data)))) {
     stop("ERROR: counterfactual_assignments must be length 1 implying the same assignment for everyone or nrow(data) giving the counterfactual assignment probability for each unit.")
   }
@@ -195,7 +199,10 @@ gapclosing <- function(
     data[[treatment_name]] <- as.numeric(data[[treatment_name]])
   }
 
-  # Make the point estimate
+  ###########################
+  # Make the point estimate #
+  ###########################
+
   if (sample_split == "single_sample") {
     counterfactual_estimate <- point_estimator(
       data_learn = data,
@@ -231,8 +238,10 @@ gapclosing <- function(
   # Make it easier to access the estimated counterfactual means
   counterfactual_means <- counterfactual_estimate$counterfactual_means
 
-  # Calculate the factual estimate
+  # Initialize a sorted set of category_values to be the same order even if the data are reordered
   category_values <- sort(as.character(unique(data[[category_name]])), decreasing = F)
+
+  # Calculate the factual estimate
   factual_means_vector <- rep(NA, length(category_values))
   names(factual_means_vector) <- category_values
   for (category_value in category_values) {
@@ -269,7 +278,7 @@ gapclosing <- function(
       counterfactual_estimate$counterfactual_means[category_combinations[2,i],]
   }
 
-  # Record the s (factual - counterfactual) and multiplicative changes ((factual - counterfactual) / factual)
+  # Record the additive changes (factual - counterfactual) and multiplicative changes ((factual - counterfactual) / factual)
   additive_change_means <- factual_means - counterfactual_means
   additive_change_disparities <- factual_disparities - counterfactual_disparities
   multiplicative_change_means <- (factual_means - counterfactual_means) / factual_means
