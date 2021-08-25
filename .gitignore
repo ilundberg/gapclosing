@@ -1,6 +1,9 @@
+inst/doc
+Meta
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-doc
-Meta
+.DS_Store
+/Meta/
+/doc/

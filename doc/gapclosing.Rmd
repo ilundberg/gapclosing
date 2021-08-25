@@ -32,7 +32,7 @@ t0 <- Sys.time()
 
 Researchers and policymakers would like to know the degree to which gaps across social categories (e.g. race, class, gender) would close if we intervened to modify a treatment variable (e.g. incarceration, education, occupation). This package provides software to support these gap-closing estimands. The user specifies the category that defines a disparity, the intervention to a binary treatment variable that could help to close that disparity, and models for treatment assignment and or expected outcomes that include covariates to identify the effect of the treatment. The package supports estimation by generalized linear models, ridge regression, generalized additive models, and random forests with and without cross-fitting, and produces visualizations to summarize the result. This vignette focuses on the software; for additional conceptual details, see the accompanying paper.
 
->Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Working paper available at [https://doi.org/10.31235/osf.io/gx4y3](https://doi.org/10.31235/osf.io/gx4y3).
+>Lundberg, Ian. Forthcoming. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." _Sociological Methods and Research_. Preprint available at [https://doi.org/10.31235/osf.io/gx4y3](https://doi.org/10.31235/osf.io/gx4y3).
 
 # Data structure
 
@@ -64,44 +64,33 @@ head(simulated_data)
 To what degree would the outcome gaps between categories A, B, and C close if we intervened on `treatment`? A call to `gapclosing()` answers this question.
 
 ```{r}
+t0 <- Sys.time()
 estimate <- gapclosing(
   data = simulated_data,
   counterfactual_assignments = 1,
   outcome_formula = formula(outcome ~ confounder + category*treatment),
   treatment_formula = formula(treatment ~ confounder + category),
   category_name = "category",
-  se = T
+  se = T,
+  # Process bootstrap in parallel with as many cores as available
+  parallel_cores = parallel::detectCores()
 )
+parallel <- difftime(Sys.time(),t0)
 ```
 By default, the function fits a logistic regression model for the treatment with `treatment_formula` and an OLS regression for the outcome with `outcome_formula`. Then, it combines these in a doubly-robust estimator to estimate the mean outcome in each category and the gap across categories if treatment were set to the value given by `counterfactual_assignments`. The function returns a list with the estimated model objects and supports `plot` and `summary` functions.
 
-In this example, assigning treatment 1 has almost no effect on outcomes in category B but raises outcomes in Category A, closing the gap almost completely.
-```{r, fig.width = 5, fig.height = 3, out.width = "650px", fig.cap = "Figures produced by `plot_two_categories()` function"}
-plot_two_categories(estimate, "B", "A")
+A series of plots are available through `plot(estimate)`. The first plot shows in this example that the mean factual outcome is increasing across categories A, B, and C, but the counterfactual outcomes are nearly equal for the three categories.
+
+```{r, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"}
+plots <- plot(estimate, return_plots = TRUE)
+print(plots[[1]])
 ```
 
-The `plot()` function will produce a series of plots summarizing varies gap-closing quantities of interest.
-```{r, fig.width = 10, fig.height = 7, out.width = "650px", fig.cap = "Figures produced by plot() function"}
-plot(estimate, arranged = T)
+The remaining plots directly examine the factual and counterfactual disparity across two categories, such as categories A and C. In this case, the intervention closes the gap between categories A and C because it has a positive effect in category A and a negative effect in category C, thus approximately equalizing the outcomes across these categories.
+```{r, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"}
+print(plots[[3]])
 ```
-
-```{r,include = F}
-extract_estimate <- function(setting, category, percent = F, this_estimate = estimate) {
-  value <- this_estimate$primary_estimate$estimate[
-      this_estimate$primary_estimate$setting == setting & 
-        this_estimate$primary_estimate$category == category]
-  if (!percent) {
-    format(round(value,2), nsmall = 2)
-  } else {
-    paste0(round(100*value),"%")
-  }
-}
-```
-
-* Top left: Across categories (x-axis), there are gaps in the mean factual outcomes (red). For categories A and C, the intervention would change their mean outcomes.  
-* Top right: This plot explicitly summarizes the gaps across categories. For example, disparity between categories B and A (left tick on x-axis) is factually `r extract_estimate("factual","B - A")` (red) but declines to `r extract_estimate("counterfactual","B - A")` under the intervention (blue).  
-* Bottom left: This plot shows the amount of the gap closed by the intervention: the difference between the red and blue estimates from the top right. For instance, the gap between categories B and A closes by `r extract_estimate("change","B - A")`.  
-* Bottom right: This plot shows the percent of the gap closed by the intervention. The intervention closes the gap between categories B and A by `r extract_estimate("prop_change","B - A", percent = T)`.
+The above can also be generated by the `disparityplot()` function, which allows the user to specify any specific pair of categories of interest: `disparityplot(estimate, category_A = "A", category_B = "C")`.
 
 The `summary` function will print estimates, standard errors, and confidence intervals for all of these results.
 
@@ -109,7 +98,6 @@ The `summary` function will print estimates, standard errors, and confidence int
 options(width = 300)
 summary(estimate)
 ```
-
 
 # Detailed procedures: Customize your call
 
@@ -242,13 +230,15 @@ If `sample_split = "cross_fit"`, the default is to conduct 2-fold cross-fitting,
 
 ## Step 4. Produce standard errors
 
-The package supports bootstrapped standard error estimation in one setting: if the data are selected from a population by a stratified random sample within strata defined by `category_name` and `treatment_name`. In this setting, the package resamples the data with replacement within strata of `category_name` and `treatment_name`, estimates the point estimate as many times as specified by `bootstrap_samples` (defaults to 1,000), and estimates the standard error by the standard deviation across bootstrap samples. The reason for restricting to this setting is to avoid problems that can arise if there is a rare category of interest or a rare treatment that may not fail to appear in bootstrap samples with non-negligible probability. Stratifying on category and treatment before bootstrapping avoids this edge case.
+The package supports bootstrapped standard error estimation. The procedure with `bootstrap_method = "simple"` (the default) is valid when the data are a simple random sample from the target population. In this case, each bootstrap iteration conducts estimation on a resampled dataset selected with replacement with equal probabilities. The standard error is calculated as the standard deviation of the estimate across bootstrap samples, and confidence intervals are calculated by a normal approximation.
 
 >*Example.* (line 2 is the default and can be left implicit)  
 > `se = T`  
 > `bootstrap_samples = 1000`
 
-Users may need to implement their own standard error procedures to accurately capture sampling variation related to how their data were collected. The way the data were collected could motivate a resampling strategy to mimic the sources of variation in that sampling process, which the user can implement manually by calling `gapclosing` to calculate a point estimate on each resampled dataset with `se = F`.
+In some settings, the sample size may be small and categories or treatments of interest may be rare. In these cases, it is possible for one or more simple bootstrap samples to contain zero cases in some (treatment $\times$ category) cell of interest. To avoid this problem, the `bootstrap_method = "stratified"` conducts bootstrap resampling within blocks defined by (treatment $\times$ category). This procedure is valid if you assume that the data are selected at random from the population within these strata, so that across repeated samples from the true population the proportion in each stratum would remain the same.
+
+Many samples are not simple random samples. In complex sample settings, users should implement their own standard error procedures to accurately capture sampling variation related to how their data were collected. The way the data were collected could motivate a resampling strategy to mimic the sources of variation in that sampling process, which the user can implement manually by calling `gapclosing` to calculate a point estimate on each resampled dataset with `se = F`.
 
 # Estimate by machine learning: Two examples
 
@@ -268,7 +258,8 @@ estimate_gam <- gapclosing(
   treatment_algorithm = "gam",
   outcome_algorithm = "gam",
   sample_split = "cross_fit",
-  se = T
+  se = T,
+  parallel_cores = parallel::detectCores()
 )
 ```
 
@@ -288,7 +279,8 @@ estimate_ranger <- gapclosing(
   treatment_algorithm = "ranger",
   outcome_algorithm = "ranger",
   sample_split = "cross_fit",
-  se = T
+  se = T,
+  parallel_cores = parallel::detectCores()
 )
 ```
 
@@ -296,27 +288,23 @@ estimate_ranger <- gapclosing(
 
 In this simulation, the GLM models are correctly specified and there are no nonlinearities or interactions for the machine learning approaches to learn. In this case, the sample size is large enough that those approaches correctly learn the linear functional form, and all three estimation strategies yield similar estimates.
 
+```{r, include = F}
+glm_plot <- plot(estimate, return_plots = T)[[1]]
+gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
+ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
+```
+
 ```{r, echo = F, fig.width = 12, fig.height = 5, message = F, warning = F, fig.caption = "The fourth default plot() with minor modifications, using results from each estimator above."}
 gridExtra::grid.arrange(
-  plot(estimate, return_plots = T)[[4]] +
+  glm_plot +
     ggtitle("GLM estimate") +
-    ylim(c(-.2,1)) +
-    scale_y_continuous(limits = c(-.1,1.5),
-                       labels = function(x) paste0(round(100*x),"%"),
-                       name = "Percent of Gap Closed") +
-    xlab("Category\nContrast"),
-  plot(estimate_gam, return_plots = T)[[4]] +
+    ylim(c(-1.5,1.5)),
+  gam_plot +
     ggtitle("GAM estimate") +
-    scale_y_continuous(limits = c(-.1,1.5),
-                       labels = function(x) paste0(round(100*x),"%"),
-                       name = "Percent of Gap Closed") +
-    xlab("Category\nContrast"),
-  plot(estimate_ranger, return_plots = T)[[4]] +
+    ylim(c(-1.5,1.5)),
+  ranger_plot +
     ggtitle("Ranger estimate") +
-    scale_y_continuous(limits = c(-.1,1.5),
-                       labels = function(x) paste0(round(100*x),"%"),
-                       name = "Percent of Gap Closed") +
-    xlab("Category\nContrast"),
+    ylim(c(-1.5,1.5)),
   ncol = 3
 )
 ```
@@ -339,7 +327,7 @@ estimate_stochastic <- gapclosing(
   category_name = "category"
 )
 ```
-The disparity between categories 1 and 0 under that intervention is estimated to be `r round(estimate_stochastic$primary_estimate$estimate[estimate_stochastic$primary_estimate$category == "B - A" & estimate_stochastic$primary_estimate$setting == "counterfactual (c)"],2)`. This illustrates an important point: the gap-closing estimand can be different depending on the counterfactual assignment rule, as the figure below shows for counterfactuals in which treatment is assigned with probabilities ranging from 0 to 1.
+The disparity between categories A and B under that stochastic intervention (0.75 probability of treatment = 1) is estimated to be `r round((estimate_stochastic$counterfactual_disparities %>% filter(category == "B - A"))$estimate,2)`, whereas under the previous deterministic intervention to assign treatment to the value 1 the disparity would be `r round((estimate$counterfactual_disparities %>% filter(category == "B - A"))$estimate,2)`. This illustrates an important point: the gap-closing estimand can be different depending on the counterfactual assignment rule, as the figure below shows for counterfactuals in which treatment is assigned with probabilities ranging from 0 to 1.
 ```{r, echo = F, fig.caption = "A conceptual figure for which the package does not provide a general-purpose function."}
 counterfactual_assignments_values <- seq(0,1,.25)
 many_stochastic_estimates <- rep(NA, length(counterfactual_assignments_values))
@@ -351,8 +339,8 @@ for (i in 1:length(counterfactual_assignments_values)) {
     treatment_formula = formula(treatment ~ confounder + category),
     category_name = "category"
   )
-  estimate_we_want <- estimate_case$primary_estimate %>%
-    filter(setting == "prop_change") %>%
+  estimate_we_want <- estimate_case$change_disparities %>%
+    filter(change_type == "proportional") %>%
     filter(category == "B - A")
   many_stochastic_estimates[i] <- estimate_we_want$estimate
 }
@@ -386,7 +374,6 @@ data.frame(counterfactual_assignments = counterfactual_assignments_values,
         legend.position = "none")
 ```
 
-
 Your stochastic assignments can also be different for different people. For example, suppose we assign those in Category A to treatment 1 with probability .5, those in Category B to treatment with probability .4, and those in Category C to treatment with probability .3. In this case, `counterfactual_assignments` will be set to a vector of length `nrow(data)`.
 ```{r}
 our_assignments <- case_when(simulated_data$category == "A" ~ .5,
@@ -400,7 +387,7 @@ estimate_stochastic <- gapclosing(
   category_name = "category"
 )
 ```
-That intervention would close the B - A gap by `r extract_estimate("prop_change","B - A", percent = TRUE, this_estimate = estimate_stochastic)`.
+That intervention would close the B - A gap by `r paste0(round(100 * (estimate_stochastic$change_disparities %>% filter(category == "B - A" & change_type == "proportional"))$estimate),"%")`.
 
 # Conclusion
 

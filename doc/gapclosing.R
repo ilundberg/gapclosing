@@ -14,32 +14,25 @@ simulated_data <- generate_simulated_data(n = 1000)
 head(simulated_data)
 
 ## -----------------------------------------------------------------------------
+t0 <- Sys.time()
 estimate <- gapclosing(
   data = simulated_data,
   counterfactual_assignments = 1,
   outcome_formula = formula(outcome ~ confounder + category*treatment),
   treatment_formula = formula(treatment ~ confounder + category),
   category_name = "category",
-  se = T
+  se = T,
+  # Process bootstrap in parallel with as many cores as available
+  parallel_cores = parallel::detectCores()
 )
+parallel <- difftime(Sys.time(),t0)
 
-## ---- fig.width = 5, fig.height = 3, out.width = "650px", fig.cap = "Figures produced by `plot_two_categories()` function"----
-plot_two_categories(estimate, "B", "A")
+## ---- fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
+plots <- plot(estimate, return_plots = TRUE)
+print(plots[[1]])
 
-## ---- fig.width = 10, fig.height = 7, out.width = "650px", fig.cap = "Figures produced by plot() function"----
-plot(estimate, arranged = T)
-
-## ----include = F--------------------------------------------------------------
-extract_estimate <- function(setting, category, percent = F, this_estimate = estimate) {
-  value <- this_estimate$primary_estimate$estimate[
-      this_estimate$primary_estimate$setting == setting & 
-        this_estimate$primary_estimate$category == category]
-  if (!percent) {
-    format(round(value,2), nsmall = 2)
-  } else {
-    paste0(round(100*value),"%")
-  }
-}
+## ---- fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
+print(plots[[3]])
 
 ## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 options(width = 300)
@@ -97,7 +90,8 @@ estimate_gam <- gapclosing(
   treatment_algorithm = "gam",
   outcome_algorithm = "gam",
   sample_split = "cross_fit",
-  se = T
+  se = T,
+  parallel_cores = parallel::detectCores()
 )
 
 ## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -110,30 +104,26 @@ estimate_ranger <- gapclosing(
   treatment_algorithm = "ranger",
   outcome_algorithm = "ranger",
   sample_split = "cross_fit",
-  se = T
+  se = T,
+  parallel_cores = parallel::detectCores()
 )
+
+## ---- include = F-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+glm_plot <- plot(estimate, return_plots = T)[[1]]
+gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
+ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
 
 ## ---- echo = F, fig.width = 12, fig.height = 5, message = F, warning = F, fig.caption = "The fourth default plot() with minor modifications, using results from each estimator above."--------------------------------------------------------------------------------------------------------------------
 gridExtra::grid.arrange(
-  plot(estimate, return_plots = T)[[4]] +
+  glm_plot +
     ggtitle("GLM estimate") +
-    ylim(c(-.2,1)) +
-    scale_y_continuous(limits = c(-.1,1.5),
-                       labels = function(x) paste0(round(100*x),"%"),
-                       name = "Percent of Gap Closed") +
-    xlab("Category\nContrast"),
-  plot(estimate_gam, return_plots = T)[[4]] +
+    ylim(c(-1.5,1.5)),
+  gam_plot +
     ggtitle("GAM estimate") +
-    scale_y_continuous(limits = c(-.1,1.5),
-                       labels = function(x) paste0(round(100*x),"%"),
-                       name = "Percent of Gap Closed") +
-    xlab("Category\nContrast"),
-  plot(estimate_ranger, return_plots = T)[[4]] +
+    ylim(c(-1.5,1.5)),
+  ranger_plot +
     ggtitle("Ranger estimate") +
-    scale_y_continuous(limits = c(-.1,1.5),
-                       labels = function(x) paste0(round(100*x),"%"),
-                       name = "Percent of Gap Closed") +
-    xlab("Category\nContrast"),
+    ylim(c(-1.5,1.5)),
   ncol = 3
 )
 
@@ -157,8 +147,8 @@ for (i in 1:length(counterfactual_assignments_values)) {
     treatment_formula = formula(treatment ~ confounder + category),
     category_name = "category"
   )
-  estimate_we_want <- estimate_case$primary_estimate %>%
-    filter(setting == "prop_change") %>%
+  estimate_we_want <- estimate_case$change_disparities %>%
+    filter(change_type == "proportional") %>%
     filter(category == "B - A")
   many_stochastic_estimates[i] <- estimate_we_want$estimate
 }
