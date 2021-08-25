@@ -33,7 +33,7 @@ pairwise_diff <- function(category_means_data, category_name) {
   # Prepare a data frame with the category differences
   result <- category_means_data %>%
     # Create a data frame with all category values
-    dplyr::select(tidyselect::matches(category_name)) %>%
+    dplyr::select(tidyselect::matches(paste0("^",category_name,"$"))) %>%
     # Call that category1
     dplyr::rename_with(function(x) "category1") %>%
     # Sort that data frame
