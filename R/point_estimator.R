@@ -193,7 +193,8 @@ point_estimator <- function(
                      treatment_modeling = stats::weighted.mean(gapclosing.outcome,
                                                                w = w_i),
                      robust_augmentation = stats::weighted.mean(-residual,
-                                                                w = w_i)) %>%
+                                                                w = w_i),
+                     .groups = "drop") %>%
     dplyr::mutate(doubly_robust = outcome_modeling - robust_augmentation) %>%
     dplyr::select(-robust_augmentation) %>%
     tidyr::pivot_longer(c("outcome_modeling","treatment_modeling","doubly_robust"),
