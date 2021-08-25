@@ -52,7 +52,8 @@ We also have a binary treatment variable that could have counterfactually been d
 ```{r, message = F, warning = F}
 set.seed(08544)
 library(gapclosing)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 ```
 ```{r}
 simulated_data <- generate_simulated_data(n = 1000)
@@ -64,7 +65,6 @@ head(simulated_data)
 To what degree would the outcome gaps between categories A, B, and C close if we intervened on `treatment`? A call to `gapclosing()` answers this question.
 
 ```{r}
-t0 <- Sys.time()
 estimate <- gapclosing(
   data = simulated_data,
   counterfactual_assignments = 1,
@@ -73,9 +73,8 @@ estimate <- gapclosing(
   category_name = "category",
   se = T,
   # Process bootstrap in parallel with as many cores as available
-  parallel_cores = parallel::detectCores()
+  parallel_cores = 2
 )
-parallel <- difftime(Sys.time(),t0)
 ```
 By default, the function fits a logistic regression model for the treatment with `treatment_formula` and an OLS regression for the outcome with `outcome_formula`. Then, it combines these in a doubly-robust estimator to estimate the mean outcome in each category and the gap across categories if treatment were set to the value given by `counterfactual_assignments`. The function returns a list with the estimated model objects and supports `plot` and `summary` functions.
 
@@ -259,7 +258,7 @@ estimate_gam <- gapclosing(
   outcome_algorithm = "gam",
   sample_split = "cross_fit",
   se = T,
-  parallel_cores = parallel::detectCores()
+  parallel_cores = 2
 )
 ```
 
@@ -280,7 +279,7 @@ estimate_ranger <- gapclosing(
   outcome_algorithm = "ranger",
   sample_split = "cross_fit",
   se = T,
-  parallel_cores = parallel::detectCores()
+  parallel_cores = 2
 )
 ```
 
