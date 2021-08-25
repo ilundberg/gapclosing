@@ -17,9 +17,11 @@ gapclosing(
   sample_split = "single_sample",
   se = FALSE,
   bootstrap_samples = 1000,
-  weight_name = NA,
+  bootstrap_method = "simple",
+  parallel_cores = NULL,
+  weight_name = NULL,
   n_folds = 2,
-  folds = NULL
+  folds_name = NULL
 )
 }
 \arguments{
@@ -47,11 +49,15 @@ gapclosing(
 
 \item{bootstrap_samples}{Only used if \code{se = TRUE}. Number of bootstrap samples. Default is 1000.}
 
+\item{bootstrap_method}{Only used if \code{se = TRUE}. A character string stating how to conduct bootstrap samples. If "simple", then samples are drawn with replacement from the full data. If "stratified", then the bootstrap is carried out within subpopulations defined by category and treatment.}
+
+\item{parallel_cores}{Integer number of cores for parallel processing of the bootstrap. Defaults to sequential processing.}
+
 \item{weight_name}{Character name of a sampling weight variable, if any, which captures the inverse probability of inclusion in the sample. The default assumes a simple random sample (all weights equal).}
 
 \item{n_folds}{Only used if \code{method} = "cross_fit" and if \code{folds} is not provided. Integer scalar containing number of cross-validation folds. The function will assign observations to folds systematically: sort the data by the variable named \code{category_name}, then by the treatment variable, then at random. On this sorted dataset, folds are assigned systematically by repeated \code{1:n_folds}. To be used if the user does not provide \code{folds}. Defaults to 2.}
 
-\item{folds}{Only used if \code{method} = "cross_fit". Integer vector containing the fold assignments of each observation. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.}
+\item{folds_name}{Only used if \code{method} = "cross_fit". Character string indicating a column of \code{data} containing fold identifiers. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.}
 }
 \value{
 An object of S3 class \code{gapclosing}, which supports \code{summary()}, \code{print()}, and \code{plot()} functions. The returned object has 7 elements.

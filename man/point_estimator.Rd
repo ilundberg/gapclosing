@@ -15,7 +15,7 @@ point_estimator(
   treatment_name,
   treatment_algorithm = "glm",
   outcome_algorithm = "lm",
-  weight_name = NA
+  weight_name = NULL
 )
 }
 \arguments{

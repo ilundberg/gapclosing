@@ -1,6 +1,6 @@
 Package: gapclosing
 Title: Estimate Gap-Closing Estimands
-Version: 0.0.1.9000
+Version: 0.0.2
 Authors@R: 
     person(given = "Ian",
            family = "Lundberg",
@@ -25,7 +25,11 @@ Imports:
     forcats,
     ggplot2,
     gridExtra,
-    tidyr
+    tidyr,
+    foreach,
+    tidyselect,
+    parallel,
+    doParallel
 Suggests: 
     knitr,
     rmarkdown

@@ -1,34 +1,38 @@
 
-#' Plot gap closing two categories
+#' Plot a disparity
 #' @description Plots the factual and counterfactual mean outcomes in two categories. The returned object is a ggplot2 object which can be further customized using the syntax of ggplot2.
 #' @param x An object of class \code{gapclosing}, which results from a call to the function \code{gapclosing}
-#' @param category_A The first category to be plotted. Must be a value of \code{x$category}
+#' @param category_A The first category to be plotted. A value of the category_name variable in x.
 #' @param category_B The second category to be plotted. Must be a value of \code{x$category}
 #' @param custom_ylab Custom y-axis label. Defaults to "Mean Outcome"
 #' @param custom_xlab Custom x-axis label. Defaults to "Category"
 #' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @importFrom magrittr %>%
 #' @export
 
-plot_two_categories <- function(x, category_A, category_B, custom_ylab = "Mean Outcome", custom_xlab = "Category") {
+disparityplot <- function(x, category_A, category_B, custom_ylab = "Mean Outcome", custom_xlab = "Category") {
   # Initialize non-standard evaluation variables to avoid R CMD check warnings.
-  setting <- category <- estimate <- se <- label <- y <- Factual <- Counterfactual <- NULL
-  # If the estimated thing is the reverse (e.g. B - A instead of A - B), then create the one the user wants.
-  case_in_x <- any(x$primary_estimate$category == paste(category_A,"-",category_B))
-  if (!case_in_x) {
-    x$primary_estimate$estimate[x$primary_estimate$category == paste(category_B,"-",category_A)] <-
-      -x$primary_estimate$estimate[x$primary_estimate$category == paste(category_B,"-",category_A)]
-    x$primary_estimate$category[x$primary_estimate$category == paste(category_B,"-",category_A)] <-
-      paste(category_A,"-",category_B)
-  }
+  category <- setting <- estimate <- se <- label <- y <- Factual <- Counterfactual <- NULL
   # Create data frame for plot
-  forplot <- x$primary_estimate %>%
-    dplyr::filter(setting %in% c("factual","counterfactual") &
-                    category %in% c(category_A, category_B,paste(category_A,"-",category_B))) %>%
-    # Place categories in the user-specified order
-    dplyr::mutate(category = forcats::fct_relevel(category, category_A, category_B),
-                  setting = dplyr::case_when(setting == "factual" ~ "Factual",
-                                             setting == "counterfactual" ~ "Counterfactual"),
+  forplot <- x$factual_means %>%
+    dplyr::bind_rows(x$factual_disparities) %>%
+    # Label as the factual values
+    dplyr::mutate(setting = "Factual") %>%
+    # Append rows for the counterfactual values
+    dplyr::bind_rows(x$counterfactual_means %>%
+                       dplyr::bind_rows(x$counterfactual_disparities) %>%
+                       # Label as the counterfactual values
+                       dplyr::mutate(setting = "Counterfactual")) %>%
+    # Rename the category variable to the name category
+    dplyr::rename_with(function(old_name) ifelse(old_name == x$arguments$category_name, "category", old_name)) %>%
+    # Restrict to the category contrast of interest
+    dplyr::filter(category %in% c(category_A, category_B, paste(category_A,"-",category_B))) %>%
+    # Place categories in the user-specified order for plotting
+    dplyr::mutate(category = forcats::fct_relevel(category, category_A, category_B, paste(category_A,"-",category_B)),
+                  # Reverse the order of setting so that factual appears before counterfactual
                   setting = forcats::fct_rev(setting))
+
+  # Calculate means for the plot
   means <- forplot %>%
     dplyr::filter(!grepl("-",category))
   disparities <- forplot %>%
@@ -39,12 +43,6 @@ plot_two_categories <- function(x, category_A, category_B, custom_ylab = "Mean O
     ggplot2::geom_point(ggplot2::aes(color = setting, shape = setting,
                                      x = category, y = estimate),
                         position = ggplot2::position_dodge(width = .1)) +
-    ggplot2::geom_errorbar(ggplot2::aes(color = setting,
-                                        x = category,
-                                        ymin = estimate - stats::qnorm(.975) * se,
-                                        ymax = estimate + stats::qnorm(.975) * se),
-                           width = .1, size = .3,
-                           position = ggplot2::position_dodge(width = .1)) +
     ggplot2::geom_line(ggplot2::aes(color = setting,
                                     x = ifelse(setting == "Factual", 1.25, 1.75),
                                     y = estimate),
@@ -99,5 +97,17 @@ plot_two_categories <- function(x, category_A, category_B, custom_ylab = "Mean O
     ggplot2::theme_bw() +
     ggplot2::theme(legend.position = "right",
                    legend.title = ggplot2::element_blank())
+
+  # If there was a standard error, add the CI to the plot
+  if (x$arguments$se) {
+    plot <- plot +
+      ggplot2::geom_errorbar(ggplot2::aes(color = setting,
+                                          x = category,
+                                          ymin = estimate - stats::qnorm(.975) * se,
+                                          ymax = estimate + stats::qnorm(.975) * se),
+                             width = .1, size = .3,
+                             position = ggplot2::position_dodge(width = .1))
+  }
+
   return(plot)
 }

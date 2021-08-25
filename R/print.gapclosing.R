@@ -9,6 +9,7 @@
 #' @param max Argument passed to print.data.frame
 #' @return Prints a summary of the estimates.
 #' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @importFrom magrittr %>%
 #' @export
 
 print.gapclosing <- function(
@@ -20,7 +21,51 @@ print.gapclosing <- function(
   row.names = FALSE,
   max = NULL
 ) {
-  print(x$primary_estimate[,colnames(x$primary_estimate) != "setting"],
+
+  # Prepare for non-standard evaluation
+  change_type <- change_formula <- NULL
+
+  cat("\nFactual mean outcomes:\n")
+  print(x$factual_means,
+        digits = digits,
+        quote = quote,
+        right = right,
+        row.names = row.names,
+        max = max, scientific = F)
+  cat("\nCounterfactual mean outcomes (post-intervention means):\n")
+  print(x$counterfactual_means,
+        digits = digits,
+        quote = quote,
+        right = right,
+        row.names = row.names,
+        max = max, scientific = F)
+  cat("\nFactual disparities:\n")
+  print(x$factual_disparities,
+        digits = digits,
+        quote = quote,
+        right = right,
+        row.names = row.names,
+        max = max, scientific = F)
+  cat("\nCounterfactual disparities (gap-closing estimands):\n")
+  print(x$counterfactual_disparities,
+        digits = digits,
+        quote = quote,
+        right = right,
+        row.names = row.names,
+        max = max, scientific = F)
+  cat("\nAdditive gap closed: Counterfactual - Factual\n")
+  print(x$change_disparities %>%
+          dplyr::filter(change_type == "additive") %>%
+          dplyr::select(-change_type, -change_formula),
+        digits = digits,
+        quote = quote,
+        right = right,
+        row.names = row.names,
+        max = max, scientific = F)
+  cat("\nProportional gap closed: (Counterfactual - Factual) / Factual\n")
+  print(x$change_disparities %>%
+          dplyr::filter(change_type == "proportional") %>%
+          dplyr::select(-change_type, -change_formula),
         digits = digits,
         quote = quote,
         right = right,

@@ -14,9 +14,9 @@ cross_fit_estimator(
   treatment_name,
   treatment_algorithm = "glm",
   outcome_algorithm = "lm",
-  weight_name = NA,
+  weight_name = NULL,
   n_folds = 2,
-  folds = NULL
+  folds_name = NULL
 )
 }
 \arguments{
@@ -42,7 +42,7 @@ cross_fit_estimator(
 
 \item{n_folds}{Only used if \code{method} = "cross_fit" and if \code{folds} is not provided. Integer scalar containing number of cross-validation folds. The function will assign observations to folds systematically: sort the data by the variable named \code{category_name}, then by the treatment variable, then at random. On this sorted dataset, folds are assigned systematically by repeated \code{1:n_folds}. To be used if the user does not provide \code{folds}. Defaults to 2.}
 
-\item{folds}{Only used if \code{method} = "cross_fit". Integer vector containing the fold assignments of each observation. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.}
+\item{folds_name}{Only used if \code{method} = "cross_fit". Character string indicating a column of \code{data} containing fold identifiers. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.}
 }
 \value{
 A list with four elements.

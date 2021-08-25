@@ -11,7 +11,7 @@
 #' @param outcome_algorithm Character name of the algorithm for the outcome model. One of "lm", "ridge", "gam", or "ranger". Defaults to "lm", which is an OLS model. Option "ridge" is ridge regression. Option "gam" is a generalized additive model fit (see package \code{mgcv}). Option "ranger" is a random forest (see package \code{ranger}).
 #' @param weight_name Character name of a sampling weight variable, if any, which captures the inverse probability of inclusion in the sample. The default assumes a simple random sample (all weights equal).
 #' @param n_folds Only used if \code{method} = "cross_fit" and if \code{folds} is not provided. Integer scalar containing number of cross-validation folds. The function will assign observations to folds systematically: sort the data by the variable named \code{category_name}, then by the treatment variable, then at random. On this sorted dataset, folds are assigned systematically by repeated \code{1:n_folds}. To be used if the user does not provide \code{folds}. Defaults to 2.
-#' @param folds Only used if \code{method} = "cross_fit". Integer vector containing the fold assignments of each observation. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.
+#' @param folds_name Only used if \code{method} = "cross_fit". Character string indicating a column of \code{data} containing fold identifiers. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.
 #' @return A list with four elements.
 #'
 #' \itemize{
@@ -27,6 +27,8 @@
 #' \item\code{estimation_weights} Numeric vector of length \code{nrow(data)}. Within categories, the weighted average of the outcome with these weights is the treatment modeling estimate of the post-intervention mean defined by \code{counterfactual_assignments}.
 #' }
 #' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @importFrom foreach %do%
+#' @importFrom magrittr %>%
 #' @export
 
 cross_fit_estimator <- function(
@@ -39,30 +41,30 @@ cross_fit_estimator <- function(
   treatment_name,
   treatment_algorithm = "glm",
   outcome_algorithm = "lm",
-  weight_name = NA,
+  weight_name = NULL,
   n_folds = 2,
-  folds = NULL
+  folds_name = NULL
 ) {
+  # Initialize values to silence errors from non-standard evaluations
+  gapclosing.folds <- f <- estimate <- NULL
+
   # If explicit fold assignments were not given, assign folds here
-  if (!is.null(folds)) {
-    n_folds <- length(unique(folds))
-    if(!all(sort(unique(folds)) == 1:n_folds)) {
-      stop("ERROR: folds should be integers from 1 to the number of folds, with every value in between appearing at least once.")
-    }
+  if (!is.null(folds_name)) {
+    n_folds <- length(unique(data[[folds_name]]))
+    data$gapclosing.folds <- data[[folds_name]]
   }
-  if (is.null(folds)) {
+  if (is.null(folds_name)) {
     # Use a cross-validation design to balance folds across categories and treatments
     # Sort data systematically by category and treatment, then randomly within those
     data_sort <- order(data[[category_name]],data[[treatment_name]],stats::runif(nrow(data)))
     data <- data[data_sort,]
-    folds <- rep(1:n_folds, ceiling(nrow(data) / n_folds))[1:nrow(data)]
+    data$gapclosing.folds <- rep(1:n_folds, ceiling(nrow(data) / n_folds))[1:nrow(data)]
   }
   # Initialize a list to hold the fold estimates
-  fold_estimates <- as.list(rep(NA, n_folds))
-  for (f in 1:n_folds) {
-    fold_estimates[[f]] <- point_estimator(
-      data_learn = data[folds != f,],
-      data_estimate = data[folds == f,],
+  fold_estimates <- foreach::foreach(f = unique(data$gapclosing.folds)) %do% {
+    point_estimator(
+      data_learn = data %>% dplyr::filter(gapclosing.folds != f),
+      data_estimate = data %>% dplyr::filter(gapclosing.folds == f),
       outcome_formula = outcome_formula,
       treatment_formula = treatment_formula,
       outcome_name = outcome_name,
@@ -70,31 +72,30 @@ cross_fit_estimator <- function(
       category_name = category_name,
       counterfactual_assignments = ifelse(length(counterfactual_assignments == 1),
                                           counterfactual_assignments,
-                                          counterfactual_assignments[folds == f]),
+                                          counterfactual_assignments[data$gapclosing.folds == f]),
       weight_name = weight_name,
       treatment_algorithm = treatment_algorithm,
       outcome_algorithm = outcome_algorithm
     )
   }
-  names(fold_estimates) <- paste0("fold",1:length(fold_estimates))
-  # Initialize a data frame to hold results
-  # Do this here explicitly in case the categories are in a different order in some folds compared with others
-  pooled_estimates <- fold_estimates[[1]]$counterfactual_means
-  for (col_name in colnames(pooled_estimates)) {
-    for (row_name in rownames(pooled_estimates)) {
-      pooled_estimates[rownames(pooled_estimates) == row_name, colnames(pooled_estimates) == col_name] <- mean(
-        sapply(fold_estimates, function(x) {
-          x$counterfactual_means[rownames(x$counterfactual_means) == row_name,
-                                 colnames(x$counterfactual_means) == col_name]
-        })
-      )
-    }
-  }
+  names(fold_estimates) <- paste0("fold_",unique(data$gapclosing.folds),"_left_out")
 
-  object_to_return <- list(counterfactual_means = pooled_estimates,
+  # Pool the counterfactual_means and counterfactual_disparities results across cross-fits
+  pooled <- lapply(
+    c(counterfactual_means = "counterfactual_means", counterfactual_disparities = "counterfactual_disparities"),
+    function(element) {
+      do.call(rbind,lapply(fold_estimates, function(fold_result) fold_result[[element]])) %>%
+        dplyr::group_by(dplyr::across(tidyselect::all_of(c(category_name,"method")))) %>%
+        dplyr::summarize(estimate = mean(estimate),
+                         .groups = "drop")
+    }
+  )
+
+  object_to_return <- list(counterfactual_means = pooled$counterfactual_means,
+                           counterfactual_disparities = pooled$counterfactual_disparities,
                            treatment_model = lapply(fold_estimates, function(x) x$treatment_model),
-                           outcome_model = lapply(fold_estimates, function(x) x$outcome_model),
-                           estimation_weights = lapply(fold_estimates, function(x) x$estimation_weight))
+                           outcome_model = lapply(fold_estimates, function(x) x$outcome_model))
+
   return(object_to_return)
 }
 
