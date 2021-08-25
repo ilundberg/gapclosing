@@ -2,3 +2,7 @@
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
+^_config\.yml$
+^cran-comments\.md$
+^index\.md$
+^news\.md$

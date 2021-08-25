@@ -6,4 +6,6 @@ This is a development release. The API may change before we submit to CRAN.
 
 ## R CMD check results
 
-The results of R CMD check will be placed here.
+0 errors | 0 warnings  | 1 note x
+
+R CMD check succeeded
