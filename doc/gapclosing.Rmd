@@ -1,0 +1,397 @@
+---
+title: "gapclosing: An R package to estimate gap closing estimands"
+output: rmarkdown::html_vignette
+header-includes: 
+  - \usepackage{tikz}
+  - \usepackage{pgfplots}
+vignette: >
+  %\VignetteIndexEntry{gapclosing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: bibliography.bib
+---
+
+<style type="text/css">
+code.r{
+  font-size: 12px;
+}
+pre {
+  font-size: 12px
+}
+</style>
+
+**Warning:** This package is a work in progress, and functionality is likely to change in the near future.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(dpi = 300, fig.width = 6.5, fig.height = 3, out.width = "650px")
+```
+
+```{r, include = F}
+t0 <- Sys.time()
+```
+
+Researchers and policymakers would like to know the degree to which gaps across social categories (e.g. race, class, gender) would close if we intervened to modify a treatment variable (e.g. incarceration, education, occupation). This package provides software to support these gap-closing estimands. The user specifies the category that defines a disparity, the intervention to a binary treatment variable that could help to close that disparity, and models for treatment assignment and or expected outcomes that include covariates to identify the effect of the treatment. The package supports estimation by generalized linear models, ridge regression, generalized additive models, and random forests with and without cross-fitting, and produces visualizations to summarize the result. This vignette focuses on the software; for additional conceptual details, see the accompanying paper.
+
+>Lundberg, Ian. Forthcoming. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." _Sociological Methods and Research_. Preprint available at [https://doi.org/10.31235/osf.io/gx4y3](https://doi.org/10.31235/osf.io/gx4y3).
+
+# Data structure
+
+In a data frame `data`, we have a gap-defining category such as race, gender, or class; we will never posit a world in which the gap-defining variable were different for any individual. Instead, gap-closing estimands view the category as simply a label on individuals. We care about the disparity in an outcome across those with different category labels.
+
+We also have a binary treatment variable that could have counterfactually been different for any individual. We want to know the degree to which an intervention to change the treatment would close gaps across the categories.
+
+> **These boxes will present an example.**
+> 
+> *Example.* Suppose we have the following data.
+> 
+>* $X$ (`category`): Category of interest, taking values 1, 2, and 3
+>* $T$ (`treatment`): Binary treatment variable, taking values 0 and 1
+>* $L$ (`confounder`): A continuous confounding variable, Uniform(-1,1)
+>* $Y$ (`outcome`): A continuous outcome variable, conditionally normal
+
+```{r, message = F, warning = F}
+set.seed(08544)
+library(gapclosing)
+library(dplyr)
+library(ggplot2)
+```
+```{r}
+simulated_data <- generate_simulated_data(n = 1000)
+head(simulated_data)
+```
+
+# Quick overview: Functionality
+
+To what degree would the outcome gaps between categories A, B, and C close if we intervened on `treatment`? A call to `gapclosing()` answers this question.
+
+```{r}
+estimate <- gapclosing(
+  data = simulated_data,
+  counterfactual_assignments = 1,
+  outcome_formula = formula(outcome ~ confounder + category*treatment),
+  treatment_formula = formula(treatment ~ confounder + category),
+  category_name = "category",
+  se = T,
+  # Process bootstrap in parallel with as many cores as available
+  parallel_cores = 2
+)
+```
+By default, the function fits a logistic regression model for the treatment with `treatment_formula` and an OLS regression for the outcome with `outcome_formula`. Then, it combines these in a doubly-robust estimator to estimate the mean outcome in each category and the gap across categories if treatment were set to the value given by `counterfactual_assignments`. The function returns a list with the estimated model objects and supports `plot` and `summary` functions.
+
+A series of plots are available through `plot(estimate)`. The first plot shows in this example that the mean factual outcome is increasing across categories A, B, and C, but the counterfactual outcomes are nearly equal for the three categories.
+
+```{r, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"}
+plots <- plot(estimate, return_plots = TRUE)
+print(plots[[1]])
+```
+
+The remaining plots directly examine the factual and counterfactual disparity across two categories, such as categories A and C. In this case, the intervention closes the gap between categories A and C because it has a positive effect in category A and a negative effect in category C, thus approximately equalizing the outcomes across these categories.
+```{r, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"}
+print(plots[[3]])
+```
+The above can also be generated by the `disparityplot()` function, which allows the user to specify any specific pair of categories of interest: `disparityplot(estimate, category_A = "A", category_B = "C")`.
+
+The `summary` function will print estimates, standard errors, and confidence intervals for all of these results.
+
+```{r}
+options(width = 300)
+summary(estimate)
+```
+
+# Detailed procedures: Customize your call
+
+## Step 1. Define the intervention
+
+ To answer this question, we first need to define what that intervention would be.
+
+* **Option 1.** Set `counterfactual_assignments = 0` or `counterfactual_assignments = 1`. In this case, we are studying the disparity we would expect if a random person of each category were assigned control or if assigned treatment (respectively).
+* **Option 2.** Set `counterfactual_assignments` = $\pi$ for some $\pi$ between 0 and 1. In this case, we are studying the disparity we would expect if a random person of each category were assigned to treatment with probability $\pi$ and to control with probability $1 - \pi$.
+* **Option 3.** For each person $i =1,\dots,n$, give them a treatment assignment probability that is some function of their category membership and/or their observed confounders: $\pi_i = f($`category`,`confounder`$)$. In this case, we create a vector $\vec\pi$ of length $n$ (one element for each observation) and pass that in the `counterfactual_assignments` function.
+
+> *Example.* We are interested in the disparity across populations defined by `category` that would persist under counterfactual assignment to set `treatment` to the value 1.
+>`counterfactual_assignments = 1`
+
+## Step 2. Make causal assumptions for identification
+
+Gap-closing estimands involve unobserved potential outcomes. Because they are unobserved, the data cannot tell us which variables are needed for estimation. Instead, that is a conceptual choice to be carried out with tools like Directed Acyclic Graphs (DAGs). See the accompanying paper for more on identification.
+
+>*Example.* Assume that the set of variables $\{X,L\}$ is a sufficient conditioning set to identify the gap-closing estimand. Formally, this requires us to assume that within each stratum of $X$ and $L$ the expected value of the potential outcome $Y(1)$ is the same as the expected value among units who factually have $T = 1$ within those strata.
+$$\mathbb{E}(Y(1)\mid X, L) = \mathbb{E}(Y\mid X, L, T = 1)$$
+DAGs are a good way to reason about this assumption: in this example, conditioning (depicted by boxes) on `category` and `confounder` is sufficient to identify the causal effect of `treatment` (blue edge in the DAG), because doing so blocks all backdoor paths between the treatment and the outcome. Notably, the gap-closing estimand makes no claims about the causal effect of `category` since the counterfactual is defined over `treatment` only.
+
+```{r, echo = F, fig.height = 2}
+for_DAG <- data.frame(label = c("Category","Confounder","Treatment","Outcome","Unobserved"),
+                      x = c(1,2,3,4,1),
+                      y = c(1,1,1,1,0))
+for_DAG %>%
+  ggplot(aes(x = x, y = y, label = label)) +
+  # Edges coming out of category
+  annotate(geom = "segment",
+         x = 1, y = 1, xend = 1.55, yend = 1,
+         arrow = arrow(length = unit(.1,"in"))) +
+  annotate(geom = "curve",
+           x = 1, y = 1, xend = c(2.9,3.9), yend = c(1.2,1.2),
+           arrow = arrow(length = unit(.1,"in")),
+           curvature = -.3) +
+  # Edges coming out of confounder
+  annotate(geom = "segment",
+           x = 2, y = 1, xend = 2.65, yend = 1,
+           arrow = arrow(length = unit(.1,"in"))) +
+  annotate(geom = "curve",
+           x = 2, y = 1, xend = 3.75, yend = .82,
+           arrow = arrow(length = unit(.1,"in")),
+           curvature = .25) +
+  # Edges coming out of treatment
+  annotate(geom = "segment",
+           x = 3, y = 1, xend = 3.65, yend = 1,
+           color = "blue", size = 1.05,
+           arrow = arrow(length = unit(.13,"in"))) +
+  # Edges coming out of unobserved
+  annotate(geom = "segment",
+           x = 1, y = 0, xend = c(1,1.9), yend = .8,
+           arrow = arrow(length = unit(.1,"in"))) +
+  annotate(geom = "curve",
+           x = 1, y = 0, xend = c(3.9), yend = .8,
+           arrow = arrow(length = unit(.1,"in")),
+           curvature = .25) +
+  geom_label(color = "white") +
+  geom_label(data = for_DAG %>% filter(label %in% c("Category","Confounder"))) +
+  geom_text(data = for_DAG %>% filter(label %in% c("Unobserved","Treatment","Outcome"))) +
+  ylim(c(-.3,2)) +
+  xlim(c(0,5)) +
+  theme_void()
+```
+
+Once we select a sufficient conditioning set, those predictors will appear in both the treatment and/or the outcome model used for estimation.
+
+## Step 3. Select a treatment model and/or an outcome model
+
+We need to estimate one or both of (1) the probability of treatment given confounders and (2) the conditional mean of the outcome given treatment and confounders. We do that by providing one or both of the following.
+
+* Provide a `treatment_formula` with the binary treatment variable on the left side and all confounders on the right side. This formula will be used in `treatment_algorithm` (see next step) to estimate the probability of treatment given confounders for each unit. Then, the sample-average outcome under counterfactual assignment to any given treatment can be estimated through inverse probability weighting among units who factually received that treatment.
+
+>*Example.*  
+>`treatment_formula = formula(outcome ~ confounder + category)`
+
+* Provide an `outcome_formula` with the outcome variable on the left side and the treatment and all confounders on the right side. This formula will be used in `outcome_algorithm` (see next step) to estimate the conditional mean of the outcome given treatment and confounders. Then, it can be used to predict the potential outcome each unit would expect under any treatment of interest, given confounding variables.
+
+>*Example.*  
+>`outcome_formula = formula(outcome ~ confounder + category*treatment)`
+
+Whether `treatment_formula` or `outcome_formula` is left `NULL` will determine the estimation procedure.
+
+* If only `treatment_formula` is provided, then estimation will be by inverse probability of treatment weighting.
+* If only `outcome_formula` is provided, then estimation will be by prediction of unobserved potential outcomes using the outcome model (a procedure known as the $g$-formula, see @hernan2021).
+* If both `treatment_formula` and `outcome_formula` are provided, then the primary estimate will be doubly robust, with separate treatment and outcome modeling estimates accessible through the returned object.
+
+### Choose an estimation algorithm
+
+The `treatment_formula` and `outcome_formula` are handed to `treatment_algorithm` and `outcome_algorithm`, which can take the following values.
+
+* `glm` (for `treatment_algorithm` only): A logistic regression model estimated by the `glm` function. If there are important interactions among treatment, category, and covariates, these should be included explicitly.
+* `lm` (for `outcome_algorithm` only): An OLS regression model estimated by the `lm` function.  If there are important interactions among treatment, category, and covariates, these should be included explicitly.
+* `ridge`: A ridge (i.e. L<sub>2</sub>-penalized) logistic regression model (for `treatment_algorithm`) or linear regression model (for `outcome_algorithm`) estimated by the `glmnet` function in the `glmnet` package [@glmnet], with `alpha = 0` to indicate the ridge penalty. Elastic net and lasso regression are not supported because those approaches could regularize some coefficients to exactly zero, and if you have chosen the needed confounders (step 2) then you would not want their coefficients to be regularized to zero. The penalty term is chosen by `cv.glmnet` and is set to the value `lambda.min` (see `glmnet` documentation).  If there are important interactions among treatment, category, and covariates, these should be included explicitly.
+* `gam`: A Generalized Additive Model (logistic if used as `treatment_algorithm`, linear if used as `outcome_algorithm`) estimated by the `gam` function in the `mgcv` package [@mgcv]. The model formula should be specified as in the `mgcv` documentation and may include smooth terms `s()` for continuous covariates.  If there are important interactions among treatment, category, and covariates, these should be included explicitly.
+* `ranger`: A random forest estimated by the `ranger` function in the `ranger` package [@ranger]. If used as `treatment_algorithm`, one forest will be fit and predicted treatment probabilities will be truncated to the [.001,.999] range to avoid extreme inverse probability of treatment weights. If used as `outcome_algorithm`, the forest will be estimated separately on treated and control units; the treatment variable does not need to be included in `outcome_formula` in this case.
+
+>*Example.*  
+> `treatment_algorithm = "glm"`  
+> `outcome_algorithm = "lm"`  
+
+If the data are a sample from a population selected with unequal probabilities, you can also use the `weight_name` option to pass estimation functions the name of the sampling weight (a variable in `data` proportional to the inverse probability of sample inclusion). If omitted, a simple random sample is assumed.
+
+### Why doubly robust? A side note
+
+Doubly-robust estimation yields advantages that can be conceptualized in two ways.
+
+* From the perspective of parametric models, if either the treatment or the outcome model is correct, then the estimator is consistent [@bang2005]. See @glynn2010 for an accessible introduction.  
+* From the perspective of machine learning, double robustness adjusts for the fact that outcome modeling alone is optimized for the wrong prediction task. An outcome model would be optimized to predict where we observed data, but our actual task is to predict over a predictor distribution _different_ from that which was observed (because the treatment has been changed). This is an opportunity to improve the predictions. By building a model of treatment, we can reweight the residuals of the outcome model to estimate the average prediction error over the space where we want to make predictions. Subtracting off this bias can improve the outcome modeling estimator. This pivot is at the core of moves toward targeted learning [@vanderlaan2011] and double machine learning [@chernozhukov2018], building on a long line of research in efficient estimation [@robins1995;@hahn1998].
+
+Although double robustness has strong mathematical properties, in any given application with a finite sample it is possible that treatment or outcome modeling could outperform doubly-robust estimation. Therefore, the package supports all three approaches.
+
+### Why sample splitting? Another side note
+
+Taking the bias-correction view of double robustness above, it is clear that sample splitting affords a further opportunity for improvement: if you learn an outcome model _and_ estimate its average bias on the same sample, you might get a poor estimate of the bias. For this reason, one should consider using one sample (which I call `data_learn`) to learn the prediction functions and another sample (which I call `data_estimate`) to estimate the bias and aggregate to an estimate of the estimand.
+
+In particular, the option `sample_split = "cross_fit"` allows the user to specify that estimation should proceed by a cross-fitting procedure which is analogous to cross-validation.
+
+1. Split the sample into folds $f = 1,\dots,$`n_folds` (default here is `n_folds = 2`)  
+2. Use all folds except $f'$ to estimate the treatment and outcome models  
+3. Aggregate to an estimate using the predictions in $f'$  
+4. Average the estimate that results from (2) and (3) repeated `n_folds` times with each fold playing the role of $f'$ in turn  
+
+This is the procedure that @chernozhukov2018 argue is critical to double machine learning for causal estimation, although this type of sample splitting is not new [@bickel1982].
+
+If `sample_split = "cross_fit"`, the default is to conduct 2-fold cross-fitting, but this can be changed with the `n_folds` argument. The user can also specify their own vector `folds` of fold assignments of length `nrow(data)`, if there is something about the particular setting that would make a manual fold assignment preferable.
+
+>*Example.* (this is the default and can be left implicit)  
+> `sample_split = "one_sample"`  
+
+## Step 4. Produce standard errors
+
+The package supports bootstrapped standard error estimation. The procedure with `bootstrap_method = "simple"` (the default) is valid when the data are a simple random sample from the target population. In this case, each bootstrap iteration conducts estimation on a resampled dataset selected with replacement with equal probabilities. The standard error is calculated as the standard deviation of the estimate across bootstrap samples, and confidence intervals are calculated by a normal approximation.
+
+>*Example.* (line 2 is the default and can be left implicit)  
+> `se = T`  
+> `bootstrap_samples = 1000`
+
+In some settings, the sample size may be small and categories or treatments of interest may be rare. In these cases, it is possible for one or more simple bootstrap samples to contain zero cases in some (treatment $\times$ category) cell of interest. To avoid this problem, the `bootstrap_method = "stratified"` conducts bootstrap resampling within blocks defined by (treatment $\times$ category). This procedure is valid if you assume that the data are selected at random from the population within these strata, so that across repeated samples from the true population the proportion in each stratum would remain the same.
+
+Many samples are not simple random samples. In complex sample settings, users should implement their own standard error procedures to accurately capture sampling variation related to how their data were collected. The way the data were collected could motivate a resampling strategy to mimic the sources of variation in that sampling process, which the user can implement manually by calling `gapclosing` to calculate a point estimate on each resampled dataset with `se = F`.
+
+# Estimate by machine learning: Two examples
+
+Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the `gapclosing()` function.
+
+## Estimation with Generalized Additive Models (GAMs) via `mgcv`
+
+Perhaps you are concerned about linearity assumptions: the continuous confounder, for instance, might actually have a nonlinear association with the outcome. We know the truth is linear in this simulated example, but in practice you would never know. You can address this concern by estimating with a GAM, using the `s()` operator from `mgcv` for smooth terms (see @mgcv).
+
+```{r, warning = F}
+estimate_gam <- gapclosing(
+  data = simulated_data,
+  counterfactual_assignments = 1,
+  outcome_formula = formula(outcome ~ s(confounder) + category*treatment),
+  treatment_formula = formula(treatment ~ s(confounder) + category),
+  category_name = "category",
+  treatment_algorithm = "gam",
+  outcome_algorithm = "gam",
+  sample_split = "cross_fit",
+  se = T,
+  parallel_cores = 2
+)
+```
+
+## Estimation with random forests via `ranger`
+
+Perhaps you are concerned that the true treatment probability and expected outcome functions have many interactions among the predictors. You can set `treatment_algorithm` and `outcome_algorithm` to "ranger" to estimate via the `ranger` function in the `ranger` package [@ranger].
+
+One aspect of the way `gapclosing()` operationalizes `ranger()` is unique out of all the estimation algorithm options. When you choose a random forest, it is because you believe there are many important interactions. Some of the most important interactions may be between the treatment and the other predictors. Therefore, `outcome_algorithm = ranger` enforces those interactions by estimating the outcome model separately for treated and control units. For this reason, when `outcome_algorithm = ranger` there is no need to include the treatment variable explicitly in the `outcome_formula`.
+
+```{r}
+estimate_ranger <- gapclosing(
+  data = simulated_data,
+  counterfactual_assignments = 1,
+  outcome_formula = formula(outcome ~ confounder + category),
+  treatment_formula = formula(treatment ~ confounder + category),
+  category_name = "category",
+  treatment_algorithm = "ranger",
+  outcome_algorithm = "ranger",
+  sample_split = "cross_fit",
+  se = T,
+  parallel_cores = 2
+)
+```
+
+## Estimates from these three algorithms are roughly the same
+
+In this simulation, the GLM models are correctly specified and there are no nonlinearities or interactions for the machine learning approaches to learn. In this case, the sample size is large enough that those approaches correctly learn the linear functional form, and all three estimation strategies yield similar estimates.
+
+```{r, include = F}
+glm_plot <- plot(estimate, return_plots = T)[[1]]
+gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
+ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
+```
+
+```{r, echo = F, fig.width = 12, fig.height = 5, message = F, warning = F, fig.caption = "The fourth default plot() with minor modifications, using results from each estimator above."}
+gridExtra::grid.arrange(
+  glm_plot +
+    ggtitle("GLM estimate") +
+    ylim(c(-1.5,1.5)),
+  gam_plot +
+    ggtitle("GAM estimate") +
+    ylim(c(-1.5,1.5)),
+  ranger_plot +
+    ggtitle("Ranger estimate") +
+    ylim(c(-1.5,1.5)),
+  ncol = 3
+)
+```
+
+## A warning about complex estimators
+
+The assumptions of a parametric model are always doubtful, leading to a common question of whether one should always use a more flexible machine learning approach like `ranger`. In a very large sample, a flexible learner would likely be the correct choice. In the sample sizes of social science settings, the amount of data may sometimes be insufficient for these algorithms to discover a complex functional form. When the parametric assumptions are approximately true, the parametric estimators may have better performance in small sample sizes. What counts as "small" and "large" is difficult to say outside of any specific setting. For further discussion of this issue, see the [working paper](https://doi.org/10.31235/osf.io/gx4y3) [@lundberg2021].
+
+# Estimation with stochastic assignment rules
+
+The examples above focused on estimation for a fixed treatment assignment: assign to treatment 1 with probability 1. But we might also want to know about the gap-closing estimand if we assigned people to treatment stochastically with some probability between 0 and 1. The `counterfactual_assignments` argument can handle this possibility.
+
+For example, consider the gap-closing estimand if assigned to treatment 1 with each probability .75.
+```{r}
+estimate_stochastic <- gapclosing(
+  data = simulated_data,
+  counterfactual_assignments = .75,
+  outcome_formula = formula(outcome ~ confounder + category*treatment),
+  treatment_formula = formula(treatment ~ confounder + category),
+  category_name = "category"
+)
+```
+The disparity between categories A and B under that stochastic intervention (0.75 probability of treatment = 1) is estimated to be `r round((estimate_stochastic$counterfactual_disparities %>% filter(category == "B - A"))$estimate,2)`, whereas under the previous deterministic intervention to assign treatment to the value 1 the disparity would be `r round((estimate$counterfactual_disparities %>% filter(category == "B - A"))$estimate,2)`. This illustrates an important point: the gap-closing estimand can be different depending on the counterfactual assignment rule, as the figure below shows for counterfactuals in which treatment is assigned with probabilities ranging from 0 to 1.
+```{r, echo = F, fig.caption = "A conceptual figure for which the package does not provide a general-purpose function."}
+counterfactual_assignments_values <- seq(0,1,.25)
+many_stochastic_estimates <- rep(NA, length(counterfactual_assignments_values))
+for (i in 1:length(counterfactual_assignments_values)) {
+  estimate_case <- gapclosing(
+    data = simulated_data,
+    counterfactual_assignments = counterfactual_assignments_values[i],
+    outcome_formula = formula(outcome ~ confounder + category*treatment),
+    treatment_formula = formula(treatment ~ confounder + category),
+    category_name = "category"
+  )
+  estimate_we_want <- estimate_case$change_disparities %>%
+    filter(change_type == "proportional") %>%
+    filter(category == "B - A")
+  many_stochastic_estimates[i] <- estimate_we_want$estimate
+}
+data.frame(counterfactual_assignments = counterfactual_assignments_values,
+           estimate = many_stochastic_estimates) %>%
+  ggplot(aes(x = counterfactual_assignments,
+             y = estimate)) +
+  geom_hline(yintercept = c(0,1),
+             color = "gray", linetype = "dashed") +
+  geom_line(color = "gray") +
+  geom_point(aes(color = factor(counterfactual_assignments == .75))) +
+  xlab("Counterfactual Treatment Assignment Probability") +
+  scale_y_continuous(name = "Percent of B - A Gap Closed",
+                     labels = function(x) paste0(round(100*x),"%")) +
+  annotate(geom = "text",
+           x = 1, y = c(0,1),
+           label = c("No change to disparity",
+                     "Disparity completely eliminated"),
+           color = "darkgray", size = 3, hjust = 1, vjust = 1.5) +
+  annotate(geom = "text",
+           x = .1, y = .25, 
+           label = "Disparities eliminated under various\nstochastic\ninterventions",
+           color = "gray", size = 3, hjust = 0, vjust = 1) +
+  annotate(geom = "text",
+           x = .75, y = .3,
+           label = "Gap-Closing Estimand\nCalculated Above",
+           color = "blue", size = 3, vjust = -.5) +
+  scale_color_manual(values = c("gray","blue")) +
+  theme_bw() +
+  theme(panel.grid = element_blank(),
+        legend.position = "none")
+```
+
+Your stochastic assignments can also be different for different people. For example, suppose we assign those in Category A to treatment 1 with probability .5, those in Category B to treatment with probability .4, and those in Category C to treatment with probability .3. In this case, `counterfactual_assignments` will be set to a vector of length `nrow(data)`.
+```{r}
+our_assignments <- case_when(simulated_data$category == "A" ~ .5,
+                             simulated_data$category == "B" ~ .4, 
+                             simulated_data$category == "C" ~ .3)
+estimate_stochastic <- gapclosing(
+  data = simulated_data,
+  counterfactual_assignments = our_assignments,
+  outcome_formula = formula(outcome ~ confounder + category*treatment),
+  treatment_formula = formula(treatment ~ confounder + category),
+  category_name = "category"
+)
+```
+That intervention would close the B - A gap by `r paste0(round(100 * (estimate_stochastic$change_disparities %>% filter(category == "B - A" & change_type == "proportional"))$estimate),"%")`.
+
+# Conclusion
+
+This package is a work in progress at a very early beta stage. If you try the software, you are likely to run into issues. If you could report those in Github or via email, it would be greatly appreciated. Suggestions for additional features are also welcome. This is not yet a stable release, and future changes to functionality are likely.
+
+This vignette was compiled on `r Sys.time()`.
+
+# References
