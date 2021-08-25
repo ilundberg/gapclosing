@@ -111,7 +111,7 @@ gapclosing <- function(
   outcome_algorithm = "lm",
   sample_split = "single_sample",
   se = FALSE,
-  bootstrap_samples = 1000,
+  bootstrap_samples = 10,#00, # UPDATE THIS IN FINAL VERSION
   bootstrap_method = "simple",
   parallel_cores = NULL,
   weight_name = NULL,
