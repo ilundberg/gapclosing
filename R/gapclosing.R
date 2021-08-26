@@ -306,7 +306,7 @@ gapclosing <- function(
     counterfactual_estimates %>%
       dplyr::rename(c = estimate) %>%
       dplyr::left_join(factual_estimates %>%
-                         dplyr::select(category,estimate) %>%
+                         dplyr::select(tidyselect::all_of(c(category_name,"estimate"))) %>%
                          dplyr::rename(f = estimate),
                        by = category_name) %>%
       dplyr::mutate(additive = f - c,

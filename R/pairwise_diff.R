@@ -58,10 +58,10 @@ pairwise_diff <- function(category_means_data, category_name) {
     dplyr::mutate(difference_name = paste(category1,"-",category2),
                   estimate = category1_value - category2_value) %>%
     # Rename to make the output align with the input
-    dplyr::rename_with(function(x) dplyr::case_when(x == "difference_name" ~ "category",
+    dplyr::rename_with(function(x) dplyr::case_when(x == "difference_name" ~ category_name,
                                                     x == "estimate" ~ "estimate",
                                                     T ~ x)) %>%
-    dplyr::select(category, estimate)
+    dplyr::select(tidyselect::all_of(c(category_name, "estimate")))
 
   return(result)
 }
