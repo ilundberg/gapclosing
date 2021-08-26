@@ -185,7 +185,7 @@ point_estimator <- function(
     # Create the weight that combines all of those
     dplyr::mutate(w_i = gapclosing.weight * pi_i / m_i) %>%
     # Group by category
-    dplyr::group_by(dplyr::across(tidyselect::matches(category_name))) %>%
+    dplyr::group_by(dplyr::across(tidyselect::matches(paste0("^",category_name,"$")))) %>%
     # Take weighted means to produce estimates
     dplyr::summarize(outcome_modeling = stats::weighted.mean(yhat1 * gapclosing.counterfactual_assignments +
                                                                yhat0 * (1 - gapclosing.counterfactual_assignments),

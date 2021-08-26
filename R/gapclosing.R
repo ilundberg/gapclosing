@@ -279,16 +279,16 @@ gapclosing <- function(
 
   if (is.null(weight_name)) {
     factual_means <- data %>%
-    dplyr::group_by(dplyr::across(tidyselect::matches(category_name))) %>%
-      dplyr::summarize(dplyr::across(tidyselect::matches(outcome_name), mean),
+    dplyr::group_by(dplyr::across(tidyselect::matches(paste0("^",category_name,"$")))) %>%
+      dplyr::summarize(dplyr::across(tidyselect::matches(paste0("^",outcome_name,"$")), mean),
                        .groups = "drop") %>%
       dplyr::rename_with(function(x) dplyr::case_when(x == outcome_name ~ "estimate",
                                                       T ~ x))
   } else {
     factual_means <- data %>%
       dplyr::mutate(gapclosing.weight = data[[weight_name]]) %>%
-      dplyr::group_by(dplyr::across(tidyselect::matches(category_name))) %>%
-      dplyr::summarize(dplyr::across(tidyselect::matches(outcome_name), stats::weighted.mean, w = gapclosing.weight),
+      dplyr::group_by(dplyr::across(tidyselect::matches(paste0("^",category_name,"$")))) %>%
+      dplyr::summarize(dplyr::across(tidyselect::matches(paste0("^",outcome_name,"$")), stats::weighted.mean, w = gapclosing.weight),
                        .groups = "drop") %>%
       dplyr::rename_with(function(x) dplyr::case_when(x == outcome_name ~ "estimate",
                                                       T ~ x))
