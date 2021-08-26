@@ -1,5 +1,10 @@
 # NEWS file for the gap closing package
 
+# quantileplot 0.0.3
+* This development version is available on GitHub.
+* This is a beta version and the API may change before submission to CRAN.
+* This update adds functionality to coerce a gapclosing object to a data frame of estimates, as well as functionality to return to a list. It also simplifies the bootstrap code by making use of these functions.
+
 # quantileplot 0.0.2
 * This development version is available on GitHub.
 * This is a beta version and the API may change before submission to CRAN.
