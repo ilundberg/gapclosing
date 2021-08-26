@@ -308,7 +308,7 @@ gapclosing <- function(
       dplyr::left_join(factual_estimates %>%
                          dplyr::select(category,estimate) %>%
                          dplyr::rename(f = estimate),
-                       by = "category") %>%
+                       by = category_name) %>%
       dplyr::mutate(additive = f - c,
                     proportional = (f - c) / f) %>%
       dplyr::select(category,method,additive,proportional) %>%
