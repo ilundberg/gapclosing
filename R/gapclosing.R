@@ -144,7 +144,7 @@ gapclosing <- function(
   )
 
   # Initialize some objects for non-standard evaluation
-  gapclosing.weight <- estimate <- category <- f <- method <- additive <-
+  gapclosing.weight <- estimate <- f <- method <- additive <-
     proportional <- change_type <- change_formula <- method <- i <- NULL
 
   ############################
@@ -311,13 +311,13 @@ gapclosing <- function(
                        by = category_name) %>%
       dplyr::mutate(additive = f - c,
                     proportional = (f - c) / f) %>%
-      dplyr::select(category,method,additive,proportional) %>%
+      dplyr::select(tidyselect::all_of(c(category_name,"method","additive","proportional"))) %>%
       tidyr::pivot_longer(cols = c("additive","proportional"),
                           names_to = "change_type",
                           values_to = "estimate") %>%
       dplyr::mutate(change_formula = dplyr::case_when(change_type == "additive" ~ "f-c",
                                                       change_type == "proportional" ~ "(f-c)/f")) %>%
-      dplyr::select(category,method,change_type,change_formula,estimate)
+      dplyr::select(tidyselect::all_of(c(category_name,"method","change_type","change_formula","estimate")))
   }
 
   change_means <- calculate_changes(factual_estimates = factual_means,
@@ -356,17 +356,21 @@ gapclosing <- function(
   )
 
   # Prepare a list to return
-  to_return <- c(list(factual_means = factual_means,
-                      factual_disparities = factual_disparities),
-                 all_estimators[[primary_estimator_name]],
-                 list(primary_estimator_name = primary_estimator_name,
-                      all_estimators = all_estimators),
-                 treatment_model = list(counterfactual_point$treatment_model),
-                 outcome_model = list(counterfactual_point$outcome_model),
-                 call = match.call(),
-                 arguments = list(arguments))
+  gapclosing.no.se <- c(list(factual_means = factual_means,
+                             factual_disparities = factual_disparities),
+                        all_estimators[[primary_estimator_name]],
+                        list(all_estimators = all_estimators,
+                             primary_estimator_name = primary_estimator_name),
+                        treatment_model = list(counterfactual_point$treatment_model),
+                        outcome_model = list(counterfactual_point$outcome_model),
+                        call = match.call(),
+                        arguments = list(arguments))
+  class(gapclosing.no.se) <- "gapclosing"
 
-  # If se = F, the next bit is skipped and the function returns to_return.
+  if (!se) {
+    return(gapclosing.no.se)
+  }
+
   # If se = T, the next bit adds the standard errors before returning
   # by repeatedly calling this function with a bootstrap sample and se = F.
 
@@ -383,7 +387,7 @@ gapclosing <- function(
       `%domethod%` <- `%do%`
     }
     # Produce standard errors by bootstrapping
-    bs_estimates <- foreach::foreach(i = 1:bootstrap_samples) %domethod% {
+    bs_estimates <- foreach::foreach(i = 1:bootstrap_samples, .combine = "rbind") %domethod% {
       if (i %% bootstrap_samples == 100) {
         print(paste("Beginning draw",i,"of",bootstrap_samples))
       }
@@ -413,71 +417,29 @@ gapclosing <- function(
                                     sample_split = sample_split,
                                     n_folds = n_folds,
                                     folds_name = folds_name)
-      gapclosing_star[c(1:6,8)]
+      return(as.data.frame(gapclosing_star))
     }
     if (!is.null(parallel_cores)) {
       parallel::stopCluster(cl)
       rm(cl)
     }
 
-    # Combine those into standard errors
-    # First, write a function to convert a list of data frames into a single data frame with standard errors
-    make_se <- function(list_of_df) {
-      # Convert the list of data frames to one long data frame
-      long_df <- do.call(rbind, list_of_df)
-      # Determine grouping variables: all variables except the estimate
-      grouping_variables <- names(long_df %>% dplyr::select(-estimate))
-      # Calculate the standard error
-      return(long_df %>%
-               dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_variables))) %>%
-               dplyr::summarize(se = stats::sd(estimate),
-                                .groups = "drop"))
-    }
-    # Get a named list of element names that need standard errors
-    element_names <- names(bs_estimates[[1]])
-    names(element_names) <- element_names
-    # Calculate the standard errors by the standard deviation across bootstrap samples.
-    # This is complicated only because of the list structure.
-    se_estimate <- lapply(element_names, function(return_element) {
-      #      foreach::foreach(return_element = names(bs_estimates[[1]])) %do% {
-      if (return_element != "all_estimators") {
-        make_se(lapply(bs_estimates, function(x) x[[return_element]]))
-      } else if (return_element == "all_estimators") {
-        estimator_cases <- c(outcome_modeling = "outcome_modeling",
-                             treatment_modeling = "treatment_modeling",
-                             doubly_robust = "doubly_robust")
-        estimand_cases <- c(counterfactual_means = "counterfactual_means",
-                            counterfactual_disparities = "counterfactual_disparities",
-                            change_means = "change_means",
-                            change_disparities = "change_disparities")
-        lapply(estimator_cases, function(estimator_case) {
-          lapply(estimand_cases, function(estimand_case) {
-            make_se(lapply(bs_estimates, function(x) x$all_estimators[[estimator_case]][[estimand_case]]))
-          })
-        })
-      }
-    })
-    # Append those standard errors to the point estimates
-    for (element_name in c("factual_means","factual_disparities","counterfactual_means","counterfactual_disparities",
-                           "change_means","change_disparities")) {
-      grouping_variables <- colnames(to_return[[element_name]] %>% dplyr::select(-estimate))
-      to_return[[element_name]] <- to_return[[element_name]] %>%
-        dplyr::left_join(se_estimate[[element_name]], by = grouping_variables) %>%
-        dplyr::mutate(ci.min = estimate - stats::qnorm(.975) * se,
-                      ci.max = estimate + stats::qnorm(.975) * se)
-    }
-    for (estimator_name in c("outcome_modeling","treatment_modeling","doubly_robust")) {
-      for (element_name in c("counterfactual_means","counterfactual_disparities","change_means","change_disparities")) {
-        grouping_variables <- colnames(to_return[["all_estimators"]][[estimator_name]][[element_name]] %>% dplyr::select(-estimate))
-        to_return[["all_estimators"]][[estimator_name]][[element_name]] <- to_return[["all_estimators"]][[estimator_name]][[element_name]] %>%
-          dplyr::left_join(se_estimate[["all_estimators"]][[estimator_name]][[element_name]], by = grouping_variables) %>%
-          dplyr::mutate(ci.min = estimate - stats::qnorm(.975) * se,
-                        ci.max = estimate + stats::qnorm(.975) * se)
-      }
-    }
+    results.df <- bs_estimates %>%
+      dplyr::group_by(dplyr::across(tidyselect::all_of(c(category_name, "estimand", "estimator", "primary")))) %>%
+      dplyr::summarize(se = sd(estimate),
+                       .groups = "drop") %>%
+      dplyr::left_join(as.data.frame(gapclosing.no.se),
+                       by = c(category_name,"estimand","estimator","primary")) %>%
+      dplyr::select(tidyselect::all_of(c(category_name, "estimand", "estimator", "primary", "estimate", "se"))) %>%
+      dplyr::mutate(ci.min = estimate - qnorm(.975) * se,
+                    ci.max = estimate + qnorm(.975) * se)
+
+    results.list <- df_to_gapclosing_list(results.df)
+    gapclosing.with.se <- c(results.list,
+                            gapclosing.no.se[!names(gapclosing.no.se) %in% names(results.list)])
+    class(gapclosing.with.se) <- "gapclosing"
+    return(gapclosing.with.se)
   }
-  class(to_return) <- "gapclosing"
-  return(to_return)
 }
 
 
