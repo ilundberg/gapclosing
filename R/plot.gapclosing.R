@@ -22,7 +22,7 @@ plot.gapclosing <- function(x, return_plots = F, arranged = F, ...) {
     dplyr::mutate(setting = forcats::fct_rev(setting))
 
   mean_outcomes <- mean_outcomes_data %>%
-    dplyr::rename_with(function(this_name) dplyr::case_when(this_name == category_name ~ "gapclosing.category",
+    dplyr::rename_with(function(this_name) dplyr::case_when(this_name == x$arguments$category_name ~ "gapclosing.category",
                                                             T ~ this_name)) %>%
     ggplot2::ggplot(ggplot2::aes(x = gapclosing.category, y = estimate,
                                  color = setting, shape = setting)) +

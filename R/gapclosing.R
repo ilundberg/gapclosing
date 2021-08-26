@@ -111,7 +111,7 @@ gapclosing <- function(
   outcome_algorithm = "lm",
   sample_split = "single_sample",
   se = FALSE,
-  bootstrap_samples = 10,#00, # UPDATE THIS IN FINAL VERSION
+  bootstrap_samples = 1000,
   bootstrap_method = "simple",
   parallel_cores = NULL,
   weight_name = NULL,
@@ -426,13 +426,13 @@ gapclosing <- function(
 
     results.df <- bs_estimates %>%
       dplyr::group_by(dplyr::across(tidyselect::all_of(c(category_name, "estimand", "estimator", "primary")))) %>%
-      dplyr::summarize(se = sd(estimate),
+      dplyr::summarize(se = stats::sd(estimate),
                        .groups = "drop") %>%
       dplyr::left_join(as.data.frame(gapclosing.no.se),
                        by = c(category_name,"estimand","estimator","primary")) %>%
       dplyr::select(tidyselect::all_of(c(category_name, "estimand", "estimator", "primary", "estimate", "se"))) %>%
-      dplyr::mutate(ci.min = estimate - qnorm(.975) * se,
-                    ci.max = estimate + qnorm(.975) * se)
+      dplyr::mutate(ci.min = estimate - stats::qnorm(.975) * se,
+                    ci.max = estimate + stats::qnorm(.975) * se)
 
     results.list <- df_to_gapclosing_list(results.df)
     gapclosing.with.se <- c(results.list,

@@ -20,35 +20,39 @@
 #' )
 #' summary(estimate)
 #'
-#' Convert to a data frame
+#' # Convert to a data frame
 #' estimate.df <- as.data.frame(estimate)
-#' Convert back to a list
-#' estimate.df <- df_to_gapclosiing_list(estimate.df)
+#' # Convert back to a list
+#' estimate.df <- df_to_gapclosing_list(estimate.df)
 
 df_to_gapclosing_list <- function(x) {
+
+  # Initialize some objects for non-standard evaluation
+  estimator <- estimand <- primary <- NULL
+
   factual <- list(factual_means = x %>%
-                    filter(estimand == "factual_means") %>%
-                    select(-estimand,-estimator,-primary),
+                    dplyr::filter(estimand == "factual_means") %>%
+                    dplyr::select(-estimand,-estimator,-primary),
                   factual_disparities = x %>%
-                    filter(estimand == "factual_disparities") %>%
-                    select(-estimand,-estimator,-primary))
+                    dplyr::filter(estimand == "factual_disparities") %>%
+                    dplyr::select(-estimand,-estimator,-primary))
   estimator_names <- unique(x$estimator)
   estimator_names <- estimator_names[estimator_names != "mean"]
   all_estimators <- lapply(estimator_names, function(estimator_case) {
     list(counterfactual_means = x %>%
-           filter(estimand == "counterfactual_means" & estimator == estimator_case) %>%
-           select(-estimand,-estimator,-primary),
+           dplyr::filter(estimand == "counterfactual_means" & estimator == estimator_case) %>%
+           dplyr::select(-estimand,-estimator,-primary),
          counterfactual_disparities = x %>%
-           filter(estimand == "counterfactual_disparities" & estimator == estimator_case) %>%
-           select(-estimand,-estimator,-primary),
+           dplyr::filter(estimand == "counterfactual_disparities" & estimator == estimator_case) %>%
+           dplyr::select(-estimand,-estimator,-primary),
          change_means = x %>%
-           filter(grepl("change_means",estimand) & estimator == estimator_case) %>%
-           separate(estimand, into = c("estimand", "change_type", "change_formula"), sep = "__") %>%
-           select(-estimand,-estimator,-primary),
+           dplyr::filter(grepl("change_means",estimand) & estimator == estimator_case) %>%
+           tidyr::separate(estimand, into = c("estimand", "change_type", "change_formula"), sep = "__") %>%
+           dplyr::select(-estimand,-estimator,-primary),
          change_disparities = x %>%
-           filter(grepl("change_disparities",estimand) & estimator == estimator_case) %>%
-           separate(estimand, into = c("estimand", "change_type", "change_formula"), sep = "__") %>%
-           select(-estimand,-estimator,-primary))
+           dplyr::filter(grepl("change_disparities",estimand) & estimator == estimator_case) %>%
+           tidyr::separate(estimand, into = c("estimand", "change_type", "change_formula"), sep = "__") %>%
+           dplyr::select(-estimand,-estimator,-primary))
   })
   names(all_estimators) <- estimator_names
   primary_estimator_name <- unique(x$estimator[x$primary & x$estimator != "mean"])
