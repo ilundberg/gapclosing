@@ -28,6 +28,8 @@ as.data.frame.gapclosing <- function(x, ...) {
   # Initialize some objects for non-standard evaluation
   estimator <- stringsAsFactors <- change_type <- change_formula <- NULL
 
+  primary_estimator_name <- x$primary_estimator_name
+
   factual_results_df <- x$factual_means %>%
     dplyr::mutate(estimand = "factual_means") %>%
     # Coerce category to character to match the disparities format
@@ -54,6 +56,6 @@ as.data.frame.gapclosing <- function(x, ...) {
   }))
   data.frame(factual_results_df %>%
                dplyr::bind_rows(counterfactual_results_df) %>%
-               dplyr::mutate(primary = estimator %in% c("mean",x$primary_estimator_name)),
+               dplyr::mutate(primary = estimator %in% c("mean",primary_estimator_name)),
              ...)
 }
