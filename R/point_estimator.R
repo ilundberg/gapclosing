@@ -81,10 +81,17 @@ point_estimator <- function(
     data_estimate <- data_estimate %>%
       dplyr::mutate(gapclosing.m_fitted = NA)
   } else if (treatment_algorithm == "glm") {
-    fit_m <- stats::glm(treatment_formula,
-                        data = data_learn,
-                        family = stats::binomial,
-                        weights = gapclosing.weight)
+    # The withCallingHandlers turns off the warning for non-integer number of successes,
+    # since we expect that warning when there are weights.
+    fit_m <- withCallingHandlers({
+      stats::glm(treatment_formula,
+                 data = data_learn,
+                 family = stats::binomial,
+                 weights = gapclosing.weight)
+    }, warning = function(w) {
+      if (grepl("non-integer",conditionMessage(w)))
+        invokeRestart("muffleWarning")
+    })
     # Extract fitted propensity score
     data_estimate <- data_estimate %>%
       dplyr::mutate(gapclosing.m_fitted = stats::predict(fit_m, newdata = data_estimate, type = "response"))
@@ -94,10 +101,15 @@ point_estimator <- function(
                                                     model_formula = treatment_formula,
                                                     to_predict = data_estimate))
   } else if (treatment_algorithm == "gam") {
-    fit_m <- mgcv::gam(treatment_formula,
-                       data = data_learn,
-                       family = stats::binomial,
-                       weights = gapclosing.weight)
+    fit_m <- withCallingHandlers({
+      mgcv::gam(treatment_formula,
+                data = data_learn,
+                family = stats::binomial,
+                weights = gapclosing.weight)
+    }, warning = function(w) {
+      if (grepl("non-integer",conditionMessage(w)))
+        invokeRestart("muffleWarning")
+    })
     # Extract fitted propensity score
     data_estimate <- data_estimate %>%
       dplyr::mutate(gapclosing.m_fitted = mgcv::predict.gam(fit_m, newdata = data_estimate, type = "response"))

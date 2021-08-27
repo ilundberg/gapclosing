@@ -27,8 +27,7 @@ estimate <- gapclosing(
   outcome_formula = formula(outcome ~ treatment * category + confounder),
   treatment_name = "treatment",
   category_name = "category",
-  counterfactual_assignments = 1,
-  se = TRUE
+  counterfactual_assignments = 1
 )
 summary(estimate)
 
