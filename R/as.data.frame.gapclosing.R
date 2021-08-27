@@ -30,17 +30,23 @@ as.data.frame.gapclosing <- function(x, ...) {
 
   factual_results_df <- x$factual_means %>%
     dplyr::mutate(estimand = "factual_means") %>%
+    # Coerce category to character to match the disparities format
+    dplyr::mutate(dplyr::across(x$arguments$category_name, function(value) as.character(value))) %>%
     dplyr::bind_rows(x$factual_disparities %>%
                        dplyr::mutate(estimand = "factual_disparities")) %>%
     dplyr::mutate(estimator = "mean")
   counterfactual_results_df <- do.call(rbind, lapply(names(x$all_estimators), function(estimator_name) {
     this_estimator_results_df <- x$all_estimators[[estimator_name]]$counterfactual_means %>%
       dplyr::mutate(estimand = "counterfactual_means") %>%
+      # Coerce category to character to match the disparities format
+      dplyr::mutate(dplyr::across(x$arguments$category_name, function(value) as.character(value))) %>%
       dplyr::bind_rows(x$all_estimators[[estimator_name]]$counterfactual_disparities %>%
                          dplyr::mutate(estimand = "counterfactual_disparities")) %>%
       dplyr::bind_rows(x$all_estimators[[estimator_name]]$change_means %>%
                          dplyr::mutate(estimand = paste("change_means",change_type,change_formula, sep = "__")) %>%
-                         dplyr::select(-change_type,-change_formula)) %>%
+                         dplyr::select(-change_type,-change_formula) %>%
+                         # Coerce category to character to match the disparities format
+                         dplyr::mutate(dplyr::across(x$arguments$category_name, function(value) as.character(value)))) %>%
       dplyr::bind_rows(x$all_estimators[[estimator_name]]$change_disparities %>%
                          dplyr::mutate(estimand = paste("change_disparities",change_type,change_formula, sep = "__")) %>%
                          dplyr::select(-change_type,-change_formula)) %>%
