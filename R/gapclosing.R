@@ -53,13 +53,13 @@
 #' simulated_data <- generate_simulated_data(n = 100)
 #'
 #' # Fit by outcome modeling
+#' # You can add standard errors with se = T
 #' estimate <- gapclosing(
 #'   data = simulated_data,
 #'   outcome_formula = formula(outcome ~ treatment * category + confounder),
 #'   treatment_name = "treatment",
 #'   category_name = "category",
-#'   counterfactual_assignments = 1,
-#'   se = TRUE
+#'   counterfactual_assignments = 1
 #' )
 #' summary(estimate)
 #'

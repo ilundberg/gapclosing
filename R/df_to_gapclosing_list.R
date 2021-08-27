@@ -15,8 +15,7 @@
 #'   outcome_formula = formula(outcome ~ treatment * category + confounder),
 #'   treatment_name = "treatment",
 #'   category_name = "category",
-#'   counterfactual_assignments = 1,
-#'   se = TRUE
+#'   counterfactual_assignments = 1
 #' )
 #' summary(estimate)
 #'
@@ -29,6 +28,9 @@ df_to_gapclosing_list <- function(x) {
 
   # Initialize some objects for non-standard evaluation
   estimator <- estimand <- primary <- NULL
+
+  # The gapclosing object uses tibbles, so use a tibble
+  x <- tidyr::as_tibble(x)
 
   factual <- list(factual_means = x %>%
                     dplyr::filter(estimand == "factual_means") %>%
@@ -54,6 +56,7 @@ df_to_gapclosing_list <- function(x) {
            tidyr::separate(estimand, into = c("estimand", "change_type", "change_formula"), sep = "__") %>%
            dplyr::select(-estimand,-estimator,-primary))
   })
+
   names(all_estimators) <- estimator_names
   primary_estimator_name <- unique(x$estimator[x$primary & x$estimator != "mean"])
   return(c(factual,

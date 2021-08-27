@@ -1,8 +1,6 @@
 #' Coerce to a Data Frame
 #' @description This function converts a \code{gapclosing} object into a data frame. The gapclosing class contains results within a named list, thus simplifying things for manual user interaction with the results. In some programming settings (e.g. a bootstrap), it is easier to work with a rectangular data frame of results. This function produces that data frame.
 #' @param x Object of class \code{gapclosing}, produced by a call to \code{gapclosing()}.
-#' @param row.names \code{NULL} or a character vector giving the row names for the data frame. Missing values are not allowed.
-#' @param optional logical. If \code{TRUE}, setting row names and converting column names (to syntactic names: see \code{make.names}) is optional. Note that all of R's base package \code{as.data.frame()} methods use \code{optional} only for column names treatment, basically with the meaning of \code{data.frame(*, check.names = !optional)}. See also the \code{make.names} argument of the \code{matrix} method.
 #' @param ... Additional arguments to be passed to or from methods.
 #' @return A data frame containing estimates.
 #' @importFrom magrittr %>%
@@ -18,15 +16,14 @@
 #'   outcome_formula = formula(outcome ~ treatment * category + confounder),
 #'   treatment_name = "treatment",
 #'   category_name = "category",
-#'   counterfactual_assignments = 1,
-#'   se = TRUE
+#'   counterfactual_assignments = 1
 #' )
 #' summary(estimate)
 #'
 #' # Convert to a data frame
 #' estimate.df <- as.data.frame(estimate)
 
-as.data.frame.gapclosing <- function(x, row.names = NULL, optional = FALSE, ...) {
+as.data.frame.gapclosing <- function(x, ...) {
 
   # Initialize some objects for non-standard evaluation
   estimator <- stringsAsFactors <- change_type <- change_formula <- NULL
@@ -52,5 +49,5 @@ as.data.frame.gapclosing <- function(x, row.names = NULL, optional = FALSE, ...)
   data.frame(factual_results_df %>%
                dplyr::bind_rows(counterfactual_results_df) %>%
                dplyr::mutate(primary = estimator %in% c("mean",x$primary_estimator_name)),
-             row.names = NULL, optional = FALSE, ...)
+             ...)
 }

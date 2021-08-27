@@ -15,9 +15,13 @@ RoxygenNote: 7.1.1
 Imports: stats, utils, mgcv, ranger, glmnet, Rdpack, magrittr, dplyr,
         forcats, ggplot2, gridExtra, tidyr, foreach, tidyselect,
         parallel, doParallel
-Suggests: knitr, rmarkdown
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: no
 Packaged: 2021-08-25 17:13:07 UTC; ilundberg
 Author: Ian Lundberg [aut, cre] (<https://orcid.org/0000-0002-1909-2270>)
 Maintainer: Ian Lundberg <ianlundberg@ucla.edu>
+Config/testthat/edition: 3
