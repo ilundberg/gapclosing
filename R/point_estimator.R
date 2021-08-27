@@ -56,6 +56,8 @@ point_estimator <- function(
     data_learn$gapclosing.weight <- data_learn[[weight_name]]
     data_estimate$gapclosing.weight <- data_estimate[[weight_name]]
   }
+  # Enforce normalization of the weights
+  data_learn$gapclosing.weight <-  data_learn$gapclosing.weight / mean(data_learn$gapclosing.weight, na.rm = T)
   # Create easily-accessible treatment and outcome variables with known names,
   # as well as containing the counterfactual assignments
   data_estimate <- data_estimate %>%

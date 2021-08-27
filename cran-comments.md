@@ -6,4 +6,4 @@ This is a development release. The API may change before we submit to CRAN.
 
 ## R CMD check results
 
-Duration: 3m 15.2s0 errors | 0 warnings | 0 notes
+Duration: 14.4s0 errors | 0 warnings | 0 notes
