@@ -1,7 +1,7 @@
 
 # gapclosing
 
-Estimate Gap-Closing Estimands
+Estimate Gaps Under an Intervention
 
 # Summary
 
