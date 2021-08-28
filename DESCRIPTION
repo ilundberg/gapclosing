@@ -1,6 +1,6 @@
 Package: gapclosing
 Title: Estimate Gap-Closing Estimands
-Version: 0.0.4
+Version: 1.0.0
 Authors@R: 
     person(given = "Ian",
            family = "Lundberg",
@@ -9,6 +9,8 @@ Authors@R:
            comment = c(ORCID = "https://orcid.org/0000-0002-1909-2270"))
 Description: Provides functions to estimate gap-closing estimands: the disparities across categories (e.g. Black and white) that persists if a treatment variable (e.g. college) is equalized (Lundberg 2021). Makes estimates by treatment modeling, outcome modeling, and doubly-robust augmented inverse probability weighting estimation, with standard errors calculated by a nonparametric bootstrap. Cross-fitting is supported. Survey weights are supported for point estimation but not for standard error estimation; those applying this package with complex survey samples should consult the data distributor to select an appropriate approach for standard error construction, which may involve calling the functions repeatedly for many sets of replicate weights provided by the data distributor.
 License: MIT + file LICENSE
+URL: https://ilundberg.github.io/gapclosing/
+BugReports: https://github.com/ilundberg/gapclosing/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

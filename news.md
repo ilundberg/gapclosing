@@ -1,5 +1,11 @@
 # NEWS file for the gap closing package
 
+# quantileplot 1.0.0
+* Stable release for submission to CRAN.
+* This update reduces computational complexity of the vignette.
+* Small changes to comply with R CMD check.
+* Increment version number to mark first stable release
+
 # quantileplot 0.0.3
 * This development version is available on GitHub.
 * This is a beta version and the API may change before submission to CRAN.

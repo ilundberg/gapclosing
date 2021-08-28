@@ -30,8 +30,8 @@ estimate <- gapclosing(
 plots <- plot(estimate, return_plots = TRUE)
 
 ## ---- echo = F, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
-print(plots[[1]]) +
-  ggtitle("First result of a call to plot()")
+print(plots[[1]] +
+        ggtitle("First result of a call to plot()"))
 
 ## ---- echo = F, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
 disparityplot(estimate, category_A = "A", category_B = "B") +
@@ -116,7 +116,7 @@ glm_plot <- plot(estimate, return_plots = T)[[1]]
 gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
 ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
 
-## ---- echo = F, fig.width = 12, fig.height = 5, message = F, warning = F, fig.caption = "The fourth default plot() with minor modifications, using results from each estimator above. Note that GAM and random forest also support confidence intervals with `SE = TRUE`, turned off here only to make the vignette faster."----
+## ---- echo = F, fig.width = 12, fig.height = 5, message = F, warning = F----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 gridExtra::grid.arrange(
   glm_plot +
     ggtitle("GLM estimate") +
