@@ -4,7 +4,9 @@ This is the first stable release for CRAN.
 
 ## R CMD check results
 
-Duration: 1m 11.1s0 errors | 0 warnings | 0 notes
+Duration: 1m 11.1s
+
+0 errors | 0 warnings | 0 notes
 
 ## Test environments
 
