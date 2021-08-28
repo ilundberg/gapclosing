@@ -44,22 +44,15 @@ point_estimator(
 \value{
 @return A list with four elements.
 \itemize{
-\code{counterfactual_means} A data frame with four columns
-\itemize{
-\item\code{category} The category to which each estimate applies.
-\item\code{treatment_modeling} Post-intervention mean estimates via treatment modeling. Estimates are NA if a treatment model was not provided.
-\item\code{outcome_modeling} Post-intervention mean estimates via outcome modeling. Estimates are NA if an outcome model was not provided.
-\item\code{doubly_robust} Post-intervention mean estimates via doubly-robust estimation. Estimate are NA if either a treatment or an outcome model was not provided.
+\code{counterfactual_means} A tibble with a counterfactual mean estimate for each category
+\code{counterfactual_means} A tibble with a counterfactual disparity estimate for each pair of categories
+\code{treatment_model} Object containing the fitted treatment model
+\code{outcome_model} Object containing the fitted outcome model
 }
-\item\code{treatment_model} Object containing the fitted treatment model.
-\item\code{outcome_model} Object containing the fitted outcome model.
-\item\code{estimation_weights} \code{estimation_weights} If \code{sample_split} = "single_sample", a numeric vector of length \code{nrow(data)}. Within categories, the weighted average of the outcome with these weights is the treatment modeling estimate of the post-intervention mean defined by \code{counterfactual_assignments}.
-}
-A data frame with four columns. \code{category} contains the category to which each estimate applies. \code{treatment_modeling}, \code{outcome_modeling}, and \code{doubly_robust} contain the post-intervention mean estimate for that category, by each approach. When an approach is not applicable (because \code{treatment_formula} or \code{outcome_formula} was not provided), the corresponding columns of estimates are NA.
 }
 \description{
 This is an internal function typically called from other functions rather than by the user. It uses a learning sample to learn the nuisance functions (treatment and outcome model) and then an auxiliary estimation sample to use those functions in estimation of the gap-closing estimand. For single-sample estimation, both the learning and estimation samples are the same. For cross-fitting, this function is called repeatedly with the roles of each dataset swapped.
 }
 \references{
-Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 }

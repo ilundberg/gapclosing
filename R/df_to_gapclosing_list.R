@@ -2,6 +2,7 @@
 #' @description If the user has used \code{as.data.frame(x)} to convert a \code{gapclosing} object to a data frame of estimates, this function will invert back to the original list format. This function does not fully reinstate the original gapclosing object because some elements are lost when \code{as.data.frame()} is called. This function is most useful as a check on \code{as.data.frame()} and as a helper in settings like bootstrapping where a data frame is easier to work with but we want to return to the original format before returning an object to the user.
 #' @param x A data frame produced by \code{as.data.frame(x)} applied to an object \code{x} of class \code{gapclosing}.
 #' @return A list containing a subset of the elements in a \code{gapclosing} object.
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @importFrom magrittr %>%
 #' @export
 #'

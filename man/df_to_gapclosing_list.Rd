@@ -34,3 +34,6 @@ estimate.df <- as.data.frame(estimate)
 # Convert back to a list
 estimate.df <- df_to_gapclosing_list(estimate.df)
 }
+\references{
+Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
+}

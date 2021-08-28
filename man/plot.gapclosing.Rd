@@ -16,11 +16,11 @@
 \item{...}{Other arguments to \code{plot} commands}
 }
 \value{
-If \code{return_plots = TRUE}, returns a list of length 4, each element of which is a ggplot2 object. If \code{return_plots = FALSE} (the default), then nothing is returned.
+If \code{return_plots = TRUE}, returns a list of \code{ggplot2} objects. If \code{return_plots = FALSE} (the default), then nothing is returned and output is printed.
 }
 \description{
 Produces summary plots for a gapclosing object.
 }
 \references{
-Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 }

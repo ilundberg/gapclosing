@@ -3,7 +3,7 @@
 #' @param object An object of class \code{gapclosing}, which results from a call to the function \code{gapclosing}
 #' @param ... Other arguments to \code{summary} commands
 #' @return Prints a summary of the estimates.
-#' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @export
 
 summary.gapclosing <- function(object, ...) {

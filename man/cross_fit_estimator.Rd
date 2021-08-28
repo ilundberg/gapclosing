@@ -46,23 +46,16 @@ cross_fit_estimator(
 }
 \value{
 A list with four elements.
-
 \itemize{
-\item\code{counterfactual_means} A data frame with four columns
-\itemize{
-\item\code{category} The category to which each estimate applies.
-\item\code{treatment_modeling} Post-intervention mean estimates via treatment modeling. Estimates are NA if a treatment model was not provided.
-\item\code{outcome_modeling} Post-intervention mean estimates via outcome modeling. Estimates are NA if an outcome model was not provided.
-\item\code{doubly_robust} Post-intervention mean estimates via doubly-robust estimation. Estimate are NA if either a treatment or an outcome model was not provided.
-}
-\item\code{treatment_model} A list of length \code{n_folds} containing the fold-specific estimated treatment model objects.
-\item\code{outcome_model} A list of length \code{n_folds} containing the fold-specific estimated outcome model objects.
-\item\code{estimation_weights} Numeric vector of length \code{nrow(data)}. Within categories, the weighted average of the outcome with these weights is the treatment modeling estimate of the post-intervention mean defined by \code{counterfactual_assignments}.
+\code{counterfactual_means} A tibble with a counterfactual mean estimate for each category
+\code{counterfactual_means} A tibble with a counterfactual disparity estimate for each pair of categories
+\code{treatment_model} Object containing the fitted treatment model
+\code{outcome_model} Object containing the fitted outcome model
 }
 }
 \description{
 This is an internal function typically called from other functions rather than by the user. It creates cross-validation folds and repeatedly calls split_sample_estimator to conduct cross-fitting.
 }
 \references{
-Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 }

@@ -6,7 +6,8 @@
 #' @param category_B The second category to be plotted. Must be a value of \code{x$category}
 #' @param custom_ylab Custom y-axis label. Defaults to "Mean Outcome"
 #' @param custom_xlab Custom x-axis label. Defaults to "Category"
-#' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @return A \code{ggplot2} object
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @importFrom magrittr %>%
 #' @export
 

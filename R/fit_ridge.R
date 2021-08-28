@@ -5,7 +5,7 @@
 #' @param model_formula A model formula object for the ridge regression to be fitted
 #' @param to_predict Data frame containing observations for which predictions are to be made. If NULL, defaults to the same as \code{data}.
 #' @return A data frame containing predicted values for observations in \code{to_predict}.
-#' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @references Friedman J, Hastie T, Tibshirani R (2010). "Regularization Paths for Generalized Linear Models via Coordinate Descent." Journal of Statistical Software, 33(1), 1–22. https://www.jstatsoft.org/v33/i01/.
 #' @export
 

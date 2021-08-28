@@ -13,20 +13,13 @@
 #' @param n_folds Only used if \code{method} = "cross_fit" and if \code{folds} is not provided. Integer scalar containing number of cross-validation folds. The function will assign observations to folds systematically: sort the data by the variable named \code{category_name}, then by the treatment variable, then at random. On this sorted dataset, folds are assigned systematically by repeated \code{1:n_folds}. To be used if the user does not provide \code{folds}. Defaults to 2.
 #' @param folds_name Only used if \code{method} = "cross_fit". Character string indicating a column of \code{data} containing fold identifiers. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.
 #' @return A list with four elements.
-#'
 #' \itemize{
-#' \item\code{counterfactual_means} A data frame with four columns
-#' \itemize{
-#' \item\code{category} The category to which each estimate applies.
-#' \item\code{treatment_modeling} Post-intervention mean estimates via treatment modeling. Estimates are NA if a treatment model was not provided.
-#' \item\code{outcome_modeling} Post-intervention mean estimates via outcome modeling. Estimates are NA if an outcome model was not provided.
-#' \item\code{doubly_robust} Post-intervention mean estimates via doubly-robust estimation. Estimate are NA if either a treatment or an outcome model was not provided.
+#' \code{counterfactual_means} A tibble with a counterfactual mean estimate for each category
+#' \code{counterfactual_means} A tibble with a counterfactual disparity estimate for each pair of categories
+#' \code{treatment_model} Object containing the fitted treatment model
+#' \code{outcome_model} Object containing the fitted outcome model
 #' }
-#' \item\code{treatment_model} A list of length \code{n_folds} containing the fold-specific estimated treatment model objects.
-#' \item\code{outcome_model} A list of length \code{n_folds} containing the fold-specific estimated outcome model objects.
-#' \item\code{estimation_weights} Numeric vector of length \code{nrow(data)}. Within categories, the weighted average of the outcome with these weights is the treatment modeling estimate of the post-intervention mean defined by \code{counterfactual_assignments}.
-#' }
-#' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @importFrom foreach %do%
 #' @importFrom magrittr %>%
 #' @export

@@ -34,3 +34,6 @@ summary(estimate)
 # Convert to a data frame
 estimate.df <- as.data.frame(estimate)
 }
+\references{
+Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
+}

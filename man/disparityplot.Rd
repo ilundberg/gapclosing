@@ -23,9 +23,12 @@ disparityplot(
 
 \item{custom_xlab}{Custom x-axis label. Defaults to "Category"}
 }
+\value{
+A \code{ggplot2} object
+}
 \description{
 Plots the factual and counterfactual mean outcomes in two categories. The returned object is a ggplot2 object which can be further customized using the syntax of ggplot2.
 }
 \references{
-Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 }

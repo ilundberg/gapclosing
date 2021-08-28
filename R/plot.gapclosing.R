@@ -4,8 +4,8 @@
 #' @param return_plots Logical, defaults to FALSE. If TRUE, returns a list of the 4 plots without printing. Defaults to FALSE, in which case the console will interactively ask the user to hit "return" to proceed through printouts of the four plots, with no plots returned.
 #' @param arranged Logical, defaults to FALSE. If TRUE, returns a list of the 4 plots arranged in a 2x2 table. Useful to visualize all four in one screen.
 #' @param ... Other arguments to \code{plot} commands
-#' @return If \code{return_plots = TRUE}, returns a list of length 4, each element of which is a ggplot2 object. If \code{return_plots = FALSE} (the default), then nothing is returned.
-#' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @return If \code{return_plots = TRUE}, returns a list of \code{ggplot2} objects. If \code{return_plots = FALSE} (the default), then nothing is returned and output is printed.
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @importFrom foreach %do%
 #' @importFrom magrittr %>%
 #' @export

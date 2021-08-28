@@ -16,5 +16,5 @@ A data frame with \code{n} rows and 4 columns containing simulated data containi
 Generates simulated data to illustrate the gapclosing function
 }
 \references{
-Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 }

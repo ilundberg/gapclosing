@@ -1,45 +1,40 @@
 #' Gap closing estimator
-#' @description A function to estimate gap-closing estimands: means and disparities across categories of units that would persist under some counterfactual assignment of a treatment. To use this function, the user provides a data frame \code{data}, a rule \code{counterfactual_assignments} for counterfactually assigning treatment, a treatment and/or an outcome model for learning statistically about the counterfactuals, and the name \code{category_name} of the variable in \code{data} over which categories are defined. The returned object summarizes factual and counterfactual means and disparities. Supported estimation algorithms include generalized linear models, ridge regression, generalized additive models, and random forests. Standard errors are supported by bootstrapping.
+#' @description A function to estimate gap-closing estimands: means and disparities across categories of units that would persist under some counterfactual assignment of a treatment. To use this function, the user provides a data frame \code{data}, a rule \code{counterfactual_assignments} for counterfactually assigning treatment, a treatment and/or an outcome model for learning statistically about the counterfactuals, and the \code{category_name} of the variable in \code{data} over which categories are defined. The returned object summarizes factual and counterfactual means and disparities. Supported estimation algorithms include generalized linear models, ridge regression, generalized additive models, and random forests. Standard errors are supported by bootstrapping.
 #' @param data Data frame containing the observed data
 #' @param counterfactual_assignments Numeric scalar or vector of length nrow(data), each element of which is on the \[0,1\] interval. If a scalar, the counterfactual probability by which all units are assigned to treatment condition 1. If a vector, each element i corresponds to the counterfactual probability by which each unit i is assigned to treatment condition 1.
-#' @param outcome_formula Model formula the outcome. Covariates should include those needed for causal identification of the treatment effect (e.g. as defended in your Directed Acyclic Graph). If \code{outcome_algorithm} = "ranger", then the outcome model will be fit separately on the treatment and control groups. Otherwise, the user must specify all interactions in the formula.
-#' @param treatment_formula Treatment formula, in the style formula(treatment ~ covariates). Covariates should include those needed for causal identification of the treatment effect (e.g. as defended in your Directed Acyclic Graph).
+#' @param outcome_formula Outcome formula , in the style \code{outcome ~ treatment*covariate}. Covariates should include those needed for causal identification of the treatment effect (e.g. as defended in your Directed Acyclic Graph). If \code{outcome_algorithm} = "ranger", then the outcome model will be fit separately on the treatment and control groups. Otherwise, the user must specify all interactions in the formula.
+#' @param treatment_formula Treatment formula, in the style \code{treatment ~ covariate}. Covariates should include those needed for causal identification of the treatment effect (e.g. as defended in your Directed Acyclic Graph).
 #' @param category_name Character name of the variable indicating the categories over which the gap is defined. Must be the name of a column in \code{data}.
 #' @param outcome_name Character name of the outcome variable. Only required when there is no outcome_formula; otherwise extracted automatically. Must be a name of a column in \code{data}.
 #' @param treatment_name Character name of the treatment variable. Only required when there is no treatment_formula; otherwise extracted automatically. Must be a name of a column in \code{data}.
 #' @param treatment_algorithm Character name of the algorithm for the treatment model. One of "glm", "ridge", "gam", or "ranger". Defaults to "glm", which is a logit model. Option "ridge" is ridge regression. Option "gam" is a generalized additive model fit (see package \code{mgcv}). Option "ranger" is a random forest (see package \code{ranger}). If "ranger", this function avoids propensity scores equal to 0 or 1 by bottom- and top-coding predicted values at .001 and .999.
 #' @param outcome_algorithm Character name of the algorithm for the outcome model. One of "lm", "ridge", "gam", or "ranger". Defaults to "lm", which is an OLS model. Option "ridge" is ridge regression. Option "gam" is a generalized additive model fit (see package \code{mgcv}). Option "ranger" is a random forest (see package \code{ranger}).
 #' @param sample_split Character for the type of sample splitting to be conducted. One of "single_sample" or "cross_fit". Defaults to "single_sample", in which case \code{data} is used for both learning the nuisance functions and aggregating to an estimate. Option "cross_fit" uses cross-fitting to repeatedly use part of the sample to learn the nuisance function and another part to estimate the estimand, averaged over repetitions with these roles swapped.
-#' @param se Logical indicating whether standard errors should be calculated. Default is FALSE. Standard errors assume a simple random sample within strata of category x treatment, because stratifying by those guarantees that each stratum appears in every bootstrap sample. Standard errors are not supported for weighted samples. Users should consider the data generating process in their specific setting to choosen appropriate method for standard errors.
+#' @param se Logical indicating whether standard errors should be calculated. Default is FALSE. Standard errors assume a simple random sample by default; to stratify by (category x treatment), see the \code{bootstrap_method} argument. Because many datasets are not simple random samples, users should carefully consider whether a simple random sample bootstrap will accurately capture uncertainty.
 #' @param bootstrap_samples Only used if \code{se = TRUE}. Number of bootstrap samples. Default is 1000.
-#' @param bootstrap_method Only used if \code{se = TRUE}. A character string stating how to conduct bootstrap samples. If "simple", then samples are drawn with replacement from the full data. If "stratified", then the bootstrap is carried out within subpopulations defined by category and treatment.
+#' @param bootstrap_method Only used if \code{se = TRUE}. A character string stating how to conduct bootstrap samples. If "simple", then samples are drawn with replacement from the full data. If "stratified", then the bootstrap is carried out within subpopulations defined by category and treatment. The latter may be useful if the sample contains only a small number of observations in these cells and the user wants to ensure that every (category x treatment) cell appears in every bootstrap sample. With "stratified", inference assumes that in repeated samples from the true population the proportion in each (category x treatment) cell would not change; this may or may not correspond to the true sampling process. Users should be cautious.
 #' @param parallel_cores Integer number of cores for parallel processing of the bootstrap. Defaults to sequential processing.
 #' @param weight_name Character name of a sampling weight variable, if any, which captures the inverse probability of inclusion in the sample. The default assumes a simple random sample (all weights equal).
 #' @param n_folds Only used if \code{method} = "cross_fit" and if \code{folds} is not provided. Integer scalar containing number of cross-validation folds. The function will assign observations to folds systematically: sort the data by the variable named \code{category_name}, then by the treatment variable, then at random. On this sorted dataset, folds are assigned systematically by repeated \code{1:n_folds}. To be used if the user does not provide \code{folds}. Defaults to 2.
 #' @param folds_name Only used if \code{method} = "cross_fit". Character string indicating a column of \code{data} containing fold identifiers. This may be preferable to \code{n_folds} if the researcher has a reason to assign the folds in these data by some other process, perhaps due to particulars of how these data were generated. If null (the default), folds are assigned as stated in \code{n_folds}.
-#' @return An object of S3 class \code{gapclosing}, which supports \code{summary()}, \code{print()}, and \code{plot()} functions. The returned object has 7 elements.
-#'
-#' The first element of the returned list is a data frame \code{primary_estimate} containing the estimates by the primary method. Its columns include:
+#' @return An object of S3 class \code{gapclosing}, which supports \code{summary()}, \code{print()}, and \code{plot()} functions. The returned object can be coerced to a data frame of estimates with \code{as.data.frame()}. \cr
+#' The object returned by a call to \code{gapclosing} contains several elements.
 #' \itemize{
-#' \item \code{description} Describes the estimand for each estimate \cr
-#' \item \code{setting} An abbreviated version of \code{description} \cr
-#' \item \code{category} The category or contrast across categories to which the estimate applies \cr
-#' \item \code{estimate} The point estimate \cr
-#' \item \code{se} The bootstrapped standard error (if argument \code{se = TRUE}) \cr
-#' \item \code{ci.min} lower bound of a 95% confidence interval using \code{se} \cr
-#' \item \code{ci.max} upper bound of a 95% confidence interval using \code{se}
+#' \item \code{factual_means} A tibble containing the factual mean outcome in each category \cr
+#' \item \code{factual_disparities} A tibble containing the disparities in factual mean outcomes across categories \cr
+#' \item \code{counterfactual_means} A tibble containing the counterfactual mean outcome (post-intervention mean) in each category \cr
+#' \item \code{counterfactual_disparities} A tibble containing the counterfactual disparities (gap-closing estimands) across categories \cr
+#' \item \code{change_means} A tibble containing the additive and proportional change from factual to counterfactual values for mean outcomes \cr
+#' \item \code{change_disparities} A tibble containing the additive and proportional change from factual to counterfactual values for disparities in mean outcomes (e.g. proportion of the factual gap which is closed by the intervention) \cr
+#' \item \code{all_estimators} A list containing estimates by treatment modeling, outcome modeling, and doubly-robust estimation. If any of these are not applicable, estimates are NA. \cr
+#' \item \code{primary_estimator_name} The name of the primary estimator (treatment_modeling, outcome_modeling, or doubly_robust). The estimates reported in the first 6 slots of the returned object come from this estimator. \cr
+#' \item \code{treatment_model} The fitted treatment model (or models on each fold in the case of cross-fitting). Note that this model object is a point estimate with standard errors derived from the algorithm used to fit it; any standard errors within \code{treatment_model} do not come from bootstrapping by the package. \cr
+#' \item \code{outcome_model} The fitted outcome model (or models on each fold in the case of cross-fitting). Note that this model object is a point estimate with standard errors derived from the algorithm used to fit it; any standard errors within \code{treatment_model} do not come from bootstrapping by the package. \cr
+#' \item \code{call} The call that produced this \code{gapclosing} object \cr
+#' \item \code{arguments} A list of all arguments from the call to \code{gapclosing}
 #' }
 #'
-#' After \code{primary_estimate}, the remaining elements of the returned object include:
-#' \itemize{
-#' \item \code{primary_method} Character denoting the primary method (treatment_modeling, outcome_modeling, or doubly_robust),
-#' \item \code{all_estimates} List of estimates by every method used (treatment_modeling, outcome_modeling, doubly_robust)
-#' \item \code{treatment_model} If \code{sample_split} = "single_sample", a fitted model object. If \code{sample_split} = "cross_fit", a list of fold-specific fitted model objects.
-#' \item \code{outcome_model} If \code{sample_split} = "single_sample", a fitted model object. If \code{sample_split} = "cross_fit", a list of fold-specific fitted model objects.
-#' \item \code{estimation_weights} If \code{sample_split} = "single_sample", a numeric vector of length \code{nrow(data)}. Within categories, the weighted average of the outcome with these weights is the treatment modeling estimate of the post-intervention mean defined by \code{counterfactual_assignments}. If \code{sample_split} = "cross_fit", a list of length \code{n_folds} containing the fold-specific treatment modeling weights.
-#' \item \code{call} All arguments from the call to \code{gapclosing}.
-#' }
-#' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}s
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @references Friedman J, Hastie T, Tibshirani R (2010). "Regularization Paths for Generalized Linear Models via Coordinate Descent." Journal of Statistical Software, 33(1), 1–22. https://www.jstatsoft.org/v33/i01/.
 #' @references Wood S (2017). Generalized Additive Models: An Introduction with R, 2 edition. Chapman and Hall/CRC.
 #' @references Wright MN, Ziegler A (2017). "ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R." Journal of Statistical Software, 77(1), 1–17. doi: 10.18637/jss.v077.i01.
@@ -56,7 +51,7 @@
 #' # You can add standard errors with se = T
 #' estimate <- gapclosing(
 #'   data = simulated_data,
-#'   outcome_formula = formula(outcome ~ treatment * category + confounder),
+#'   outcome_formula = outcome ~ treatment * category + confounder,
 #'   treatment_name = "treatment",
 #'   category_name = "category",
 #'   counterfactual_assignments = 1
@@ -67,7 +62,7 @@
 #' # You can add standard errors with se = T
 #' estimate <- gapclosing(
 #'   data = simulated_data,
-#'   treatment_formula = formula(treatment ~ category + confounder),
+#'   treatment_formula = treatment ~ category + confounder,
 #'   outcome_name = "outcome",
 #'   category_name = "category",
 #'   counterfactual_assignments = 1
@@ -78,8 +73,8 @@
 #' # You can add standard errors with se = T
 #' estimate <- gapclosing(
 #'   data = simulated_data,
-#'   outcome_formula = formula(outcome ~ treatment * category + confounder),
-#'   treatment_formula = formula(treatment ~ category + confounder),
+#'   outcome_formula = outcome ~ treatment * category + confounder,
+#'   treatment_formula = treatment ~ category + confounder,
 #'   category_name = "category",
 #'   counterfactual_assignments = 1
 #' )
@@ -89,8 +84,8 @@
 #' # You can add standard errors with se = T
 #' estimate <- gapclosing(
 #'   data = simulated_data,
-#'   outcome_formula = formula(outcome ~ category + confounder),
-#'   treatment_formula = formula(treatment ~ category + confounder),
+#'   outcome_formula = outcome ~ category + confounder,
+#'   treatment_formula = treatment ~ category + confounder,
 #'   category_name = "category",
 #'   counterfactual_assignments = 1,
 #'   outcome_algorithm = "ranger",

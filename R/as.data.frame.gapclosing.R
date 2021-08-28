@@ -3,6 +3,7 @@
 #' @param x Object of class \code{gapclosing}, produced by a call to \code{gapclosing()}.
 #' @param ... Additional arguments to be passed to or from methods.
 #' @return A data frame containing estimates.
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @importFrom magrittr %>%
 #' @export
 #'

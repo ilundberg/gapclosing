@@ -2,7 +2,7 @@
 #' @description Generates simulated data to illustrate the gapclosing function
 #' @param n Number of observations to be generated
 #' @return A data frame with \code{n} rows and 4 columns containing simulated data containing \code{category} over which disparities are defined, a \code{confounder} that affects treatment assignment, a binary \code{treatment}, and a continuous \code{outcome}.
-#' @references Lundberg, Ian. 2021. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." {https://osf.io/gx4y3/}
+#' @references Lundberg I (2021). "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." Sociological Methods and Research. Available at {https://osf.io/gx4y3/}.
 #' @export
 
 generate_simulated_data <- function(n = 1000) {
