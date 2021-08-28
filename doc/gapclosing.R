@@ -22,16 +22,20 @@ estimate <- gapclosing(
   treatment_formula = formula(treatment ~ confounder + category),
   category_name = "category",
   se = T,
-  # Process bootstrap in parallel with as many cores as available
+  # You can process the bootstrap in parallel with as many cores as available
   parallel_cores = 2
 )
 
-## ---- fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
+## ---- include = F-------------------------------------------------------------
 plots <- plot(estimate, return_plots = TRUE)
-print(plots[[1]])
 
-## ---- fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
-print(plots[[3]])
+## ---- echo = F, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
+print(plots[[1]]) +
+  ggtitle("First result of a call to plot()")
+
+## ---- echo = F, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
+disparityplot(estimate, category_A = "A", category_B = "B") +
+  ggtitle("A disparityplot()")
 
 ## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 options(width = 300)
@@ -168,7 +172,7 @@ data.frame(counterfactual_assignments = counterfactual_assignments_values,
                      "Disparity completely eliminated"),
            color = "darkgray", size = 3, hjust = 1, vjust = 1.5) +
   annotate(geom = "text",
-           x = .1, y = .25, 
+           x = .1, y = .3, 
            label = "Disparities eliminated under various\nstochastic\ninterventions",
            color = "gray", size = 3, hjust = 0, vjust = 1) +
   annotate(geom = "text",
