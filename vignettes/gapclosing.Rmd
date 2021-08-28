@@ -96,7 +96,7 @@ estimate <- gapclosing(
   outcome_formula = formula(outcome ~ confounder + category*treatment),
   treatment_formula = formula(treatment ~ confounder + category),
   category_name = "category",
-  se = T,
+  se = TRUE,
   # You can process the bootstrap in parallel with as many cores as available
   parallel_cores = 2
 )
@@ -114,8 +114,8 @@ In this example, the `plot(estimate)` function produces the following visualizat
 plots <- plot(estimate, return_plots = TRUE)
 ```
 ```{r, echo = F, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"}
-print(plots[[1]]) +
-  ggtitle("First result of a call to plot()")
+print(plots[[1]] +
+        ggtitle("First result of a call to plot()"))
 ```
 
 The `disparityplot()` function lets us zoom in on the factual and counterfactual disparity between two categories, of interest. In this case, we see that the intervention lifts outcomes in category A to be more comparable to category B. A `disparityplot` is a `ggplot2` object and can be customized by passing additional layers.
@@ -138,7 +138,7 @@ This section provides a more detailed overview of the use of `gapclosing()`. It 
 
 ## Step 1. Define the intervention
 
- To answer a gap-closing question, we first need to define what that intervention would be. To what treatment value would units be counterfaactually assigned? There are several options.
+ To answer a gap-closing question, we first need to define what that intervention would be. To what treatment value would units be counterfactually assigned? There are several options.
 
 * **Option 1.** Set `counterfactual_assignments = 0` or `counterfactual_assignments = 1`. In this case, we are studying the disparity we would expect if a random person of each category were assigned control or if assigned treatment (respectively).
 * **Option 2.** Set `counterfactual_assignments` = $\pi$ for some $\pi$ between 0 and 1. In this case, we are studying the disparity we would expect if a random person of each category were assigned to treatment with probability $\pi$ and to control with probability $1 - \pi$.
@@ -292,9 +292,9 @@ estimate_gam <- gapclosing(
   category_name = "category",
   treatment_algorithm = "gam",
   outcome_algorithm = "gam",
-  sample_split = "cross_fit",
-  se = T,
-  parallel_cores = 2
+  sample_split = "cross_fit"
+  # Note: Standard errors with `se = TRUE` are supported.
+  # They are omitted here only to speed vignette build time.
 )
 ```
 
@@ -313,9 +313,9 @@ estimate_ranger <- gapclosing(
   category_name = "category",
   treatment_algorithm = "ranger",
   outcome_algorithm = "ranger",
-  sample_split = "cross_fit",
-  se = T,
-  parallel_cores = 2
+  sample_split = "cross_fit"
+  # Note: Standard errors with `se = TRUE` are supported.
+  # They are omitted here only to speed vignette build time.
 )
 ```
 
@@ -329,7 +329,7 @@ gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
 ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
 ```
 
-```{r, echo = F, fig.width = 12, fig.height = 5, message = F, warning = F, fig.caption = "The fourth default plot() with minor modifications, using results from each estimator above."}
+```{r, echo = F, fig.width = 12, fig.height = 5, message = F, warning = F}
 gridExtra::grid.arrange(
   glm_plot +
     ggtitle("GLM estimate") +
@@ -338,11 +338,12 @@ gridExtra::grid.arrange(
     ggtitle("GAM estimate") +
     ylim(c(-1.5,1.5)),
   ranger_plot +
-    ggtitle("Ranger estimate") +
+    ggtitle("Random forest estimate") +
     ylim(c(-1.5,1.5)),
   ncol = 3
 )
 ```
+Note that confidence intervals for GAM and random forest can also be generated with `SE = TRUE`, which is turned off here only to speed vignette build time.
 
 ## A warning about complex estimators
 

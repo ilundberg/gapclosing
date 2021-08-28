@@ -1,0 +1,190 @@
+* using log directory ‘/Users/ilundberg/Dropbox/github/gapclosing/..Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: aarch64-apple-darwin20 (64-bit)
+* using session charset: UTF-8
+* checking for file ‘./DESCRIPTION’ ... OK
+* this is package ‘gapclosing’ version ‘0.0.4’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... NOTE
+Found the following hidden files and directories:
+  .DS_Store
+  .Rhistory
+  .gitignore
+  inst/.DS_Store
+  tests/.DS_Store
+  tests/testthat/.DS_Store
+  ..Rcheck
+  .Rproj.user
+  .git
+These were most likely included in error. See section ‘Package
+structure’ in the ‘Writing R Extensions’ manual.
+* checking for portable file names ... NOTE
+Found the following non-portable file paths:
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/013db65b-205b-4894-b01d-fb1ddbd6cfcf.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/01977a5c-6769-4be7-955e-9d9b621e157a.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/04de253b-0448-4f97-b08b-8c6f7edeb9eb.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/08962ccb-9fa2-4e1d-830f-a9bd91c133a1.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/0f2aa240-d8b9-4545-a0bb-d7e556e1b10f.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/0f9c49e0-09b3-4d0c-a611-fb355e9fe4e7.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/134081e9-08e6-4a61-84a2-5907ed50aee6.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/1406a591-582b-444c-9bb2-6ab1945d019c.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/16400c8c-b9ee-4344-9793-259fe64e192e.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/17349a46-a352-4e28-8364-2ababaa441ef.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/18630c9d-2e61-4b64-9be1-15bcf4bf345c.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/202e3cbb-1657-427e-9206-3bf336b90caa.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/23ffbda4-2979-4787-9081-02eb582085f1.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/242f3cc2-553b-4440-b54b-15cb304d9c37.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/2664aca1-4ab5-443f-b698-4090745b5996.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/2dd972a3-aa49-4330-ac5f-44719f5890b4.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/3053d630-a317-46c0-af39-7d87d5117b82.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/328d21f7-413c-444b-b5d2-22cef6e57c6e.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/32e3b32a-e1c2-4660-95fa-f6a3297e0d5d.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/349e74f7-0f4f-4ec0-b153-5bf8a57baa83.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/3540e597-ccc8-4208-9845-3fce6bb5e37d.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/39a67094-16c1-46a2-91a4-949cd02e75f1.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/3c5d6bd1-3d63-40f1-be47-e636f7f0f084.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/3e70f8b7-d523-45e9-8310-3cdda03291bd.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/3fd386ed-e22b-45c8-9719-77af81a247b5.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/43eb7eaa-400b-47e0-a644-3e075700b455.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/43f2da0b-c1e3-4401-bfca-0ce31eeac7b6.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/44a1c084-ac5d-4b58-977d-2520a7a45319.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/47008787-7abc-4789-8442-434f0ef5521e.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/472a63ad-97f8-49e3-8fea-e8a2336310ec.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/4ab0d078-1a58-4f06-a1f0-ceca2c2f4000.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/53a9f3fd-3c82-42f6-9d48-0c0d3667bfb3.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/5411fb4f-4a4f-48e6-a404-d3d8c41902fd.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/55467942-2934-473e-8ea0-6cd4ba443278.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/587990b8-ba23-4e30-9173-1ac5e88263f3.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/5a02742f-f3e6-49d4-8230-d932f8645cbe.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/5c3dee1d-899d-487e-9f1f-5b43493516a9.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/60187804-cb7e-448a-b4f6-36dc6dd89f57.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/6528d3eb-8c59-4dda-85c3-b9e46825f0e0.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/6c3de2bc-9d27-4fd5-9809-55bb2a0c2b6a.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/6d44bacf-cb2b-45ac-a6a3-4f5e4e086a4d.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/6e561c2d-a4ff-4c37-af23-6d0681d46a53.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/701b7deb-893e-49a9-9a93-16127fd67f09.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/73f5783c-22b0-4766-81cd-eefd5927402d.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/748a42b5-3e6b-4137-ab23-884d1e2a4726.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/74f38a66-19d5-4da0-8f50-74df6ca20466.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/7a10406a-5b8d-438d-8491-b8dd70032e40.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/7fab373d-4225-4e5e-9821-5fbf056d73c4.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/80c81d78-ef4d-4176-b321-ed9fc4d76c90.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/83e2077f-9af8-44d1-9306-cdb2ed103d5a.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/86a03388-cadb-4ea2-aa45-1628ecd398d1.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/8738fc20-ee3b-4642-b194-456a780f4245.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/873eef37-0943-450f-b1c1-0c42ac297b7b.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/8a82116b-7da1-4fd4-937b-e65216b08a05.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/8ca53a11-6ece-4200-b483-d1589df3fa1e.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/8ef9f9df-a729-4b98-8d54-e3a1bc0ee8bf.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/8fa3c988-f265-4291-b500-22b18f4fe066.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/9128d59b-813e-4351-916e-80714034b96f.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/9616b82d-f82f-48f0-9172-2bb10c7858ea.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/96bdc263-9a2f-41d9-a601-6aa8c543d53b.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/9ad44c61-6372-4150-8285-b173659a62b3.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/9ffa02a8-9c1b-46da-8656-44913b5b6609.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/a082be4d-659e-4ad1-83fa-01f6839690c9.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/a17d9b01-a832-4f66-bcd8-8c6ce9509093.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/a2bbbe99-0b86-44e1-bf84-aa0d3e95418f.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/a5bfc5cf-bfd4-43c4-bf8f-85fed13380be.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/a70a0496-ff14-4b2c-89df-e8b941fbbfcf.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/aa8e1228-f9ac-467c-8752-a64db3acf4f0.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/ab10c408-5d0e-4371-9fee-89ba532ef8fb.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/ad5a92cd-68fb-4644-a154-ad120022e052.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/b07bc184-fa05-4948-9b99-734c3a2266c0.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/b29ea9fe-6f73-4fb2-aa8f-462ed79137bf.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/b44d257b-e9e5-45ca-ac40-303bcdb44472.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/b5bc17a9-01b3-487c-ac79-ea5083c5fc71.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/b692e9cd-6963-44d5-be4a-20be2a397178.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/bed8a7fa-ea2d-40fc-9607-40d3cc08d70e.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/c44cf322-a22c-4ca5-aa16-2f48cc687aa7.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/c49f7027-ff1e-4cbe-a44a-cecb647c361f.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/c6e8a1da-d1c1-4f6a-9c62-ecc1a614e059.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/c849c28d-9dd1-4a0f-b5a3-9c7d749c1006.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/c84f844d-466b-488d-aa7d-60af6165b9dc.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/c996cfde-608e-4ff7-815d-87234fa8773d.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/c9bf2e19-aee5-4d4f-8d96-46388a3eca84.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/d55c449a-ce12-4afc-bfa9-29663b1a9c8e.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/d66ada35-13a5-4495-aa38-6003057b4f08.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/db62aead-5252-4611-8b9d-e5fd458ed99d.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/dd0fd763-ee8b-4ffc-b836-e06367991e6c.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/dd8c0b00-9600-4674-9cc1-0706b35e8521.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/e13abeb9-6aa8-4ec7-a373-ecae9f8ab563.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/e329f12a-5e92-4a5b-85c3-234719c3e99b.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/e4bb4f81-74c4-419a-bc57-b7cf01bcd64c.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/f34d108f-4304-41ca-a8da-2bc6ba26f402.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/f4b050b5-3290-47b7-8ce6-c39386dc6ad1.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/f5eb02dc-e793-411a-bca2-4010f2a8aa1a.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/f5f54bc6-b86d-4aa1-9d47-5d42878f6d98.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/f818ddf0-efd7-4334-89b9-0bff555fe480.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/f8425996-c787-4b2c-9905-590c819b63c6.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/f9d9aa42-184c-4d88-ae5f-a9d36356ef55.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/fc38dfe3-e41b-4bf6-acbd-0d427b312cc4.snapshot
+  gapclosing/.Rproj.user/3BE497F1/ctx/ctx-13050/plots_dir/ff332434-508a-4ac3-afbf-d14ff64dbef8.snapshot
+
+Tarballs are only required to store paths of up to 100 bytes and cannot
+store those of more than 256 bytes, with restrictions including to 100
+bytes for the final component.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘gapclosing’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... WARNING
+Found the following directory with the name of a check directory:
+  ./..Rcheck
+Most likely, these were included erroneously.
+Subdirectory ‘data’ contains no data sets.
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking dependencies in R code ... NOTE
+Namespaces in Imports field not imported from:
+  ‘Rdpack’ ‘gridExtra’ ‘utils’
+  All declared Imports should be used.
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking files in ‘vignettes’ ... WARNING
+Files in the 'vignettes' directory but no files in 'inst/doc':
+  ‘bibliography.bib’, ‘gapclosing.Rmd’
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... OK
+  Running ‘testthat.R’
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... WARNING
+dir.exists(dir) is not TRUE
+Package vignette without corresponding single PDF/HTML:
+   ‘gapclosing.Rmd’
+
+* checking running R code from vignettes ... NONE
+  ‘gapclosing.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... OK
+* checking PDF version of manual ... OK
+* DONE
+Status: 3 WARNINGs, 3 NOTEs

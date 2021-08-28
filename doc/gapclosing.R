@@ -21,7 +21,7 @@ estimate <- gapclosing(
   outcome_formula = formula(outcome ~ confounder + category*treatment),
   treatment_formula = formula(treatment ~ confounder + category),
   category_name = "category",
-  se = T,
+  se = TRUE,
   # You can process the bootstrap in parallel with as many cores as available
   parallel_cores = 2
 )
@@ -92,9 +92,9 @@ estimate_gam <- gapclosing(
   category_name = "category",
   treatment_algorithm = "gam",
   outcome_algorithm = "gam",
-  sample_split = "cross_fit",
-  se = T,
-  parallel_cores = 2
+  sample_split = "cross_fit"
+  # Note: Standard errors with `se = TRUE` are supported.
+  # They are omitted here only to speed vignette build time.
 )
 
 ## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -106,9 +106,9 @@ estimate_ranger <- gapclosing(
   category_name = "category",
   treatment_algorithm = "ranger",
   outcome_algorithm = "ranger",
-  sample_split = "cross_fit",
-  se = T,
-  parallel_cores = 2
+  sample_split = "cross_fit"
+  # Note: Standard errors with `se = TRUE` are supported.
+  # They are omitted here only to speed vignette build time.
 )
 
 ## ---- include = F-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ glm_plot <- plot(estimate, return_plots = T)[[1]]
 gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
 ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
 
-## ---- echo = F, fig.width = 12, fig.height = 5, message = F, warning = F, fig.caption = "The fourth default plot() with minor modifications, using results from each estimator above."--------------------------------------------------------------------------------------------------------------------
+## ---- echo = F, fig.width = 12, fig.height = 5, message = F, warning = F, fig.caption = "The fourth default plot() with minor modifications, using results from each estimator above. Note that GAM and random forest also support confidence intervals with `SE = TRUE`, turned off here only to make the vignette faster."----
 gridExtra::grid.arrange(
   glm_plot +
     ggtitle("GLM estimate") +
@@ -125,7 +125,7 @@ gridExtra::grid.arrange(
     ggtitle("GAM estimate") +
     ylim(c(-1.5,1.5)),
   ranger_plot +
-    ggtitle("Ranger estimate") +
+    ggtitle("Random forest estimate") +
     ylim(c(-1.5,1.5)),
   ncol = 3
 )

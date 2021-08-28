@@ -1,0 +1,13 @@
+%>%	pipe
+as.data.frame.gapclosing	as.data.frame.gapclosing
+cross_fit_estimator	cross_fit_estimator
+df_to_gapclosing_list	df_to_gapclosing_list
+disparityplot	disparityplot
+fit_ridge	fit_ridge
+gapclosing	gapclosing
+generate_simulated_data	generate_simulated_data
+pairwise_diff	pairwise_diff
+plot.gapclosing	plot.gapclosing
+point_estimator	point_estimator
+print.gapclosing	print.gapclosing
+summary.gapclosing	summary.gapclosing
