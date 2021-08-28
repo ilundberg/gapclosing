@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.5)  28 AUG 2021 07:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.5)  28 AUG 2021 09:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -272,8 +272,8 @@ File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count271
 \l__pdf_internal_box=\box51
 )
-(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/RtmponyvYD/Rd2pdfc812
-62aa43ed/Rd2.aux)
+(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/Rtmpj1RhZx/Rd2pdfdad4
+29c63c17/Rd2.aux)
 \openout1 = `Rd2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -326,33 +326,33 @@ LaTeX Info: Redefining \ref on input line 8.
 LaTeX Info: Redefining \pageref on input line 8.
 LaTeX Info: Redefining \nameref on input line 8.
 
-(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/RtmponyvYD/Rd2pdfc812
-62aa43ed/Rd2.out)
-(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/RtmponyvYD/Rd2pdfc812
-62aa43ed/Rd2.out)
+(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/Rtmpj1RhZx/Rd2pdfdad4
+29c63c17/Rd2.out)
+(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/Rtmpj1RhZx/Rd2pdfdad4
+29c63c17/Rd2.out)
 \@outlinefile=\write4
 \openout4 = `Rd2.out'.
 
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 30
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 21
 .
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 30.
+(Font)              scaled to size 10.0pt on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 30.
+(Font)              <7> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 30.
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 34
+(Font)              <5> on input line 21.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 37
 .
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/RtmponyvYD/Rd2pdfc812
-62aa43ed/Rd2.toc [1
+(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/Rtmpj1RhZx/Rd2pdfdad4
+29c63c17/Rd2.toc [1
 
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
@@ -360,114 +360,87 @@ File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 \openout5 = `Rd2.toc'.
 
 LaTeX Font Info:    Trying to load font information for TS1+zi4 on input line 4
-4.
+7.
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
 File: ts1zi4.fd 2018/01/14 TS1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `TS1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 44.
+(Font)              scaled to size 10.0pt on input line 47.
 
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 62--63
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 65--66
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 66.
+(Font)              scaled to size 9.0pt on input line 69.
 [2] [3]
-Overfull \hbox (3.29773pt too wide) in paragraph at lines 132--133
+Overfull \hbox (3.29773pt too wide) in paragraph at lines 135--136
 \T1/ptm/m/n/10 tions to folds sys-tem-at-i-cally: sort the data by the vari-abl
 e named \T1/zi4/m/n/10 category_name\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (76.24771pt too wide) in paragraph at lines 142--146
+Overfull \hbox (76.24771pt too wide) in paragraph at lines 145--149
 []\T1/zi4/m/n/10 counterfactual_means \T1/ptm/m/n/10 A tib-ble with a coun-ter-
 fac-tual mean es-ti-mate for each cat-e-gory \T1/zi4/m/n/10 counterfactual_mean
 s
  []
 
 
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 152--153
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 155--156
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 [4]
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 178--179
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 181--182
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 [5]
-Overfull \hbox (15.99843pt too wide) in paragraph at lines 223--224
+Overfull \hbox (15.99843pt too wide) in paragraph at lines 226--227
 []\T1/ptm/m/n/10 An ob-ject of class \T1/zi4/m/n/10 gapclosing\T1/ptm/m/n/10 , 
 which re-sults from a call to the func-tion \T1/zi4/m/n/10 gapclosing 
  []
 
 
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 240--241
-\T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
-eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
- []
-
-
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 270--271
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 243--244
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 [6]
-Overfull \hbox (4.06648pt too wide) in paragraph at lines 272--273
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 273--274
+\T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
+eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
+ []
+
+
+Overfull \hbox (4.06648pt too wide) in paragraph at lines 275--276
 \T1/ptm/m/n/10 Co-or-di-nate De-scent." Jour-nal of Sta-tis-ti-cal Soft-ware, 3
 3(1), 1^^U22. https://www.jstatsoft.org/v33/i01/. 
  []
 
 [7]
-Overfull \hbox (6.45758pt too wide) in paragraph at lines 325--326
+Overfull \hbox (6.45758pt too wide) in paragraph at lines 328--329
 []\T1/ptm/m/n/10 Character for the type of sam-ple split-ting to be con-ducted.
  One of "sin-gle_sample"
  []
 
 [8]
-Overfull \hbox (3.29773pt too wide) in paragraph at lines 337--338
+Overfull \hbox (3.29773pt too wide) in paragraph at lines 340--341
 \T1/ptm/m/n/10 tions to folds sys-tem-at-i-cally: sort the data by the vari-abl
 e named \T1/zi4/m/n/10 category_name\T1/ptm/m/n/10 ,
  []
 
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 3
-48.
+51.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 348--349
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 349--350
-
- []
-
-
-Overfull \hbox (11.12741pt too wide) in paragraph at lines 350--351
-[]\T1/zi4/m/n/10 counterfactual_means \T1/ptm/m/n/10 A tib-ble con-tain-ing the
- coun-ter-fac-tual mean out-come (post-intervention
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 350--351
-
- []
-
-
-Overfull \hbox (2.66747pt too wide) in paragraph at lines 351--352
-[]\T1/zi4/m/n/10 counterfactual_disparities \T1/ptm/m/n/10 A tib-ble con-tain-i
-ng the coun-ter-fac-tual dis-par-i-ties (gap-closing
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 351--352
 
  []
@@ -478,8 +451,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 352--353
  []
 
 
+Overfull \hbox (11.12741pt too wide) in paragraph at lines 353--354
+[]\T1/zi4/m/n/10 counterfactual_means \T1/ptm/m/n/10 A tib-ble con-tain-ing the
+ coun-ter-fac-tual mean out-come (post-intervention
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 353--354
 
+ []
+
+
+Overfull \hbox (2.66747pt too wide) in paragraph at lines 354--355
+[]\T1/zi4/m/n/10 counterfactual_disparities \T1/ptm/m/n/10 A tib-ble con-tain-i
+ng the coun-ter-fac-tual dis-par-i-ties (gap-closing
  []
 
 
@@ -508,99 +493,114 @@ Underfull \hbox (badness 10000) in paragraph at lines 358--359
  []
 
 
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 366--367
+Underfull \hbox (badness 10000) in paragraph at lines 359--360
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 360--361
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 361--362
+
+ []
+
+
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 369--370
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 
-Overfull \hbox (4.06648pt too wide) in paragraph at lines 368--369
+Overfull \hbox (4.06648pt too wide) in paragraph at lines 371--372
 \T1/ptm/m/n/10 Co-or-di-nate De-scent." Jour-nal of Sta-tis-ti-cal Soft-ware, 3
 3(1), 1^^U22. https://www.jstatsoft.org/v33/i01/. 
  []
 
-[10]
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 452--453
+[10] [11]
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 455--456
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
-[11]
-Overfull \hbox (23.29904pt too wide) in paragraph at lines 469--470
+
+Overfull \hbox (23.29904pt too wide) in paragraph at lines 472--473
 \T1/ptm/m/n/10 umn named \T1/zi4/m/n/10 estimate\T1/ptm/m/n/10 ) and the cat-e-
 gory name (named as spec-i-fied in \T1/zi4/m/n/10 category_name\T1/ptm/m/n/10 )
  
  []
 
 
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 480--481
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 483--484
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 
-Overfull \hbox (4.06648pt too wide) in paragraph at lines 482--483
+Overfull \hbox (4.06648pt too wide) in paragraph at lines 485--486
 \T1/ptm/m/n/10 Co-or-di-nate De-scent." Jour-nal of Sta-tis-ti-cal Soft-ware, 3
 3(1), 1^^U22. https://www.jstatsoft.org/v33/i01/. 
  []
 
-
-Overfull \hbox (15.99843pt too wide) in paragraph at lines 512--513
+[12]
+Overfull \hbox (15.99843pt too wide) in paragraph at lines 515--516
 []\T1/ptm/m/n/10 An ob-ject of class \T1/zi4/m/n/10 gapclosing\T1/ptm/m/n/10 , 
 which re-sults from a call to the func-tion \T1/zi4/m/n/10 gapclosing 
  []
 
-[12]
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 527--528
+
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 530--531
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
-[13]
-Overfull \hbox (76.24771pt too wide) in paragraph at lines 584--588
+[13] [14]
+Overfull \hbox (76.24771pt too wide) in paragraph at lines 587--591
 []\T1/zi4/m/n/10 counterfactual_means \T1/ptm/m/n/10 A tib-ble with a coun-ter-
 fac-tual mean es-ti-mate for each cat-e-gory \T1/zi4/m/n/10 counterfactual_mean
 s
  []
 
 
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 594--595
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 597--598
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
-[14]
-Overfull \hbox (15.99843pt too wide) in paragraph at lines 620--621
+
+Overfull \hbox (15.99843pt too wide) in paragraph at lines 623--624
 []\T1/ptm/m/n/10 An ob-ject of class \T1/zi4/m/n/10 gapclosing\T1/ptm/m/n/10 , 
 which re-sults from a call to the func-tion \T1/zi4/m/n/10 gapclosing 
- []
-
-
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 641--642
-\T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
-eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 [15]
-Overfull \hbox (15.99843pt too wide) in paragraph at lines 659--660
-[]\T1/ptm/m/n/10 An ob-ject of class \T1/zi4/m/n/10 gapclosing\T1/ptm/m/n/10 , 
-which re-sults from a call to the func-tion \T1/zi4/m/n/10 gapclosing 
- []
-
-
-Overfull \hbox (28.22552pt too wide) in paragraph at lines 670--671
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 644--645
 \T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
 eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
  []
 
 
-(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/RtmponyvYD/Rd2pdfc812
-62aa43ed/Rd2.ind [16] [17
+Overfull \hbox (15.99843pt too wide) in paragraph at lines 662--663
+[]\T1/ptm/m/n/10 An ob-ject of class \T1/zi4/m/n/10 gapclosing\T1/ptm/m/n/10 , 
+which re-sults from a call to the func-tion \T1/zi4/m/n/10 gapclosing 
+ []
+
+
+Overfull \hbox (28.22552pt too wide) in paragraph at lines 673--674
+\T1/ptm/m/n/10 dis-par-i-ties across so-cial cat-e-gories." So-ci-o-log-i-cal M
+eth-ods and Re-search. Avail-able at https://osf.io/gx4y3/. 
+ []
+
+
+(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/Rtmpj1RhZx/Rd2pdfdad4
+29c63c17/Rd2.ind [16] [17
 
 
 ])
-(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/RtmponyvYD/Rd2pdfc812
-62aa43ed/Rd2.aux)
+(/private/var/folders/xv/74dy9zwx1cl44s41qn5sn2xm0000gn/T/Rtmpj1RhZx/Rd2pdfdad4
+29c63c17/Rd2.aux)
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: 4A2B6FB3B0FA6B9D72A2A8465F7CA0FD;1796.
  ) 
@@ -611,7 +611,7 @@ Here is how much of TeX's memory you used:
  25960 multiletter control sequences out of 15000+600000
  438282 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 88i,6n,90p,914b,614s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 88i,6n,90p,876b,616s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/
 usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texli
 ve/2021/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/
@@ -621,10 +621,10 @@ e/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fo
 nts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/
 urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (17 pages, 112057 bytes).
+Output written on Rd2.pdf (17 pages, 112347 bytes).
 PDF statistics:
- 291 PDF objects out of 1000 (max. 8388607)
- 263 compressed objects within 3 object streams
+ 293 PDF objects out of 1000 (max. 8388607)
+ 265 compressed objects within 3 object streams
  109 named destinations out of 1000 (max. 500000)
  105 words of extra memory for PDF output out of 10000 (max. 10000000)
 

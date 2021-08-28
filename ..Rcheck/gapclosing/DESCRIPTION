@@ -1,25 +1,28 @@
 Package: gapclosing
-Title: Estimate Gap-Closing Estimands
-Version: 0.0.4
+Title: Estimate Gaps Under an Intervention
+Version: 1.0.0
 Authors@R: 
     person(given = "Ian",
            family = "Lundberg",
            role = c("aut", "cre"),
            email = "ianlundberg@ucla.edu",
            comment = c(ORCID = "https://orcid.org/0000-0002-1909-2270"))
-Description: Provides functions to estimate gap-closing estimands: the disparities across categories (e.g. Black and white) that persists if a treatment variable (e.g. college) is equalized (Lundberg 2021). Makes estimates by treatment modeling, outcome modeling, and doubly-robust augmented inverse probability weighting estimation, with standard errors calculated by a nonparametric bootstrap. Cross-fitting is supported. Survey weights are supported for point estimation but not for standard error estimation; those applying this package with complex survey samples should consult the data distributor to select an appropriate approach for standard error construction, which may involve calling the functions repeatedly for many sets of replicate weights provided by the data distributor.
+Description: Provides functions to estimate the disparities across categories (e.g. Black and white) that persists if a treatment variable (e.g. college) is equalized. Makes estimates by treatment modeling, outcome modeling, and doubly-robust augmented inverse probability weighting estimation, with standard errors calculated by a nonparametric bootstrap. Cross-fitting is supported. Survey weights are supported for point estimation but not for standard error estimation; those applying this package with complex survey samples should consult the data distributor to select an appropriate approach for standard error construction, which may involve calling the functions repeatedly for many sets of replicate weights provided by the data distributor.
 License: MIT + file LICENSE
+URL: https://ilundberg.github.io/gapclosing/
+BugReports: https://github.com/ilundberg/gapclosing/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: stats, utils, mgcv, ranger, glmnet, Rdpack, magrittr, dplyr,
         forcats, ggplot2, gridExtra, tidyr, foreach, tidyselect,
         parallel, doParallel
-Suggests: testthat (>= 3.0.0), knitr, rmarkdown
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown, spelling
 VignetteBuilder: knitr
 NeedsCompilation: no
 Packaged: 2021-08-25 17:13:07 UTC; ilundberg
 Author: Ian Lundberg [aut, cre] (<https://orcid.org/0000-0002-1909-2270>)
 Maintainer: Ian Lundberg <ianlundberg@ucla.edu>
 Config/testthat/edition: 3
-Built: R 4.1.1; ; 2021-08-28 14:29:23 UTC; unix
+Language: en-US
+Built: R 4.1.1; ; 2021-08-28 16:32:45 UTC; unix

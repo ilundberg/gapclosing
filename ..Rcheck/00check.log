@@ -3,7 +3,7 @@
 * using platform: aarch64-apple-darwin20 (64-bit)
 * using session charset: UTF-8
 * checking for file ‘./DESCRIPTION’ ... OK
-* this is package ‘gapclosing’ version ‘0.0.4’
+* this is package ‘gapclosing’ version ‘1.0.0’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... OK
@@ -175,6 +175,7 @@ Files in the 'vignettes' directory but no files in 'inst/doc':
 * checking examples ... OK
 * checking for unstated dependencies in ‘tests’ ... OK
 * checking tests ... OK
+  Running ‘spelling.R’
   Running ‘testthat.R’
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... WARNING

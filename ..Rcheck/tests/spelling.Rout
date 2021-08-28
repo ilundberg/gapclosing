@@ -15,12 +15,11 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library(testthat)
-> library(gapclosing)
-> 
-> test_check("gapclosing")
-[ FAIL 0 | WARN 0 | SKIP 0 | PASS 64 ]
+> if(requireNamespace('spelling', quietly = TRUE))
++   spelling::spell_check_test(vignettes = TRUE, error = FALSE,
++                              skip_on_cran = TRUE)
+NULL
 > 
 > proc.time()
    user  system elapsed 
-  1.358   0.039   1.401 
+  0.065   0.017   0.075 
