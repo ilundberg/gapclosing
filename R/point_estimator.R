@@ -163,11 +163,11 @@ point_estimator <- function(
     data_learn_1 <- data_learn[data_learn[[treatment_name]] == 1,]
     data_learn_0 <- data_learn[data_learn[[treatment_name]] == 0,]
     fit_g_1 <- ranger::ranger(outcome_formula,
-                              data = data_learn,
-                              case.weights = data_learn$gapclosing.weight)
+                              data = data_learn_1,
+                              case.weights = data_learn_1$gapclosing.weight)
     fit_g_0 <- ranger::ranger(outcome_formula,
-                              data = data_learn,
-                              case.weights = data_learn$gapclosing.weight)
+                              data = data_learn_0,
+                              case.weights = data_learn_0$gapclosing.weight)
     fit_g <- list(fit_g_1 = fit_g_1, fit_g_0 = fit_g_0)
     data_estimate <- data_estimate %>%
       dplyr::mutate(yhat1 = stats::predict(fit_g_1, data = data_estimate)$predictions,
@@ -205,7 +205,7 @@ point_estimator <- function(
     dplyr::mutate(doubly_robust = outcome_modeling - robust_augmentation) %>%
     dplyr::select(-robust_augmentation) %>%
     tidyr::pivot_longer(c("outcome_modeling","treatment_modeling","doubly_robust"),
-                          names_to = "method",
+                        names_to = "method",
                         values_to = "estimate")
 
   # Difference those to produce gap-closing estimates
@@ -224,4 +224,3 @@ point_estimator <- function(
 
   return(object_to_return)
 }
-
