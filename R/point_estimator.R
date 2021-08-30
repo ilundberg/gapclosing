@@ -51,8 +51,13 @@ point_estimator <- function(
   }
   # Enforce normalization of the weights
   data_learn$gapclosing.weight <-  data_learn$gapclosing.weight / mean(data_learn$gapclosing.weight, na.rm = T)
+  data_estimate$gapclosing.weight <-  data_estimate$gapclosing.weight / mean(data_estimate$gapclosing.weight, na.rm = T)
   # Create easily-accessible treatment and outcome variables with known names,
   # as well as containing the counterfactual assignments
+  data_learn <- data_learn %>%
+    dplyr::mutate(gapclosing.treatment = data_learn[[treatment_name]],
+                  gapclosing.outcome = data_learn[[outcome_name]],
+                  gapclosing.counterfactual_assignments = NA)
   data_estimate <- data_estimate %>%
     dplyr::mutate(gapclosing.treatment = data_estimate[[treatment_name]],
                   gapclosing.outcome = data_estimate[[outcome_name]],
@@ -109,16 +114,34 @@ point_estimator <- function(
     data_estimate <- data_estimate %>%
       dplyr::mutate(gapclosing.m_fitted = mgcv::predict.gam(fit_m, newdata = data_estimate, type = "response"))
   } else if (treatment_algorithm == "ranger") {
-    fit_m <- ranger::ranger(treatment_formula,
-                            data = data_learn,
-                            case.weights = data_learn$gapclosing.weight)
+    if (!all(colnames(data_learn) == colnames(data_estimate))) {
+      stop("Error: data_learn and data_estimate should have the same columns")
+    }
+    X <- model.matrix(treatment_formula,
+                      data = rbind(data_learn,data_estimate))
+    X_learn <- X[1:nrow(data_learn),]
+    X_estimate <- X[(nrow(data_learn) + 1):nrow(X),]
+    if (!all(colnames(X_learn) == colnames(X_estimate))) {
+      stop("Error: Random forest X columns not identical in learning and estimation samples")
+    }
+    fit_m <- grf::regression_forest(X = X_learn,
+                                    Y = data_learn[[treatment_name]],
+                                    sample.weights = data_learn$gapclosing.weight,
+                                    honesty = F,
+                                    # Tuning all parameters except honesty parameters
+                                    # because I am concerned that users with small sample sizes
+                                    # will face sample size problems from the internal sample splits.
+                                    tune.parameters = c("sample.fraction", "mtry", "min.node.size",
+                                                        "alpha", "imbalance.penalty"))
     data_estimate <- data_estimate %>%
-      dplyr::mutate(gapclosing.m_fitted = stats::predict(fit_m, data = data_estimate)$predictions,
+      dplyr::mutate(gapclosing.m_fitted = stats::predict(fit_m, data = X_estimate)$predictions,
                     # Truncate the fitted propensity score because random forest can
                     # produce fits of exactly 0 and 1, which create weighting problems
                     gapclosing.m_fitted = dplyr::case_when(gapclosing.m_fitted < .001 ~ .001,
                                                            gapclosing.m_fitted <= .999 ~ gapclosing.m_fitted,
                                                            gapclosing.m_fitted > .999 ~ .999))
+    # To keep data sets in parallel to each other, make NA for that variable in data_learn
+    data_learn$gapclosing.m_fitted <- NA
   }
 
   ############################################################
@@ -160,18 +183,42 @@ point_estimator <- function(
                                             gapclosing.treatment == 0 ~ yhat0),
                     residual = gapclosing.outcome - yhat)
   } else if (outcome_algorithm == "ranger") {
-    data_learn_1 <- data_learn[data_learn[[treatment_name]] == 1,]
     data_learn_0 <- data_learn[data_learn[[treatment_name]] == 0,]
-    fit_g_1 <- ranger::ranger(outcome_formula,
-                              data = data_learn_1,
-                              case.weights = data_learn_1$gapclosing.weight)
-    fit_g_0 <- ranger::ranger(outcome_formula,
-                              data = data_learn_0,
-                              case.weights = data_learn_0$gapclosing.weight)
+    data_learn_1 <- data_learn[data_learn[[treatment_name]] == 1,]
+    if (!all(colnames(data_learn_0) == colnames(data_estimate)) |
+        !all(colnames(data_learn_1) == colnames(data_estimate))) {
+      stop("Error: data_learn_0, data_learn_1, and data_estimate should have the same columns")
+    }
+    X <- model.matrix(outcome_formula, data = rbind(data_learn_0,data_learn_1,data_estimate))
+    X_learn_0 <- X[1:nrow(data_learn_0),]
+    X_learn_1 <- X[(nrow(data_learn_0) + 1):(nrow(data_learn_0) + nrow(data_learn_1)),]
+    X_estimate <- X[(nrow(data_learn_0) + nrow(data_learn_1) + 1):nrow(X),]
+    if (!all(colnames(X_learn_1) == colnames(X_learn_0)) |
+        !all(colnames(X_learn_1) == colnames(X_estimate))) {
+      stop("Error: Random forest X columns not identical in learning and estimation samples")
+    }
+    fit_g_1 <- grf::regression_forest(X = X_learn_1,
+                                      Y = data_learn_1[[outcome_name]],
+                                      sample.weights = data_learn_1$gapclosing.weight,
+                                      honesty = F,
+                                      # Tuning all parameters except honesty parameters
+                                      # because I am concerned that users with small sample sizes
+                                      # will face sample size problems from the internal sample splits.
+                                      tune.parameters = c("sample.fraction", "mtry", "min.node.size",
+                                                          "alpha", "imbalance.penalty"))
+    fit_g_0 <- grf::regression_forest(X = X_learn_0,
+                                      Y = data_learn_0[[outcome_name]],
+                                      sample.weights = data_learn_0$gapclosing.weight,
+                                      honesty = F,
+                                      # Tuning all parameters except honesty parameters
+                                      # because I am concerned that users with small sample sizes
+                                      # will face sample size problems from the internal sample splits.
+                                      tune.parameters = c("sample.fraction", "mtry", "min.node.size",
+                                                          "alpha", "imbalance.penalty"))
     fit_g <- list(fit_g_1 = fit_g_1, fit_g_0 = fit_g_0)
     data_estimate <- data_estimate %>%
-      dplyr::mutate(yhat1 = stats::predict(fit_g_1, data = data_estimate)$predictions,
-                    yhat0 = stats::predict(fit_g_0, data = data_estimate)$predictions,
+      dplyr::mutate(yhat1 = stats::predict(fit_g_1, newdata = X_estimate)$predictions,
+                    yhat0 = stats::predict(fit_g_0, newdata = X_estimate)$predictions,
                     yhat = dplyr::case_when(gapclosing.treatment == 1 ~ yhat1,
                                             gapclosing.treatment == 0 ~ yhat0),
                     residual = gapclosing.outcome - yhat)
