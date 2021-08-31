@@ -39,8 +39,9 @@ point_estimator <- function(
 ) {
   # Initialize non-standard evaluation variables to avoid R CMD check warnings.
   gapclosing.weight <- gapclosing.treatment <- gapclosing.outcome <- gapclosing.counterfactual_assignments <-
-    gapclosing.m_fitted <- pi_i <- m_i <- w_i <- yhat <- yhat1 <- yhat0 <- residual <- outcome_modeling <-
-    robust_augmentation <- method <- method_case <- NULL
+    gapclosing.m_fitted <- gapclosing.pi_i <- gapclosing.m_i <- gapclosing.w_i <- gapclosing.yhat <-
+    gapclosing.yhat1 <- gapclosing.yhat0 <- gapclosing.residual <- outcome_modeling <-
+    gapclosing.robust_augmentation <- method <- method_case <- NULL
   # Assign a weight variable
   if (is.null(weight_name)) {
     data_learn$gapclosing.weight <- rep(1,nrow(data_learn))
@@ -136,38 +137,38 @@ point_estimator <- function(
   if (is.null(outcome_formula)) {
     fit_g <- NULL
     data_estimate <- data_estimate %>%
-      dplyr::mutate(yhat1 = NA,
-                    yhat0 = NA,
-                    yhat = NA,
-                    residual = NA)
+      dplyr::mutate(gapclosing.yhat1 = NA,
+                    gapclosing.yhat0 = NA,
+                    gapclosing.yhat = NA,
+                    gapclosing.residual = NA)
   } else if (outcome_algorithm == "lm") {
     fit_g <- stats::lm(outcome_formula,
                        data = data_learn,
                        weights = gapclosing.weight)
     data_estimate <- data_estimate %>%
-      dplyr::mutate(yhat1 = stats::predict(fit_g, newdata = data_estimate_1),
-                    yhat0 = stats::predict(fit_g, newdata = data_estimate_0),
-                    yhat = dplyr::case_when(gapclosing.treatment == 1 ~ yhat1,
-                                            gapclosing.treatment == 0 ~ yhat0),
-                    residual = gapclosing.outcome - yhat)
+      dplyr::mutate(gapclosing.yhat1 = stats::predict(fit_g, newdata = data_estimate_1),
+                    gapclosing.yhat0 = stats::predict(fit_g, newdata = data_estimate_0),
+                    gapclosing.yhat = dplyr::case_when(gapclosing.treatment == 1 ~ gapclosing.yhat1,
+                                            gapclosing.treatment == 0 ~ gapclosing.yhat0),
+                    gapclosing.residual = gapclosing.outcome - gapclosing.yhat)
   } else if (outcome_algorithm == "ridge") {
     data_estimate <- data_estimate %>%
-      dplyr::mutate(yhat1 = fit_ridge(data = data_learn, model_formula = outcome_formula, to_predict = data_estimate_1),
-                    yhat0 = fit_ridge(data = data_learn, model_formula = outcome_formula, to_predict = data_estimate_0),
-                    yhat = dplyr::case_when(gapclosing.treatment == 1 ~ yhat1,
-                                            gapclosing.treatment == 0 ~ yhat0),
-                    residual = gapclosing.outcome - yhat)
+      dplyr::mutate(gapclosing.yhat1 = fit_ridge(data = data_learn, model_formula = outcome_formula, to_predict = data_estimate_1),
+                    gapclosing.yhat0 = fit_ridge(data = data_learn, model_formula = outcome_formula, to_predict = data_estimate_0),
+                    gapclosing.yhat = dplyr::case_when(gapclosing.treatment == 1 ~ gapclosing.yhat1,
+                                            gapclosing.treatment == 0 ~ gapclosing.yhat0),
+                    gapclosing.residual = gapclosing.outcome - gapclosing.yhat)
     fit_g <- NULL # ISSUE: Could save coefficients here
   } else if (outcome_algorithm == "gam") {
     fit_g <- mgcv::gam(outcome_formula,
                        data = data_learn,
                        weights = gapclosing.weight)
     data_estimate <- data_estimate %>%
-      dplyr::mutate(yhat1 = stats::predict(fit_g, newdata = data_estimate_1),
-                    yhat0 = stats::predict(fit_g, newdata = data_estimate_0),
-                    yhat = dplyr::case_when(gapclosing.treatment == 1 ~ yhat1,
-                                            gapclosing.treatment == 0 ~ yhat0),
-                    residual = gapclosing.outcome - yhat)
+      dplyr::mutate(gapclosing.yhat1 = stats::predict(fit_g, newdata = data_estimate_1),
+                    gapclosing.yhat0 = stats::predict(fit_g, newdata = data_estimate_0),
+                    gapclosing.yhat = dplyr::case_when(gapclosing.treatment == 1 ~ gapclosing.yhat1,
+                                            gapclosing.treatment == 0 ~ gapclosing.yhat0),
+                    gapclosing.residual = gapclosing.outcome - gapclosing.yhat)
   } else if (outcome_algorithm == "ranger") {
     data_learn_0 <- data_learn[data_learn[[treatment_name]] == 0,]
     data_learn_1 <- data_learn[data_learn[[treatment_name]] == 1,]
@@ -175,10 +176,6 @@ point_estimator <- function(
         !all(colnames(data_learn_1) == colnames(data_estimate))) {
       stop("Error: data_learn_0, data_learn_1, and data_estimate should have the same columns")
     }
-    X <- model.matrix(outcome_formula, data = rbind(data_learn_0,data_learn_1,data_estimate))
-    X_learn_0 <- X[1:nrow(data_learn_0),]
-    X_learn_1 <- X[(nrow(data_learn_0) + 1):(nrow(data_learn_0) + nrow(data_learn_1)),]
-    X_estimate <- X[(nrow(data_learn_0) + nrow(data_learn_1) + 1):nrow(X),]
     if (!all(colnames(X_learn_1) == colnames(X_learn_0)) |
         !all(colnames(X_learn_1) == colnames(X_estimate))) {
       stop("Error: Random forest X columns not identical in learning and estimation samples")
@@ -191,11 +188,11 @@ point_estimator <- function(
                               case.weights = data_learn_0$gapclosing.weight)
     fit_g <- list(fit_g_1 = fit_g_1, fit_g_0 = fit_g_0)
     data_estimate <- data_estimate %>%
-      dplyr::mutate(yhat1 = stats::predict(fit_g_1, data = data_estimate)$predictions,
-                    yhat0 = stats::predict(fit_g_0, data = data_estimate)$predictions,
-                    yhat = dplyr::case_when(gapclosing.treatment == 1 ~ yhat1,
-                                            gapclosing.treatment == 0 ~ yhat0),
-                    residual = gapclosing.outcome - yhat)
+      dplyr::mutate(gapclosing.yhat1 = stats::predict(fit_g_1, data = data_estimate)$predictions,
+                    gapclosing.yhat0 = stats::predict(fit_g_0, data = data_estimate)$predictions,
+                    gapclosing.yhat = dplyr::case_when(gapclosing.treatment == 1 ~ gapclosing.yhat1,
+                                            gapclosing.treatment == 0 ~ gapclosing.yhat0),
+                    gapclosing.residual = gapclosing.outcome - gapclosing.yhat)
   }
 
   ##########################
@@ -204,27 +201,27 @@ point_estimator <- function(
 
   counterfactual_means <- data_estimate %>%
     # Create the propensity score
-    dplyr::mutate(m_i = ifelse(gapclosing.treatment == 1,
+    dplyr::mutate(gapclosing.m_i = ifelse(gapclosing.treatment == 1,
                                as.numeric(gapclosing.m_fitted),
                                1 - as.numeric(gapclosing.m_fitted))) %>%
     # Create the counterfactual probability of the factual treatment
-    dplyr::mutate(pi_i = dplyr::case_when(gapclosing.treatment == 1 ~ gapclosing.counterfactual_assignments,
+    dplyr::mutate(gapclosing.pi_i = dplyr::case_when(gapclosing.treatment == 1 ~ gapclosing.counterfactual_assignments,
                                           gapclosing.treatment == 0 ~ 1 - gapclosing.counterfactual_assignments)) %>%
     # Create the weight that combines all of those
-    dplyr::mutate(w_i = gapclosing.weight * pi_i / m_i) %>%
+    dplyr::mutate(gapclosing.w_i = gapclosing.weight * gapclosing.pi_i / gapclosing.m_i) %>%
     # Group by category
     dplyr::group_by(dplyr::across(tidyselect::matches(paste0("^",category_name,"$")))) %>%
     # Take weighted means to produce estimates
-    dplyr::summarize(outcome_modeling = stats::weighted.mean(yhat1 * gapclosing.counterfactual_assignments +
-                                                               yhat0 * (1 - gapclosing.counterfactual_assignments),
+    dplyr::summarize(outcome_modeling = stats::weighted.mean(gapclosing.yhat1 * gapclosing.counterfactual_assignments +
+                                                               gapclosing.yhat0 * (1 - gapclosing.counterfactual_assignments),
                                                              w = gapclosing.weight),
                      treatment_modeling = stats::weighted.mean(gapclosing.outcome,
-                                                               w = w_i),
-                     robust_augmentation = stats::weighted.mean(-residual,
-                                                                w = w_i),
+                                                               w = gapclosing.w_i),
+                     gapclosing.robust_augmentation = stats::weighted.mean(-gapclosing.residual,
+                                                                w = gapclosing.w_i),
                      .groups = "drop") %>%
-    dplyr::mutate(doubly_robust = outcome_modeling - robust_augmentation) %>%
-    dplyr::select(-robust_augmentation) %>%
+    dplyr::mutate(doubly_robust = outcome_modeling - gapclosing.robust_augmentation) %>%
+    dplyr::select(-gapclosing.robust_augmentation) %>%
     tidyr::pivot_longer(c("outcome_modeling","treatment_modeling","doubly_robust"),
                         names_to = "method",
                         values_to = "estimate")
