@@ -129,11 +129,14 @@ point_estimator <- function(
                                     Y = data_learn[[treatment_name]],
                                     sample.weights = data_learn$gapclosing.weight,
                                     honesty = F,
+                                    tune.parameters = "none")#,
                                     # Tuning all parameters except honesty parameters
                                     # because I am concerned that users with small sample sizes
                                     # will face sample size problems from the internal sample splits.
-                                    tune.parameters = c("sample.fraction", "mtry", "min.node.size",
-                                                        "alpha", "imbalance.penalty"))
+                                    # I am also getting problems with sample.fraction.
+                                    # Try only tuning mtry
+                                    #tune.parameters = c("sample.fraction", "mtry", "min.node.size",
+                                    #                    "alpha", "imbalance.penalty"))
     data_estimate <- data_estimate %>%
       dplyr::mutate(gapclosing.m_fitted = stats::predict(fit_m, data = X_estimate)$predictions,
                     # Truncate the fitted propensity score because random forest can
@@ -203,20 +206,22 @@ point_estimator <- function(
                                       Y = data_learn_1[[outcome_name]],
                                       sample.weights = data_learn_1$gapclosing.weight,
                                       honesty = F,
+                                      tune.parameters = "none")#,
                                       # Tuning all parameters except honesty parameters
                                       # because I am concerned that users with small sample sizes
                                       # will face sample size problems from the internal sample splits.
-                                      tune.parameters = c("sample.fraction", "mtry", "min.node.size",
-                                                          "alpha", "imbalance.penalty"))
+                                      #tune.parameters = c("sample.fraction", "mtry", "min.node.size",
+                                      #                    "alpha", "imbalance.penalty"))
     fit_g_0 <- grf::regression_forest(X = X_learn_0,
                                       Y = data_learn_0[[outcome_name]],
                                       sample.weights = data_learn_0$gapclosing.weight,
                                       honesty = F,
+                                      tune.parameters = "none")#,
                                       # Tuning all parameters except honesty parameters
                                       # because I am concerned that users with small sample sizes
                                       # will face sample size problems from the internal sample splits.
-                                      tune.parameters = c("sample.fraction", "mtry", "min.node.size",
-                                                          "alpha", "imbalance.penalty"))
+                                      #tune.parameters = c("sample.fraction", "mtry", "min.node.size",
+                                      #                    "alpha", "imbalance.penalty"))
     fit_g <- list(fit_g_1 = fit_g_1, fit_g_0 = fit_g_0)
     data_estimate <- data_estimate %>%
       dplyr::mutate(yhat1 = stats::predict(fit_g_1, newdata = X_estimate)$predictions,
