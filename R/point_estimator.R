@@ -176,10 +176,6 @@ point_estimator <- function(
         !all(colnames(data_learn_1) == colnames(data_estimate))) {
       stop("Error: data_learn_0, data_learn_1, and data_estimate should have the same columns")
     }
-    if (!all(colnames(X_learn_1) == colnames(X_learn_0)) |
-        !all(colnames(X_learn_1) == colnames(X_estimate))) {
-      stop("Error: Random forest X columns not identical in learning and estimation samples")
-    }
     fit_g_1 <- ranger::ranger(outcome_formula,
                               data = data_learn_1,
                               case.weights = data_learn_1$gapclosing.weight)

@@ -11,7 +11,7 @@ The package will enable the user to:
 
 * Estimate treatment and outcome prediction functions with Generalized Linear Models, Generalized Additive Models, ridge regression, or random forest
 * Combine those in doubly-robust estimators of gap-closing estimands
-* Produce confidence intevals by the bootstrap
+* Produce confidence intervals by the bootstrap
 * Visualize the result in plots
 
 # Installation instructions
