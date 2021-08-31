@@ -115,30 +115,11 @@ point_estimator <- function(
     data_estimate <- data_estimate %>%
       dplyr::mutate(gapclosing.m_fitted = mgcv::predict.gam(fit_m, newdata = data_estimate, type = "response"))
   } else if (treatment_algorithm == "ranger") {
-    if (!all(colnames(data_learn) == colnames(data_estimate))) {
-      stop("Error: data_learn and data_estimate should have the same columns")
-    }
-    X <- model.matrix(treatment_formula,
-                      data = rbind(data_learn,data_estimate))
-    X_learn <- X[1:nrow(data_learn),]
-    X_estimate <- X[(nrow(data_learn) + 1):nrow(X),]
-    if (!all(colnames(X_learn) == colnames(X_estimate))) {
-      stop("Error: Random forest X columns not identical in learning and estimation samples")
-    }
-    fit_m <- grf::regression_forest(X = X_learn,
-                                    Y = data_learn[[treatment_name]],
-                                    sample.weights = data_learn$gapclosing.weight,
-                                    honesty = F,
-                                    tune.parameters = "none")#,
-                                    # Tuning all parameters except honesty parameters
-                                    # because I am concerned that users with small sample sizes
-                                    # will face sample size problems from the internal sample splits.
-                                    # I am also getting problems with sample.fraction.
-                                    # Try only tuning mtry
-                                    #tune.parameters = c("sample.fraction", "mtry", "min.node.size",
-                                    #                    "alpha", "imbalance.penalty"))
+    fit_m <- ranger::ranger(treatment_formula,
+                            data = data_learn,
+                            case.weights = data_learn$gapclosing.weight)
     data_estimate <- data_estimate %>%
-      dplyr::mutate(gapclosing.m_fitted = stats::predict(fit_m, data = X_estimate)$predictions,
+      dplyr::mutate(gapclosing.m_fitted = stats::predict(fit_m, data = data_estimate)$predictions,
                     # Truncate the fitted propensity score because random forest can
                     # produce fits of exactly 0 and 1, which create weighting problems
                     gapclosing.m_fitted = dplyr::case_when(gapclosing.m_fitted < .001 ~ .001,
@@ -202,30 +183,15 @@ point_estimator <- function(
         !all(colnames(X_learn_1) == colnames(X_estimate))) {
       stop("Error: Random forest X columns not identical in learning and estimation samples")
     }
-    fit_g_1 <- grf::regression_forest(X = X_learn_1,
-                                      Y = data_learn_1[[outcome_name]],
-                                      sample.weights = data_learn_1$gapclosing.weight,
-                                      honesty = F,
-                                      tune.parameters = "none")#,
-                                      # Tuning all parameters except honesty parameters
-                                      # because I am concerned that users with small sample sizes
-                                      # will face sample size problems from the internal sample splits.
-                                      #tune.parameters = c("sample.fraction", "mtry", "min.node.size",
-                                      #                    "alpha", "imbalance.penalty"))
-    fit_g_0 <- grf::regression_forest(X = X_learn_0,
-                                      Y = data_learn_0[[outcome_name]],
-                                      sample.weights = data_learn_0$gapclosing.weight,
-                                      honesty = F,
-                                      tune.parameters = "none")#,
-                                      # Tuning all parameters except honesty parameters
-                                      # because I am concerned that users with small sample sizes
-                                      # will face sample size problems from the internal sample splits.
-                                      #tune.parameters = c("sample.fraction", "mtry", "min.node.size",
-                                      #                    "alpha", "imbalance.penalty"))
+    fit_g_1 <- ranger::ranger(outcome_formula,
+                              data = data_learn_1,
+                              case.weights = data_learn_1$gapclosing.weight)
+    fit_g_0 <- ranger::ranger(outcome_formula,data = data_learn_0,
+                              case.weights = data_learn_0$gapclosing.weight)
     fit_g <- list(fit_g_1 = fit_g_1, fit_g_0 = fit_g_0)
     data_estimate <- data_estimate %>%
-      dplyr::mutate(yhat1 = stats::predict(fit_g_1, newdata = X_estimate)$predictions,
-                    yhat0 = stats::predict(fit_g_0, newdata = X_estimate)$predictions,
+      dplyr::mutate(yhat1 = stats::predict(fit_g_1, data = data_estimate)$predictions,
+                    yhat0 = stats::predict(fit_g_0, data = data_estimate)$predictions,
                     yhat = dplyr::case_when(gapclosing.treatment == 1 ~ yhat1,
                                             gapclosing.treatment == 0 ~ yhat0),
                     residual = gapclosing.outcome - yhat)
