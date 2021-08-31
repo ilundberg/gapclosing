@@ -186,7 +186,8 @@ point_estimator <- function(
     fit_g_1 <- ranger::ranger(outcome_formula,
                               data = data_learn_1,
                               case.weights = data_learn_1$gapclosing.weight)
-    fit_g_0 <- ranger::ranger(outcome_formula,data = data_learn_0,
+    fit_g_0 <- ranger::ranger(outcome_formula,
+                              data = data_learn_0,
                               case.weights = data_learn_0$gapclosing.weight)
     fit_g <- list(fit_g_1 = fit_g_1, fit_g_0 = fit_g_0)
     data_estimate <- data_estimate %>%
