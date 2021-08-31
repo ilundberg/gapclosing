@@ -10,8 +10,8 @@
 #' @export
 
 fit_ridge <- function(data, model_formula, to_predict) {
-  if (is.null(data$weight)) {
-    stop("ERROR: fit_ridge requires that data contains a variable named weight")
+  if (is.null(data$gapclosing.weight)) {
+    stop("ERROR: fit_ridge requires that data contains a variable named weight. The package should have created this internally in a higher function.")
   }
   outcome <- data[[as.character(model_formula)[2]]]
   X <- stats::model.matrix(model_formula, data = data)
