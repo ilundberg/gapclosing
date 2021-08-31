@@ -14,7 +14,7 @@ fit_ridge(data, model_formula, to_predict)
 \item{to_predict}{Data frame containing observations for which predictions are to be made. If NULL, defaults to the same as \code{data}.}
 }
 \value{
-A data frame containing predicted values for observations in \code{to_predict}.
+A list containing a \code{glmnet} model object \code{fit} and a vector \code{fitted} of fitted values for observations in \code{to_predict}.
 }
 \description{
 Not typically called by the user directly; called indirectly via other functions. Uses \code{glmnet} to fit a ridge regression with penalty chosen by cross-validation. Returns fitted values for the data in \code{to_predict}.
