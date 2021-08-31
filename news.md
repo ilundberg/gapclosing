@@ -1,7 +1,11 @@
 # NEWS file for the gap closing package
 
+# quantileplot 1.0.1
+* Patch a coding error in cross-fitting ranger estimation.
+* Modify fit_ridge to return the fitted model object in parallel to other estimators.
+
 # quantileplot 1.0.0
-* Stable release for submission to CRAN.
+* First stable release in preparation to submit to CRAN.
 * This update reduces computational complexity of the vignette.
 * Small changes to comply with R CMD check.
 * Increment version number to mark first stable release
