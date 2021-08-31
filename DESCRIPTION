@@ -30,8 +30,7 @@ Imports:
     foreach,
     tidyselect,
     parallel,
-    doParallel,
-    grf
+    doParallel
 Suggests: 
     testthat (>= 3.0.0),
     knitr,
