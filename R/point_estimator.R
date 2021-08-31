@@ -100,6 +100,7 @@ point_estimator <- function(
       dplyr::mutate(gapclosing.m_fitted = fit_ridge(data = data_learn,
                                                     model_formula = treatment_formula,
                                                     to_predict = data_estimate))
+    fit_m <- NULL # ISSUE: Could save coefficients here
   } else if (treatment_algorithm == "gam") {
     fit_m <- withCallingHandlers({
       mgcv::gam(treatment_formula,
@@ -172,6 +173,7 @@ point_estimator <- function(
                     yhat = dplyr::case_when(gapclosing.treatment == 1 ~ yhat1,
                                             gapclosing.treatment == 0 ~ yhat0),
                     residual = gapclosing.outcome - yhat)
+    fit_g <- NULL # ISSUE: Could save coefficients here
   } else if (outcome_algorithm == "gam") {
     fit_g <- mgcv::gam(outcome_formula,
                        data = data_learn,
