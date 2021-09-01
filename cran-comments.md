@@ -1,10 +1,14 @@
 ## Release summary
 
-This is the first stable release for CRAN.
+This is the first release for CRAN.
 
 ## R CMD check results
 
-Duration: 1m 12.7s0 errors | 0 warnings | 0 notes
+Duration: 1m 12.7s
+
+0 errors | 0 warnings | 1 note
+
+The only note is that this is a new submission.
 
 ## Test environments
 
