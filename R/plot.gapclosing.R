@@ -10,7 +10,7 @@
 #' @importFrom magrittr %>%
 #' @export
 
-plot.gapclosing <- function(x, return_plots = F, arranged = F, ...) {
+plot.gapclosing <- function(x, return_plots = FALSE, arranged = FALSE, ...) {
 
   # Prepare for non-standard evaluation
   setting <- gapclosing.category <- estimate <- ci.min <- ci.max <- NULL

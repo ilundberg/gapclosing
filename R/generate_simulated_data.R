@@ -8,7 +8,7 @@
 generate_simulated_data <- function(n = 1000) {
   # Initialize non-standard evaluation variables to avoid R CMD check warnings.
   confounder <- treatment <- treatment_effect <- outcome <- NULL
-  data.frame(category = sample(c("A","B","C"), n, replace = T)) %>%
+  data.frame(category = sample(c("A","B","C"), n, replace = TRUE)) %>%
     # Create a confounding variable called confounder
     dplyr::mutate(confounder = stats::rnorm(n,
                                             mean = dplyr::case_when(category == "A" ~ -1.5,

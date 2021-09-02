@@ -48,7 +48,7 @@
 #' simulated_data <- generate_simulated_data(n = 100)
 #'
 #' # Fit by outcome modeling
-#' # You can add standard errors with se = T
+#' # You can add standard errors with se = TRUE
 #' estimate <- gapclosing(
 #'   data = simulated_data,
 #'   outcome_formula = outcome ~ treatment * category + confounder,
@@ -59,7 +59,7 @@
 #' summary(estimate)
 #'
 #' # Fit by treatment modeling
-#' # You can add standard errors with se = T
+#' # You can add standard errors with se = TRUE
 #' estimate <- gapclosing(
 #'   data = simulated_data,
 #'   treatment_formula = treatment ~ category + confounder,
@@ -70,7 +70,7 @@
 #' summary(estimate)
 #'
 #' # Fit by doubly-robust estimation
-#' # You can add standard errors with se = T
+#' # You can add standard errors with se = TRUE
 #' estimate <- gapclosing(
 #'   data = simulated_data,
 #'   outcome_formula = outcome ~ treatment * category + confounder,
@@ -81,7 +81,7 @@
 #' summary(estimate)
 #'
 #' # Fit by doubly-robust cross-fitting estimation with random forests
-#' # You can add standard errors with se = T
+#' # You can add standard errors with se = TRUE
 #' estimate <- gapclosing(
 #'   data = simulated_data,
 #'   outcome_formula = outcome ~ category + confounder,
@@ -183,7 +183,7 @@ gapclosing <- function(
     stop("ERROR: bootstrap_samples should be numeric")
   }
   if (se & bootstrap_samples < 1000) {
-    warning("You have asked for bootstrap standard errors (se = T) but you have set bootstrap_samples to fewer than 1,000. Although the necessary number of bootstrap samples will differ across applications, you may need to consider increasing bootstrap_samples.")
+    warning("You have asked for bootstrap standard errors (se = TRUE) but you have set bootstrap_samples to fewer than 1,000. Although the necessary number of bootstrap samples will differ across applications, you may need to consider increasing bootstrap_samples.")
   }
   if (!(bootstrap_method %in% c("simple","stratified"))) {
     stop("ERROR: bootstrap_method should be one of simple or stratified")
@@ -366,8 +366,8 @@ gapclosing <- function(
     return(gapclosing.no.se)
   }
 
-  # If se = T, the next bit adds the standard errors before returning
-  # by repeatedly calling this function with a bootstrap sample and se = F.
+  # If se = TRUE, the next bit adds the standard errors before returning
+  # by repeatedly calling this function with a bootstrap sample and se = FALSE.
 
   ##################################################################
   # Bootstrap standard errors by recursively calling this function #
@@ -388,14 +388,14 @@ gapclosing <- function(
       }
       if (bootstrap_method == "simple") {
         data_star <- data %>%
-          dplyr::slice_sample(prop = 1, replace = T)
+          dplyr::slice_sample(prop = 1, replace = TRUE)
       } else if (bootstrap_method == "stratified") {
         # This is stratified sampling within category x treatment.
         # This ensures that every cell contains data and avoids yielding se = NA
         # if some of the cells do not contain data in some samples.
         data_star <- data %>%
           dplyr::group_by(dplyr::across(tidyselect::all_of(c(category_name,treatment_name)))) %>%
-          dplyr::slice_sample(prop = 1, replace = T) %>%
+          dplyr::slice_sample(prop = 1, replace = TRUE) %>%
           dplyr::ungroup()
       }
       gapclosing_star <- gapclosing(data = data_star,
@@ -406,7 +406,7 @@ gapclosing <- function(
                                     category_name = category_name,
                                     counterfactual_assignments = counterfactual_assignments,
                                     weight_name = weight_name,
-                                    se = F,
+                                    se = FALSE,
                                     treatment_algorithm = treatment_algorithm,
                                     outcome_algorithm = outcome_algorithm,
                                     sample_split = sample_split,

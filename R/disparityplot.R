@@ -62,7 +62,7 @@ disparityplot <- function(x, category_A, category_B, custom_ylab = "Mean Outcome
                                     y = max(means$estimate) + .2 * (max(means$estimate) - min(means$estimate))),
                        vjust = 0,
                        size = 3,
-                       show.legend = F) +
+                       show.legend = FALSE) +
     ggplot2::geom_text(data = means %>%
                          dplyr::group_by(setting) %>%
                          dplyr::summarize(label = format(abs(diff(estimate)), digits = 2),
@@ -73,7 +73,7 @@ disparityplot <- function(x, category_A, category_B, custom_ylab = "Mean Outcome
                                     y = y, hjust = ifelse(setting == "Factual", -.2, 1.2)),
                        position = ggplot2::position_dodge(width = .1),
                        size = 3,
-                       show.legend = F) +
+                       show.legend = FALSE) +
     # Note the treatment effects
     ggplot2::geom_segment(data = means %>%
                             dplyr::select(setting, gapclosing.category, estimate) %>%

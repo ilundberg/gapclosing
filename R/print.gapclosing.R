@@ -31,28 +31,28 @@ print.gapclosing <- function(
         quote = quote,
         right = right,
         row.names = row.names,
-        max = max, scientific = F)
+        max = max, scientific = FALSE)
   cat("\nCounterfactual mean outcomes (post-intervention means):\n")
   print(x$counterfactual_means,
         digits = digits,
         quote = quote,
         right = right,
         row.names = row.names,
-        max = max, scientific = F)
+        max = max, scientific = FALSE)
   cat("\nFactual disparities:\n")
   print(x$factual_disparities,
         digits = digits,
         quote = quote,
         right = right,
         row.names = row.names,
-        max = max, scientific = F)
+        max = max, scientific = FALSE)
   cat("\nCounterfactual disparities (gap-closing estimands):\n")
   print(x$counterfactual_disparities,
         digits = digits,
         quote = quote,
         right = right,
         row.names = row.names,
-        max = max, scientific = F)
+        max = max, scientific = FALSE)
   cat("\nAdditive gap closed: Counterfactual - Factual\n")
   print(x$change_disparities %>%
           dplyr::filter(change_type == "additive") %>%
@@ -61,7 +61,7 @@ print.gapclosing <- function(
         quote = quote,
         right = right,
         row.names = row.names,
-        max = max, scientific = F)
+        max = max, scientific = FALSE)
   cat("\nProportional gap closed: (Counterfactual - Factual) / Factual\n")
   print(x$change_disparities %>%
           dplyr::filter(change_type == "proportional") %>%
@@ -70,5 +70,5 @@ print.gapclosing <- function(
         quote = quote,
         right = right,
         row.names = row.names,
-        max = max, scientific = F)
+        max = max, scientific = FALSE)
 }
