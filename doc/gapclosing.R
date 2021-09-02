@@ -1,10 +1,10 @@
 ## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(dpi = 300, fig.width = 6.5, fig.height = 3, out.width = "650px")
 
-## ---- include = F-------------------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 t0 <- Sys.time()
 
-## ---- message = F, warning = F------------------------------------------------
+## ---- message = FALSE, warning = FALSE----------------------------------------
 set.seed(08544)
 library(gapclosing)
 library(dplyr)
@@ -26,22 +26,28 @@ estimate <- gapclosing(
   parallel_cores = 2
 )
 
-## ---- include = F-------------------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 plots <- plot(estimate, return_plots = TRUE)
 
-## ---- echo = F, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
+## ---- echo = FALSE, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
 print(plots[[1]] +
         ggtitle("First result of a call to plot()"))
 
-## ---- echo = F, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
+## ---- echo = FALSE, fig.width = 5, fig.height = 3.5, out.width = "650px", fig.cap = "Figure 1 produced by plot() function"----
 disparityplot(estimate, category_A = "A", category_B = "B") +
   ggtitle("A disparityplot()")
 
-## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---- include = FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+old <- options()
 options(width = 300)
+
+## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 summary(estimate)
 
-## ---- echo = F, fig.height = 2----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
+options(old)
+
+## ---- echo = FALSE, fig.height = 2--------------------------------------------
 for_DAG <- data.frame(label = c("Category","Confounder","Treatment","Outcome","Unobserved"),
                       x = c(1,2,3,4,1),
                       y = c(1,1,1,1,0))
@@ -83,7 +89,7 @@ for_DAG %>%
   xlim(c(0,5)) +
   theme_void()
 
-## ---- warning = F-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---- warning = FALSE---------------------------------------------------------
 estimate_gam <- gapclosing(
   data = simulated_data,
   counterfactual_assignments = 1,
@@ -97,7 +103,7 @@ estimate_gam <- gapclosing(
   # They are omitted here only to speed vignette build time.
 )
 
-## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 estimate_ranger <- gapclosing(
   data = simulated_data,
   counterfactual_assignments = 1,
@@ -111,12 +117,12 @@ estimate_ranger <- gapclosing(
   # They are omitted here only to speed vignette build time.
 )
 
-## ---- include = F-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 glm_plot <- plot(estimate, return_plots = T)[[1]]
 gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
 ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
 
-## ---- echo = F, fig.width = 12, fig.height = 5, message = F, warning = F----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---- echo = FALSE, fig.width = 12, fig.height = 5, message = FALSE, warning = FALSE----
 gridExtra::grid.arrange(
   glm_plot +
     ggtitle("GLM estimate") +
@@ -130,7 +136,7 @@ gridExtra::grid.arrange(
   ncol = 3
 )
 
-## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 estimate_stochastic <- gapclosing(
   data = simulated_data,
   counterfactual_assignments = .75,
@@ -139,7 +145,7 @@ estimate_stochastic <- gapclosing(
   category_name = "category"
 )
 
-## ---- echo = F, fig.caption = "A conceptual figure for which the package does not provide a general-purpose function."------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ---- echo = FALSE, fig.caption = "A conceptual figure for which the package does not provide a general-purpose function."----
 counterfactual_assignments_values <- seq(0,1,.25)
 many_stochastic_estimates <- rep(NA, length(counterfactual_assignments_values))
 for (i in 1:length(counterfactual_assignments_values)) {
@@ -184,7 +190,7 @@ data.frame(counterfactual_assignments = counterfactual_assignments_values,
   theme(panel.grid = element_blank(),
         legend.position = "none")
 
-## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 our_assignments <- case_when(simulated_data$category == "A" ~ .5,
                              simulated_data$category == "B" ~ .4, 
                              simulated_data$category == "C" ~ .3)

@@ -4,7 +4,7 @@
 \alias{plot.gapclosing}
 \title{Plot function for gapclosing objects}
 \usage{
-\method{plot}{gapclosing}(x, return_plots = F, arranged = F, ...)
+\method{plot}{gapclosing}(x, return_plots = FALSE, arranged = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{gapclosing}, which results from a call to the function \code{gapclosing}}

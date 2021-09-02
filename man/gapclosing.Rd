@@ -85,7 +85,7 @@ A function to estimate gap-closing estimands: means and disparities across categ
 simulated_data <- generate_simulated_data(n = 100)
 
 # Fit by outcome modeling
-# You can add standard errors with se = T
+# You can add standard errors with se = TRUE
 estimate <- gapclosing(
   data = simulated_data,
   outcome_formula = outcome ~ treatment * category + confounder,
@@ -96,7 +96,7 @@ estimate <- gapclosing(
 summary(estimate)
 
 # Fit by treatment modeling
-# You can add standard errors with se = T
+# You can add standard errors with se = TRUE
 estimate <- gapclosing(
   data = simulated_data,
   treatment_formula = treatment ~ category + confounder,
@@ -107,7 +107,7 @@ estimate <- gapclosing(
 summary(estimate)
 
 # Fit by doubly-robust estimation
-# You can add standard errors with se = T
+# You can add standard errors with se = TRUE
 estimate <- gapclosing(
   data = simulated_data,
   outcome_formula = outcome ~ treatment * category + confounder,
@@ -118,7 +118,7 @@ estimate <- gapclosing(
 summary(estimate)
 
 # Fit by doubly-robust cross-fitting estimation with random forests
-# You can add standard errors with se = T
+# You can add standard errors with se = TRUE
 estimate <- gapclosing(
   data = simulated_data,
   outcome_formula = outcome ~ category + confounder,
