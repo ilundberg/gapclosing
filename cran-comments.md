@@ -17,7 +17,7 @@ Duration: 1m 12.7s
 
 0 errors | 0 warnings | 1 note
 
-The only note is that this is a new submission.
+The only note is that this is a new submission. The word Lundberg in DESCRIPTION is my name and is spelled correctly.
 
 ## Test environments
 
