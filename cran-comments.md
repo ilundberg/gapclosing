@@ -5,6 +5,7 @@ This is a resubmission. In this version I have:
 * Added a reference describing the methods in the package in the description field of the DESCRIPTION file in the form
 authors (year) <doi:...>
 * Changed uses of T and F as logicals to TRUE and FALSE
+* Reset the user's options() after changing them. This occurs only once, in the vignette.
 
 ## Release summary
 
