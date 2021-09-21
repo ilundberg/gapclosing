@@ -1,6 +1,8 @@
 
 # gapclosing
 
+<!-- badges: start -->  [![CRAN status](https://www.r-pkg.org/badges/version/gapclosing)](https://CRAN.R-project.org/package=gapclosing) [![](https://cranlogs.r-pkg.org/badges/gapclosing)](https://cran.r-project.org/package=gapclosing)  <!-- badges: end -->
+
 Estimate Gaps Under an Intervention
 
 # Summary
@@ -20,7 +22,7 @@ The package will enable the user to:
 
 # Installation instructions
 
-When the package becomes available on CRAN, you will be able to install with one line: `install.packages("gapclosing")`.
+Install from CRAN with one line: `install.packages("gapclosing")`.
 
 To install the latest development version or install before CRAN availability,
 
