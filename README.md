@@ -1,7 +1,7 @@
 
 # gapclosing
 
-<!-- badges: start -->  [![CRAN status](https://www.r-pkg.org/badges/version/gapclosing)](https://CRAN.R-project.org/package=gapclosing)  <!-- badges: end -->
+<!-- badges: start -->  [![CRAN status](https://www.r-pkg.org/badges/version/gapclosing)](https://CRAN.R-project.org/package=gapclosing) [![](https://cranlogs.r-pkg.org/badges/gapclosing)](https://cran.r-project.org/package=gapclosing)  <!-- badges: end -->
 
 Estimate Gaps Under an Intervention
 
