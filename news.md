@@ -1,5 +1,10 @@
 # NEWS file for the gap closing package
 
+# quantileplot 1.0.2
+* Remove declared Imports not used in the package (Rdpack, gridExtra, utils)
+* Modify the vignette to no longer require gridExtra
+* Correct a URL in the references which checks suggested was stale
+
 # quantileplot 1.0.1
 * Patch a coding error in cross-fitting ranger estimation.
 * Modify fit_ridge to return the fitted model object in parallel to other estimators.

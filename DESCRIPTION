@@ -1,6 +1,6 @@
 Package: gapclosing
 Title: Estimate Gaps Under an Intervention
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     person(given = "Ian",
            family = "Lundberg",
@@ -16,16 +16,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     stats,
-    utils,
     mgcv,
     ranger,
     glmnet,
-    Rdpack,
     magrittr,
     dplyr,
     forcats,
     ggplot2,
-    gridExtra,
     tidyr,
     foreach,
     tidyselect,

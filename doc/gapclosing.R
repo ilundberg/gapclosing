@@ -122,19 +122,19 @@ glm_plot <- plot(estimate, return_plots = T)[[1]]
 gam_plot <- plot(estimate_gam, return_plots = T)[[1]]
 ranger_plot <- plot(estimate_ranger, return_plots = T)[[1]]
 
-## ---- echo = FALSE, fig.width = 12, fig.height = 5, message = FALSE, warning = FALSE----
-gridExtra::grid.arrange(
-  glm_plot +
+## ---- echo = FALSE, figures-side, fig.show="hold", out.width="30%", message = FALSE, warning = FALSE----
+glm_plot +
     ggtitle("GLM estimate") +
-    ylim(c(-1.5,1.5)),
-  gam_plot +
+    ylim(c(-1.5,1.5)) +
+  theme(legend.position = "bottom")
+gam_plot +
     ggtitle("GAM estimate") +
-    ylim(c(-1.5,1.5)),
-  ranger_plot +
-    ggtitle("Random forest estimate") +
-    ylim(c(-1.5,1.5)),
-  ncol = 3
-)
+    ylim(c(-1.5,1.5)) +
+  theme(legend.position = "bottom")
+ranger_plot +
+  ggtitle("Random forest estimate") +
+  ylim(c(-1.5,1.5)) +
+  theme(legend.position = "bottom")
 
 ## -----------------------------------------------------------------------------
 estimate_stochastic <- gapclosing(
