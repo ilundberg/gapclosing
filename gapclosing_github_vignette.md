@@ -77,6 +77,13 @@ install.packages("gapclosing")
 For more info, visit
 [ilundberg.github.io/gapclosing/](https://ilundberg.github.io/gapclosing/).
 
+You can work with this tutorial from the webpage, copying each code
+chunk. You can also dowload the entire [RMarkdown
+file](https://ilundberg.github.io/gapclosing/gapclosing_github_vignette.Rmd).
+To knit, you will need the associated [bibliography
+file](https://ilundberg.github.io/gapclosing/gapclosing_github_bibliography.bib)
+in the same directory as the .Rmd file.
+
 # Overview of the goal
 
 Gaps across social categories like race, class, and gender are important
@@ -263,7 +270,7 @@ categories.
 
 <div class="figure">
 
-<img src="github_vignette_files/figure-gfm/unnamed-chunk-10-1.png" alt="Figure 1 produced by plot() function" width="650px" />
+<img src="gapclosing_github_vignette_files/figure-gfm/unnamed-chunk-10-1.png" alt="Figure 1 produced by plot() function" width="650px" />
 <p class="caption">
 Figure 1 produced by plot() function
 </p>
@@ -278,7 +285,7 @@ and can be customized by passing additional layers.
 
 <div class="figure">
 
-<img src="github_vignette_files/figure-gfm/unnamed-chunk-11-1.png" alt="Figure 1 produced by plot() function" width="650px" />
+<img src="gapclosing_github_vignette_files/figure-gfm/unnamed-chunk-11-1.png" alt="Figure 1 produced by plot() function" width="650px" />
 <p class="caption">
 Figure 1 produced by plot() function
 </p>
@@ -308,61 +315,61 @@ summary(estimate)
     ## # A tibble: 3 × 5
     ##   category estimate     se ci.min  ci.max
     ##   <chr>       <dbl>  <dbl>  <dbl>   <dbl>
-    ## 1 A         -1.09   0.0910 -1.27  -0.912 
-    ## 2 B         -0.0384 0.0606 -0.157  0.0804
-    ## 3 C          0.495  0.0796  0.340  0.651 
+    ## 1 A         -1.09   0.108  -1.30  -0.879 
+    ## 2 B         -0.0384 0.0661 -0.168  0.0912
+    ## 3 C          0.495  0.0842  0.330  0.661 
     ## 
     ## Counterfactual mean outcomes (post-intervention means):
     ## # A tibble: 3 × 5
     ##   category estimate     se ci.min ci.max
     ##   <chr>       <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1 A         -0.102  0.149  -0.395  0.191
-    ## 2 B          0.0409 0.0828 -0.121  0.203
-    ## 3 C          0.0805 0.108  -0.132  0.293
+    ## 1 A         -0.102  0.183  -0.460  0.256
+    ## 2 B          0.0409 0.101  -0.158  0.239
+    ## 3 C          0.0805 0.0980 -0.112  0.273
     ## 
     ## Factual disparities:
     ## # A tibble: 6 × 5
-    ##   category estimate     se ci.min ci.max
-    ##   <chr>       <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1 A - B      -1.05  0.123  -1.29  -0.811
-    ## 2 A - C      -1.59  0.135  -1.85  -1.32 
-    ## 3 B - A       1.05  0.123   0.811  1.29 
-    ## 4 B - C      -0.534 0.0885 -0.707 -0.360
-    ## 5 C - A       1.59  0.135   1.32   1.85 
-    ## 6 C - B       0.534 0.0885  0.360  0.707
+    ##   category estimate    se ci.min ci.max
+    ##   <chr>       <dbl> <dbl>  <dbl>  <dbl>
+    ## 1 A - B      -1.05  0.131 -1.31  -0.795
+    ## 2 A - C      -1.59  0.131 -1.84  -1.33 
+    ## 3 B - A       1.05  0.131  0.795  1.31 
+    ## 4 B - C      -0.534 0.120 -0.769 -0.299
+    ## 5 C - A       1.59  0.131  1.33   1.84 
+    ## 6 C - B       0.534 0.120  0.299  0.769
     ## 
     ## Counterfactual disparities (gap-closing estimands):
     ## # A tibble: 6 × 5
     ##   category estimate    se ci.min ci.max
     ##   <chr>       <dbl> <dbl>  <dbl>  <dbl>
-    ## 1 A - B     -0.143  0.188 -0.510  0.225
-    ## 2 A - C     -0.183  0.160 -0.496  0.131
-    ## 3 B - A      0.143  0.188 -0.225  0.510
-    ## 4 B - C     -0.0396 0.128 -0.290  0.210
-    ## 5 C - A      0.183  0.160 -0.131  0.496
-    ## 6 C - B      0.0396 0.128 -0.210  0.290
+    ## 1 A - B     -0.143  0.174 -0.485  0.199
+    ## 2 A - C     -0.183  0.199 -0.573  0.208
+    ## 3 B - A      0.143  0.174 -0.199  0.485
+    ## 4 B - C     -0.0396 0.149 -0.331  0.252
+    ## 5 C - A      0.183  0.199 -0.208  0.573
+    ## 6 C - B      0.0396 0.149 -0.252  0.331
     ## 
     ## Additive gap closed: Counterfactual - Factual
     ## # A tibble: 6 × 5
-    ##   category estimate     se ci.min ci.max
-    ##   <chr>       <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1 A - B      -0.909 0.199  -1.30  -0.519
-    ## 2 A - C      -1.40  0.172  -1.74  -1.07 
-    ## 3 B - A       0.909 0.199   0.519  1.30 
-    ## 4 B - C      -0.494 0.0965 -0.684 -0.305
-    ## 5 C - A       1.40  0.172   1.07   1.74 
-    ## 6 C - B       0.494 0.0965  0.305  0.684
+    ##   category estimate    se ci.min ci.max
+    ##   <chr>       <dbl> <dbl>  <dbl>  <dbl>
+    ## 1 A - B      -0.909 0.121 -1.15  -0.672
+    ## 2 A - C      -1.40  0.151 -1.70  -1.11 
+    ## 3 B - A       0.909 0.121  0.672  1.15 
+    ## 4 B - C      -0.494 0.112 -0.714 -0.274
+    ## 5 C - A       1.40  0.151  1.11   1.70 
+    ## 6 C - B       0.494 0.112  0.274  0.714
     ## 
     ## Proportional gap closed: (Counterfactual - Factual) / Factual
     ## # A tibble: 6 × 5
-    ##   category estimate     se ci.min ci.max
-    ##   <chr>       <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1 A - B       0.864 0.169   0.534   1.19
-    ## 2 A - C       0.885 0.0968  0.695   1.07
-    ## 3 B - A       0.864 0.169   0.534   1.19
-    ## 4 B - C       0.926 0.258   0.420   1.43
-    ## 5 C - A       0.885 0.0968  0.695   1.07
-    ## 6 C - B       0.926 0.258   0.420   1.43
+    ##   category estimate    se ci.min ci.max
+    ##   <chr>       <dbl> <dbl>  <dbl>  <dbl>
+    ## 1 A - B       0.864 0.159  0.553   1.18
+    ## 2 A - C       0.885 0.128  0.634   1.14
+    ## 3 B - A       0.864 0.159  0.553   1.18
+    ## 4 B - C       0.926 0.397  0.147   1.70
+    ## 5 C - A       0.885 0.128  0.634   1.14
+    ## 6 C - B       0.926 0.397  0.147   1.70
     ## 
     ## Type plot(name_of_this_object) to visualize results.
 
@@ -425,7 +432,7 @@ more on identification.
     ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
     ## ℹ Please use `linewidth` instead.
 
-<img src="github_vignette_files/figure-gfm/unnamed-chunk-15-1.png" width="650px" />
+<img src="gapclosing_github_vignette_files/figure-gfm/unnamed-chunk-15-1.png" width="650px" />
 
 Once we select a sufficient conditioning set, those predictors will
 appear in both the treatment and/or the outcome model used for
@@ -692,7 +699,7 @@ learn. In this case, the sample size is large enough that those
 approaches correctly learn the linear functional form, and all three
 estimation strategies yield similar estimates.
 
-<img src="github_vignette_files/figure-gfm/figures-side-1.png" width="30%" /><img src="github_vignette_files/figure-gfm/figures-side-2.png" width="30%" /><img src="github_vignette_files/figure-gfm/figures-side-3.png" width="30%" />
+<img src="gapclosing_github_vignette_files/figure-gfm/figures-side-1.png" width="30%" /><img src="gapclosing_github_vignette_files/figure-gfm/figures-side-2.png" width="30%" /><img src="gapclosing_github_vignette_files/figure-gfm/figures-side-3.png" width="30%" />
 
 Note that confidence intervals for GAM and random forest can also be
 generated with `SE = TRUE`, which is turned off here only to speed
@@ -740,7 +747,7 @@ an important point: the gap-closing estimand can be different depending
 on the counterfactual assignment rule, as the figure below shows for
 counterfactuals in which treatment is assigned with probabilities
 ranging from 0 to 1.
-<img src="github_vignette_files/figure-gfm/unnamed-chunk-20-1.png" width="650px" />
+<img src="gapclosing_github_vignette_files/figure-gfm/unnamed-chunk-20-1.png" width="650px" />
 
 Your stochastic assignments can also be different for different people.
 For example, suppose we assign those in Category A to treatment 1 with
@@ -779,7 +786,7 @@ would create an issue on
 [GitHub](https://github.com/ilundberg/gapclosing). Suggestions for
 additional features are also welcome.
 
-This vignette was compiled on 2023-03-08 09:49:07.
+This vignette was compiled on 2023-03-08 10:01:14.
 
 # References
 
