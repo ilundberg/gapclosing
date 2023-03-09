@@ -1,0 +1,13 @@
+# Conclusion
+
+The `gapclosing` package is designed to support inquiry into gap closing estimands, thus promoting new understanding about interventions that can close gaps across social categories. The goal of the package is to automate technical tasks (sample splitting, aggregation to doubly robust estimates, visualization), thus freeing the researcher to devote more attention to scientific tasks like defining the intervention and making causal assumptions.
+
+If you use this package and find a bug, it would be most helpful if you would create an issue on [GitHub](https://github.com/ilundberg/gapclosing). Suggestions for additional features are also welcome.
+
+This vignette was compiled on `r Sys.time()`.
+
+## Computing environment
+
+```{r}
+sessionInfo()
+```

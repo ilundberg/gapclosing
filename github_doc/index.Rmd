@@ -1,0 +1,36 @@
+---
+title: "gapclosing: An R package"
+author: "Ian Lundberg (ilundberg@cornell.edu)"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::bs4_book
+url: https://ilundberg.github.io/gapclosing/github_doc/index.html
+description: |
+  This website introduces the gapclosing package for R.
+bibliography: "gapclosing.bib"
+biblio-style: "apalike"
+link-citations: true
+---
+
+# gapclosing: An R package
+
+To what degree would a hypothetical intervention close gaps across populations?
+
+This causal question is of paramount importance for those who want to intervene to reduce disparities across categories such as gender, race, and class. How to answer that question is the subject of the companion papaer to this package.
+
+>Lundberg, Ian. 2022. ["The gap-closing estimand: A causal approach to study interventions that close disparities across social categories."](https://doi.org/10.1177/00491241211055769) _Sociological Methods and Research_.
+
+To get started with these methods, first install [R and RStudio](https://rstudio-education.github.io/hopr/starting.html). Then install the package from CRAN.
+
+```{r, eval = F}
+install.packages("gapclosing")
+```
+
+You can now do lots of things!
+
+* Estimate treatment and outcome prediction functions statistical and machine learning methods
+* Combine those in doubly-robust estimators of gap-closing estimands
+* Produce confidence intervals by the bootstrap
+* Visualize the result
+
+Questions and comments to Ian Lundberg, [ilundberg@cornell.edu](mailto:ilundberg@cornell.edu).
