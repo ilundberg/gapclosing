@@ -1,6 +1,6 @@
 ---
 title: "gapclosing: An R package"
-author: "Ian Lundberg (ilundberg@cornell.edu)"
+author: "Ian Lundberg"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::bs4_book
