@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 6 Basic package functionality | A Minimal Book Example</title>
+<meta name="author" content="Jane Doe">
+<meta name="description" content="The gapclosing() function estimates gaps across categories and the degree to which they would close under the specified counterfactual_assignments of the treatment. estimate &lt;- gapclosing(  data =...">
+<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta property="og:title" content="Chapter 6 Basic package functionality | A Minimal Book Example">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://bookdown.org/janedoe/bookdown-demo/basic-package-functionality.html">
+<meta property="og:description" content="The gapclosing() function estimates gaps across categories and the degree to which they would close under the specified counterfactual_assignments of the treatment. estimate &lt;- gapclosing(  data =...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 6 Basic package functionality | A Minimal Book Example">
+<meta name="twitter:description" content="The gapclosing() function estimates gaps across categories and the degree to which they would close under the specified counterfactual_assignments of the treatment. estimate &lt;- gapclosing(  data =...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">A Minimal Book Example</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Summary</a></li>
+<li><a class="" href="getting-started.html"><span class="header-section-number">2</span> Getting started</a></li>
+<li><a class="" href="goal.html"><span class="header-section-number">3</span> The goal</a></li>
+<li><a class="" href="data-structure.html"><span class="header-section-number">4</span> Data structure</a></li>
+<li><a class="" href="basic-concepts-outside-the-package.html"><span class="header-section-number">5</span> Basic concepts outside the package</a></li>
+<li><a class="active" href="basic-package-functionality.html"><span class="header-section-number">6</span> Basic package functionality</a></li>
+<li><a class="" href="advanced-customizing-your-gapclosing-call.html"><span class="header-section-number">7</span> Advanced: Customizing your gapclosing call</a></li>
+<li><a class="" href="estimate-by-machine-learning-two-examples.html"><span class="header-section-number">8</span> Estimate by machine learning: Two examples</a></li>
+<li><a class="" href="estimate-with-stochastic-assignment-rules.html"><span class="header-section-number">9</span> Estimate with stochastic assignment rules</a></li>
+<li><a class="" href="conclusion.html"><span class="header-section-number">10</span> Conclusion</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/rstudio/bookdown-demo">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="basic-package-functionality" class="section level1" number="6">
+<h1>
+<span class="header-section-number">6</span> Basic package functionality<a class="anchor" aria-label="anchor" href="#basic-package-functionality"><i class="fas fa-link"></i></a>
+</h1>
+<p>The <code><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing()</a></code> function estimates gaps across categories and the degree to which they would close under the specified <code>counterfactual_assignments</code> of the treatment.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">estimate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">simulated_data</span>,</span>
+<span>  counterfactual_assignments <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  outcome_formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">confounder</span> <span class="op">+</span> <span class="va">category</span><span class="op">*</span><span class="va">treatment</span><span class="op">)</span>,</span>
+<span>  treatment_formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="va">treatment</span> <span class="op">~</span> <span class="va">confounder</span> <span class="op">+</span> <span class="va">category</span><span class="op">)</span>,</span>
+<span>  category_name <span class="op">=</span> <span class="st">"category"</span>,</span>
+<span>  se <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="co"># Setting bootstrap_samples very low to speed this tutorial</span></span>
+<span>  <span class="co"># Should be set higher in practice</span></span>
+<span>  bootstrap_samples <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  <span class="co"># You can process the bootstrap in parallel with as many cores as available</span></span>
+<span>  parallel_cores <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in gapclosing(data = simulated_data,</span></span>
+<span><span class="co">#&gt; counterfactual_assignments = 1, : You have asked for</span></span>
+<span><span class="co">#&gt; bootstrap standard errors (se = TRUE) but you have set</span></span>
+<span><span class="co">#&gt; bootstrap_samples to fewer than 1,000. Although the</span></span>
+<span><span class="co">#&gt; necessary number of bootstrap samples will differ across</span></span>
+<span><span class="co">#&gt; applications, you may need to consider increasing</span></span>
+<span><span class="co">#&gt; bootstrap_samples.</span></span></code></pre></div>
+<p>By default, this function will do the following:</p>
+<ul>
+<li>Fit logistic regression to predict treatment assignment</li>
+<li>Fit OLS regression to predict outcomes</li>
+<li>Combine the two in a doubly-robust estimator estimated on a single sample</li>
+<li>Return a <code>gapclosing</code> object which supports <code>summary</code>, <code>print</code>, and <code>plot</code> functions.</li>
+</ul>
+<p>In this example, the <code>plot(estimate)</code> function produces the following visualization. The factual outcomes are unequal across categories, but the counterfactual outcomes are roughly equal. In this simulated setting, the intervention almost entirely closes the gaps across the categories.</p>
+<div class="figure">
+<span style="display:block;" id="fig:unnamed-chunk-15"></span>
+<img src="github_doc_files/figure-html/unnamed-chunk-15-1.png" alt="Figure 1 produced by plot() function" width="672"><p class="caption">
+Figure 6.1: Figure 1 produced by plot() function
+</p>
+</div>
+<p>The <code><a href="https://rdrr.io/pkg/gapclosing/man/disparityplot.html">disparityplot()</a></code> function lets us zoom in on the factual and counterfactual disparity between two categories, of interest. In this case, we see that the intervention lifts outcomes in category A to be more comparable to category B. A <code>disparityplot</code> is a <code>ggplot2</code> object and can be customized by passing additional layers.</p>
+<div class="figure">
+<span style="display:block;" id="fig:unnamed-chunk-16"></span>
+<img src="github_doc_files/figure-html/unnamed-chunk-16-1.png" alt="Figure 1 produced by plot() function" width="672"><p class="caption">
+Figure 6.2: Figure 1 produced by plot() function
+</p>
+</div>
+<p>The <code>summary</code> function will print estimates, standard errors, and confidence intervals for all of these results.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Gap-closing estimates using doubly_robust estimation on one sample.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Treatment model was glm estimation with model formula:</span></span>
+<span><span class="co">#&gt; formula(treatment ~ confounder + category)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Outcome model was lm estimation with model formula:</span></span>
+<span><span class="co">#&gt; formula(outcome ~ confounder + category * treatment)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Factual estimates are means within and disparities across category.</span></span>
+<span><span class="co">#&gt; Counterfactual estimates are under an intervention to set  to 1.</span></span>
+<span><span class="co">#&gt; Standard errors are calculated from 20 bootstrap samples.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Factual mean outcomes:</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span><span class="co">#&gt;   category estimate     se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A         -1.09   0.0858 -1.26  -0.923</span></span>
+<span><span class="co">#&gt; 2 B         -0.0384 0.0930 -0.221  0.144</span></span>
+<span><span class="co">#&gt; 3 C          0.495  0.0936  0.312  0.679</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Counterfactual mean outcomes (post-intervention means):</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A         -0.102  0.144 -0.385  0.181</span></span>
+<span><span class="co">#&gt; 2 B          0.0409 0.124 -0.203  0.285</span></span>
+<span><span class="co">#&gt; 3 C          0.0805 0.141 -0.196  0.358</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Factual disparities:</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A - B      -1.05  0.107 -1.26  -0.842</span></span>
+<span><span class="co">#&gt; 2 A - C      -1.59  0.148 -1.88  -1.30 </span></span>
+<span><span class="co">#&gt; 3 B - A       1.05  0.107  0.842  1.26 </span></span>
+<span><span class="co">#&gt; 4 B - C      -0.534 0.135 -0.798 -0.270</span></span>
+<span><span class="co">#&gt; 5 C - A       1.59  0.148  1.30   1.88 </span></span>
+<span><span class="co">#&gt; 6 C - B       0.534 0.135  0.270  0.798</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Counterfactual disparities (gap-closing estimands):</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A - B     -0.143  0.188 -0.512  0.226</span></span>
+<span><span class="co">#&gt; 2 A - C     -0.183  0.224 -0.621  0.256</span></span>
+<span><span class="co">#&gt; 3 B - A      0.143  0.188 -0.226  0.512</span></span>
+<span><span class="co">#&gt; 4 B - C     -0.0396 0.187 -0.406  0.327</span></span>
+<span><span class="co">#&gt; 5 C - A      0.183  0.224 -0.256  0.621</span></span>
+<span><span class="co">#&gt; 6 C - B      0.0396 0.187 -0.327  0.406</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Additive gap closed: Counterfactual - Factual</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A - B      -0.909 0.143 -1.19  -0.629</span></span>
+<span><span class="co">#&gt; 2 A - C      -1.40  0.126 -1.65  -1.16 </span></span>
+<span><span class="co">#&gt; 3 B - A       0.909 0.143  0.629  1.19 </span></span>
+<span><span class="co">#&gt; 4 B - C      -0.494 0.133 -0.755 -0.233</span></span>
+<span><span class="co">#&gt; 5 C - A       1.40  0.126  1.16   1.65 </span></span>
+<span><span class="co">#&gt; 6 C - B       0.494 0.133  0.233  0.755</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Proportional gap closed: (Counterfactual - Factual) / Factual</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A - B       0.864 0.183  0.505   1.22</span></span>
+<span><span class="co">#&gt; 2 A - C       0.885 0.143  0.605   1.16</span></span>
+<span><span class="co">#&gt; 3 B - A       0.864 0.183  0.505   1.22</span></span>
+<span><span class="co">#&gt; 4 B - C       0.926 0.385  0.172   1.68</span></span>
+<span><span class="co">#&gt; 5 C - A       0.885 0.143  0.605   1.16</span></span>
+<span><span class="co">#&gt; 6 C - B       0.926 0.385  0.172   1.68</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Type plot(name_of_this_object) to visualize results.</span></span></code></pre></div>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="basic-concepts-outside-the-package.html"><span class="header-section-number">5</span> Basic concepts outside the package</a></div>
+<div class="next"><a href="advanced-customizing-your-gapclosing-call.html"><span class="header-section-number">7</span> Advanced: Customizing your gapclosing call</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#basic-package-functionality"><span class="header-section-number">6</span> Basic package functionality</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/05-basic-package-use.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/05-basic-package-use.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>A Minimal Book Example</strong>" was written by Jane Doe. It was last built on 2023-03-06.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
