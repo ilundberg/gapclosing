@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 3 Concepts in detail | gapclosing: An R package</title>
+<title>Chapter 2 Concepts in detail | gapclosing: An R package</title>
 <meta name="author" content="Ian Lundberg (ilundberg@cornell.edu)">
 <meta name="description" content="This section provides a more detailed overview of the use of gapclosing(). It is structured from the perspective of the three key tasks for the researcher: define the intervention make causal...">
 <meta name="generator" content="bookdown 0.33 with bs4_book()">
-<meta property="og:title" content="Chapter 3 Concepts in detail | gapclosing: An R package">
+<meta property="og:title" content="Chapter 2 Concepts in detail | gapclosing: An R package">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ilundberg.github.io/gapclosing/github_doc/index.html/concepts-in-detail.html">
 <meta property="og:description" content="This section provides a more detailed overview of the use of gapclosing(). It is structured from the perspective of the three key tasks for the researcher: define the intervention make causal...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 3 Concepts in detail | gapclosing: An R package">
+<meta name="twitter:title" content="Chapter 2 Concepts in detail | gapclosing: An R package">
 <meta name="twitter:description" content="This section provides a more detailed overview of the use of gapclosing(). It is structured from the perspective of the three key tasks for the researcher: define the intervention make causal...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -66,12 +66,12 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> gapclosing: An R package</a></li>
-<li><a class="" href="big-idea.html"><span class="header-section-number">2</span> Big idea</a></li>
-<li><a class="active" href="concepts-in-detail.html"><span class="header-section-number">3</span> Concepts in detail</a></li>
-<li><a class="" href="machine-learning-examples.html"><span class="header-section-number">4</span> Machine learning examples</a></li>
-<li><a class="" href="advanced-treatment-assignments.html"><span class="header-section-number">5</span> Advanced treatment assignments</a></li>
-<li><a class="" href="conclusion.html"><span class="header-section-number">6</span> Conclusion</a></li>
+<li><a class="" href="index.html">Welcome!</a></li>
+<li><a class="" href="big-idea.html"><span class="header-section-number">1</span> Big idea</a></li>
+<li><a class="active" href="concepts-in-detail.html"><span class="header-section-number">2</span> Concepts in detail</a></li>
+<li><a class="" href="machine-learning-examples.html"><span class="header-section-number">3</span> Machine learning examples</a></li>
+<li><a class="" href="advanced-treatment-assignments.html"><span class="header-section-number">4</span> Advanced treatment assignments</a></li>
+<li><a class="" href="conclusion.html"><span class="header-section-number">5</span> Conclusion</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -80,9 +80,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="concepts-in-detail" class="section level1" number="3">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="concepts-in-detail" class="section level1" number="2">
 <h1>
-<span class="header-section-number">3</span> Concepts in detail<a class="anchor" aria-label="anchor" href="#concepts-in-detail"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2</span> Concepts in detail<a class="anchor" aria-label="anchor" href="#concepts-in-detail"><i class="fas fa-link"></i></a>
 </h1>
 <p>This section provides a more detailed overview of the use of <code><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing()</a></code>.</p>
 <p>It is structured from the perspective of the three key tasks for the researcher:</p>
@@ -92,9 +92,9 @@
 <li>specify a treatment and/or outcome model</li>
 </ol>
 <p>Along the way, this section introduces many of the possible arguments in a <code><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing()</a></code> call.</p>
-<div id="define-the-intervention" class="section level2" number="3.1">
+<div id="define-the-intervention" class="section level2" number="2.1">
 <h2>
-<span class="header-section-number">3.1</span> Define the intervention<a class="anchor" aria-label="anchor" href="#define-the-intervention"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.1</span> Define the intervention<a class="anchor" aria-label="anchor" href="#define-the-intervention"><i class="fas fa-link"></i></a>
 </h2>
 <p>To answer a gap-closing question, we first need to define what that intervention would be. To what treatment value would units be counterfactually assigned? There are several options.</p>
 <ul>
@@ -110,9 +110,9 @@
 <code>counterfactual_assignments = 1</code></p>
 </blockquote>
 </div>
-<div id="make-causal-assumptions-for-identification" class="section level2" number="3.2">
+<div id="make-causal-assumptions-for-identification" class="section level2" number="2.2">
 <h2>
-<span class="header-section-number">3.2</span> Make causal assumptions for identification<a class="anchor" aria-label="anchor" href="#make-causal-assumptions-for-identification"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.2</span> Make causal assumptions for identification<a class="anchor" aria-label="anchor" href="#make-causal-assumptions-for-identification"><i class="fas fa-link"></i></a>
 </h2>
 <p>The package does help you with this step. Gap-closing estimands involve unobserved potential outcomes. Because they are unobserved, the data cannot tell us which variables are needed for estimation. Instead, that is a conceptual choice to be carried out with tools like Directed Acyclic Graphs (DAGs). See the accompanying <span class="citation">Lundberg (<a href="references.html#ref-lundberg2021" role="doc-biblioref">2022</a>)</span> paper for more on identification.</p>
 <blockquote>
@@ -123,9 +123,9 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 <div class="inline-figure"><img src="github_doc_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
 <p>Once we select a sufficient conditioning set, those predictors will appear in both the treatment and/or the outcome model used for estimation.</p>
 </div>
-<div id="specify-a-treatment-model-andor-an-outcome-model" class="section level2" number="3.3">
+<div id="specify-a-treatment-model-andor-an-outcome-model" class="section level2" number="2.3">
 <h2>
-<span class="header-section-number">3.3</span> Specify a treatment model and/or an outcome model<a class="anchor" aria-label="anchor" href="#specify-a-treatment-model-andor-an-outcome-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3</span> Specify a treatment model and/or an outcome model<a class="anchor" aria-label="anchor" href="#specify-a-treatment-model-andor-an-outcome-model"><i class="fas fa-link"></i></a>
 </h2>
 <p>We need to estimate one or both of (1) the probability of treatment given confounders and (2) the conditional mean of the outcome given treatment and confounders. We do that by providing one or both of the following.</p>
 <ul>
@@ -146,9 +146,9 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 <li>If only <code>outcome_formula</code> is provided, then estimation will be by prediction of unobserved potential outcomes (the <span class="math inline">\(g\)</span>-formula, see <span class="citation">Hernán and Robins (<a href="references.html#ref-hernan2021" role="doc-biblioref">2021</a>)</span>).</li>
 <li>If both <code>treatment_formula</code> and <code>outcome_formula</code> are provided, then the primary estimate will be doubly robust, with separate treatment and outcome modeling estimates accessible through the returned object.</li>
 </ul>
-<div id="choose-an-estimation-algorithm" class="section level3" number="3.3.1">
+<div id="choose-an-estimation-algorithm" class="section level3" number="2.3.1">
 <h3>
-<span class="header-section-number">3.3.1</span> Choose an estimation algorithm<a class="anchor" aria-label="anchor" href="#choose-an-estimation-algorithm"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.1</span> Choose an estimation algorithm<a class="anchor" aria-label="anchor" href="#choose-an-estimation-algorithm"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <code>treatment_formula</code> and <code>outcome_formula</code> are handed to <code>treatment_algorithm</code> and <code>outcome_algorithm</code>, which can take the following values.</p>
 <ul>
@@ -168,9 +168,9 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 </blockquote>
 <p>If the data are a sample from a population selected with unequal probabilities, you can also use the <code>weight_name</code> option to pass estimation functions the name of the sampling weight (a variable in <code>data</code> proportional to the inverse probability of sample inclusion). If omitted, a simple random sample is assumed.</p>
 </div>
-<div id="why-doubly-robust-a-side-note" class="section level3" number="3.3.2">
+<div id="why-doubly-robust-a-side-note" class="section level3" number="2.3.2">
 <h3>
-<span class="header-section-number">3.3.2</span> Why doubly robust? A side note<a class="anchor" aria-label="anchor" href="#why-doubly-robust-a-side-note"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.2</span> Why doubly robust? A side note<a class="anchor" aria-label="anchor" href="#why-doubly-robust-a-side-note"><i class="fas fa-link"></i></a>
 </h3>
 <p>Doubly-robust estimation yields advantages that can be conceptualized in two ways.</p>
 <ul>
@@ -180,9 +180,9 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 </ul>
 <p>Although double robustness has strong mathematical properties, in any given application with a finite sample it is possible that treatment or outcome modeling could outperform doubly-robust estimation. Therefore, the package supports all three approaches.</p>
 </div>
-<div id="why-sample-splitting-another-side-note" class="section level3" number="3.3.3">
+<div id="why-sample-splitting-another-side-note" class="section level3" number="2.3.3">
 <h3>
-<span class="header-section-number">3.3.3</span> Why sample splitting? Another side note<a class="anchor" aria-label="anchor" href="#why-sample-splitting-another-side-note"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.3</span> Why sample splitting? Another side note<a class="anchor" aria-label="anchor" href="#why-sample-splitting-another-side-note"><i class="fas fa-link"></i></a>
 </h3>
 <p>Taking the bias-correction view of double robustness above, it is clear that sample splitting affords a further opportunity for improvement: if you learn an outcome model <em>and</em> estimate its average bias on the same sample, you might get a poor estimate of the bias. For this reason, one should consider using one sample (which I call <code>data_learn</code>) to learn the prediction functions and another sample (which I call <code>data_estimate</code>) to estimate the bias and aggregate to an estimate of the estimand.</p>
 <p>In particular, the option <code>sample_split = "cross_fit"</code> allows the user to specify that estimation should proceed by a cross-fitting procedure which is analogous to cross-validation.</p>
@@ -201,9 +201,9 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 <p><em>Example.</em> (this is the default and can be left implicit)<br><code>sample_split = "one_sample"</code></p>
 </blockquote>
 </div>
-<div id="produce-standard-errors" class="section level3" number="3.3.4">
+<div id="produce-standard-errors" class="section level3" number="2.3.4">
 <h3>
-<span class="header-section-number">3.3.4</span> Produce standard errors<a class="anchor" aria-label="anchor" href="#produce-standard-errors"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.4</span> Produce standard errors<a class="anchor" aria-label="anchor" href="#produce-standard-errors"><i class="fas fa-link"></i></a>
 </h3>
 <p>The package supports bootstrapped standard error estimation. The procedure with <code>bootstrap_method = "simple"</code> (the default) is valid when the data are a simple random sample from the target population. In this case, each bootstrap iteration conducts estimation on a resampled dataset selected with replacement with equal probabilities. The standard error is calculated as the standard deviation of the estimate across bootstrap samples, and confidence intervals are calculated by a normal approximation.</p>
 <blockquote>
@@ -217,20 +217,20 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="big-idea.html"><span class="header-section-number">2</span> Big idea</a></div>
-<div class="next"><a href="machine-learning-examples.html"><span class="header-section-number">4</span> Machine learning examples</a></div>
+<div class="prev"><a href="big-idea.html"><span class="header-section-number">1</span> Big idea</a></div>
+<div class="next"><a href="machine-learning-examples.html"><span class="header-section-number">3</span> Machine learning examples</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#concepts-in-detail"><span class="header-section-number">3</span> Concepts in detail</a></li>
-<li><a class="nav-link" href="#define-the-intervention"><span class="header-section-number">3.1</span> Define the intervention</a></li>
-<li><a class="nav-link" href="#make-causal-assumptions-for-identification"><span class="header-section-number">3.2</span> Make causal assumptions for identification</a></li>
+<li><a class="nav-link" href="#concepts-in-detail"><span class="header-section-number">2</span> Concepts in detail</a></li>
+<li><a class="nav-link" href="#define-the-intervention"><span class="header-section-number">2.1</span> Define the intervention</a></li>
+<li><a class="nav-link" href="#make-causal-assumptions-for-identification"><span class="header-section-number">2.2</span> Make causal assumptions for identification</a></li>
 <li>
-<a class="nav-link" href="#specify-a-treatment-model-andor-an-outcome-model"><span class="header-section-number">3.3</span> Specify a treatment model and/or an outcome model</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#choose-an-estimation-algorithm"><span class="header-section-number">3.3.1</span> Choose an estimation algorithm</a></li>
-<li><a class="nav-link" href="#why-doubly-robust-a-side-note"><span class="header-section-number">3.3.2</span> Why doubly robust? A side note</a></li>
-<li><a class="nav-link" href="#why-sample-splitting-another-side-note"><span class="header-section-number">3.3.3</span> Why sample splitting? Another side note</a></li>
-<li><a class="nav-link" href="#produce-standard-errors"><span class="header-section-number">3.3.4</span> Produce standard errors</a></li>
+<a class="nav-link" href="#specify-a-treatment-model-andor-an-outcome-model"><span class="header-section-number">2.3</span> Specify a treatment model and/or an outcome model</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#choose-an-estimation-algorithm"><span class="header-section-number">2.3.1</span> Choose an estimation algorithm</a></li>
+<li><a class="nav-link" href="#why-doubly-robust-a-side-note"><span class="header-section-number">2.3.2</span> Why doubly robust? A side note</a></li>
+<li><a class="nav-link" href="#why-sample-splitting-another-side-note"><span class="header-section-number">2.3.3</span> Why sample splitting? Another side note</a></li>
+<li><a class="nav-link" href="#produce-standard-errors"><span class="header-section-number">2.3.4</span> Produce standard errors</a></li>
 </ul>
 </li>
 </ul>

@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 4 Machine learning examples | gapclosing: An R package</title>
+<title>Chapter 3 Machine learning examples | gapclosing: An R package</title>
 <meta name="author" content="Ian Lundberg (ilundberg@cornell.edu)">
 <meta name="description" content="Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the gapclosing() function....">
 <meta name="generator" content="bookdown 0.33 with bs4_book()">
-<meta property="og:title" content="Chapter 4 Machine learning examples | gapclosing: An R package">
+<meta property="og:title" content="Chapter 3 Machine learning examples | gapclosing: An R package">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ilundberg.github.io/gapclosing/github_doc/index.html/machine-learning-examples.html">
 <meta property="og:description" content="Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the gapclosing() function....">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 4 Machine learning examples | gapclosing: An R package">
+<meta name="twitter:title" content="Chapter 3 Machine learning examples | gapclosing: An R package">
 <meta name="twitter:description" content="Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the gapclosing() function....">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -66,12 +66,12 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> gapclosing: An R package</a></li>
-<li><a class="" href="big-idea.html"><span class="header-section-number">2</span> Big idea</a></li>
-<li><a class="" href="concepts-in-detail.html"><span class="header-section-number">3</span> Concepts in detail</a></li>
-<li><a class="active" href="machine-learning-examples.html"><span class="header-section-number">4</span> Machine learning examples</a></li>
-<li><a class="" href="advanced-treatment-assignments.html"><span class="header-section-number">5</span> Advanced treatment assignments</a></li>
-<li><a class="" href="conclusion.html"><span class="header-section-number">6</span> Conclusion</a></li>
+<li><a class="" href="index.html">Welcome!</a></li>
+<li><a class="" href="big-idea.html"><span class="header-section-number">1</span> Big idea</a></li>
+<li><a class="" href="concepts-in-detail.html"><span class="header-section-number">2</span> Concepts in detail</a></li>
+<li><a class="active" href="machine-learning-examples.html"><span class="header-section-number">3</span> Machine learning examples</a></li>
+<li><a class="" href="advanced-treatment-assignments.html"><span class="header-section-number">4</span> Advanced treatment assignments</a></li>
+<li><a class="" href="conclusion.html"><span class="header-section-number">5</span> Conclusion</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -80,14 +80,14 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="machine-learning-examples" class="section level1" number="4">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="machine-learning-examples" class="section level1" number="3">
 <h1>
-<span class="header-section-number">4</span> Machine learning examples<a class="anchor" aria-label="anchor" href="#machine-learning-examples"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3</span> Machine learning examples<a class="anchor" aria-label="anchor" href="#machine-learning-examples"><i class="fas fa-link"></i></a>
 </h1>
 <p>Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the <code><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing()</a></code> function.</p>
-<div id="generalized-additive-models" class="section level2" number="4.1">
+<div id="generalized-additive-models" class="section level2" number="3.1">
 <h2>
-<span class="header-section-number">4.1</span> Generalized Additive Models<a class="anchor" aria-label="anchor" href="#generalized-additive-models"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.1</span> Generalized Additive Models<a class="anchor" aria-label="anchor" href="#generalized-additive-models"><i class="fas fa-link"></i></a>
 </h2>
 <p>Perhaps you are concerned about linearity assumptions: the continuous confounder, for instance, might actually have a nonlinear association with the outcome. We know the truth is linear in this simulated example, but in practice you would never know. You can address this concern by estimating with a GAM, using the <code>s()</code> operator from <code>mgcv</code> for smooth terms (see <span class="citation">Wood (<a href="references.html#ref-mgcv" role="doc-biblioref">2017</a>)</span>).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -104,9 +104,9 @@
 <span>  <span class="co"># They are omitted here only to speed vignette build time.</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="random-forests" class="section level2" number="4.2">
+<div id="random-forests" class="section level2" number="3.2">
 <h2>
-<span class="header-section-number">4.2</span> Random forests<a class="anchor" aria-label="anchor" href="#random-forests"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2</span> Random forests<a class="anchor" aria-label="anchor" href="#random-forests"><i class="fas fa-link"></i></a>
 </h2>
 <p>Perhaps you are concerned that the true treatment probability and expected outcome functions have many interactions among the predictors. You can set <code>treatment_algorithm</code> and <code>outcome_algorithm</code> to “ranger” to estimate via the <code>ranger</code> function in the <code>ranger</code> package <span class="citation">(<a href="references.html#ref-ranger" role="doc-biblioref">Wright and Ziegler 2017</a>)</span>.</p>
 <p>One aspect of the way <code><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing()</a></code> operationalizes <code>ranger()</code> is unique out of all the estimation algorithm options. When you choose a random forest, it is because you believe there are many important interactions. Some of the most important interactions may be between the treatment and the other predictors. Therefore, <code>outcome_algorithm = ranger</code> enforces those interactions by estimating the outcome model separately for treated and control units. For this reason, when <code>outcome_algorithm = ranger</code> there is no need to include the treatment variable explicitly in the <code>outcome_formula</code>.</p>
@@ -124,33 +124,33 @@
 <span>  <span class="co"># They are omitted here only to speed vignette build time.</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="estimates-from-these-three-algorithms-are-roughly-the-same" class="section level2" number="4.3">
+<div id="estimates-from-these-three-algorithms-are-roughly-the-same" class="section level2" number="3.3">
 <h2>
-<span class="header-section-number">4.3</span> Estimates from these three algorithms are roughly the same<a class="anchor" aria-label="anchor" href="#estimates-from-these-three-algorithms-are-roughly-the-same"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3</span> Estimates from these three algorithms are roughly the same<a class="anchor" aria-label="anchor" href="#estimates-from-these-three-algorithms-are-roughly-the-same"><i class="fas fa-link"></i></a>
 </h2>
 <p>In this simulation, the GLM models are correctly specified and there are no nonlinearities or interactions for the machine learning approaches to learn. In this case, the sample size is large enough that those approaches correctly learn the linear functional form, and all three estimation strategies yield similar estimates.</p>
 <p><img src="github_doc_files/figure-html/unnamed-chunk-23-1.png" width="672"><img src="github_doc_files/figure-html/unnamed-chunk-23-2.png" width="672"><img src="github_doc_files/figure-html/unnamed-chunk-23-3.png" width="672"></p>
 <p>Note that confidence intervals for GAM and random forest can also be generated with <code>SE = TRUE</code>, which is turned off here only to speed vignette build time.</p>
 </div>
-<div id="word-of-warning" class="section level2" number="4.4">
+<div id="word-of-warning" class="section level2" number="3.4">
 <h2>
-<span class="header-section-number">4.4</span> Word of warning<a class="anchor" aria-label="anchor" href="#word-of-warning"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4</span> Word of warning<a class="anchor" aria-label="anchor" href="#word-of-warning"><i class="fas fa-link"></i></a>
 </h2>
 <p>The assumptions of a parametric model are always doubtful, leading to a common question of whether one should always use a more flexible machine learning approach like <code>ranger</code>. In a very large sample, a flexible learner would likely be the correct choice. In the sample sizes of social science settings, the amount of data may sometimes be insufficient for these algorithms to discover a complex functional form. When the parametric assumptions are approximately true, the parametric estimators may have better performance in small sample sizes. What counts as “small” and “large” is difficult to say outside of any specific setting.</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="concepts-in-detail.html"><span class="header-section-number">3</span> Concepts in detail</a></div>
-<div class="next"><a href="advanced-treatment-assignments.html"><span class="header-section-number">5</span> Advanced treatment assignments</a></div>
+<div class="prev"><a href="concepts-in-detail.html"><span class="header-section-number">2</span> Concepts in detail</a></div>
+<div class="next"><a href="advanced-treatment-assignments.html"><span class="header-section-number">4</span> Advanced treatment assignments</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#machine-learning-examples"><span class="header-section-number">4</span> Machine learning examples</a></li>
-<li><a class="nav-link" href="#generalized-additive-models"><span class="header-section-number">4.1</span> Generalized Additive Models</a></li>
-<li><a class="nav-link" href="#random-forests"><span class="header-section-number">4.2</span> Random forests</a></li>
-<li><a class="nav-link" href="#estimates-from-these-three-algorithms-are-roughly-the-same"><span class="header-section-number">4.3</span> Estimates from these three algorithms are roughly the same</a></li>
-<li><a class="nav-link" href="#word-of-warning"><span class="header-section-number">4.4</span> Word of warning</a></li>
+<li><a class="nav-link" href="#machine-learning-examples"><span class="header-section-number">3</span> Machine learning examples</a></li>
+<li><a class="nav-link" href="#generalized-additive-models"><span class="header-section-number">3.1</span> Generalized Additive Models</a></li>
+<li><a class="nav-link" href="#random-forests"><span class="header-section-number">3.2</span> Random forests</a></li>
+<li><a class="nav-link" href="#estimates-from-these-three-algorithms-are-roughly-the-same"><span class="header-section-number">3.3</span> Estimates from these three algorithms are roughly the same</a></li>
+<li><a class="nav-link" href="#word-of-warning"><span class="header-section-number">3.4</span> Word of warning</a></li>
 </ul>
 
       <div class="book-extra">

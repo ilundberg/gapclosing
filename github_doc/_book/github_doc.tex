@@ -127,15 +127,16 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-\hypertarget{gapclosing-an-r-package}{%
-\section{gapclosing: An R package}\label{gapclosing-an-r-package}}
+\hypertarget{welcome}{%
+\section*{Welcome!}\label{welcome}}
+\addcontentsline{toc}{section}{Welcome!}
 
-To what degree would a hypothetical intervention close gaps across populations?
+This website documents the \href{https://cran.r-project.org/web/packages/gapclosing/}{\textbf{gapclosing}} package for R. The package helps answers questions of the form: to what degree would a hypothetical intervention close gaps across populations?
 
 This causal question is of paramount importance for those who want to intervene to reduce disparities across categories such as gender, race, and class. How to answer that question is the subject of the companion papaer to this package.
 
 \begin{quote}
-Lundberg, Ian. 2022. \href{https://doi.org/10.1177/00491241211055769}{``The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.''} \emph{Sociological Methods and Research}.
+Lundberg, Ian. 2022. \href{https://doi.org/10.1177/00491241211055769}{\textbf{The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.}} Sociological Methods and Research.
 \end{quote}
 
 To get started with these methods, first install \href{https://rstudio-education.github.io/hopr/starting.html}{R and RStudio}. Then install the package from CRAN.
@@ -172,38 +173,36 @@ This part introduces the big ideas: why we should do this, what data look like, 
 
 Gaps across social categories like race, class, and gender are important to understand. We would like to know whether there is anything we can do to close these gaps. What if we intervened to reduce incarceration or increase access to education? Would those interventions close gaps across categories of race, class, or gender?
 
-These types of questions are at the core of a growing literature in epidemiology addresses these questions with techniques for causal decomposition analysis (\citet{vanderweele2014}, \citet{jackson2018}, \citet{jackson2020}). The paper which accompanies this software package introduces these methods to a broader set of social scientists.
+These types of questions are at the core of a growing literature in epidemiology addresses these questions with techniques for causal decomposition analysis (\citet{vanderweele2014}, \citet{jackson2018}, \citet{jackson2020}). This package provides software to support inquiry into gap-closing estimands, as discussed in \citet{lundberg2021}.
 
-\begin{quote}
-Lundberg, Ian. 2022. ``The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.'' \emph{Sociological Methods and Research}. \href{https://doi.org/10.1177/00491241211055769}{{[}published version{]}} \href{https://doi.org/10.31235/osf.io/gx4y3}{{[}open access preprint{]}} \href{https://ilundberg.github.io/gapclosing/}{{[}software{]}}.
-\end{quote}
+A guiding principle is to distinguish human tasks from software tasks that can be automated.
 
-This package provides software to support inquiry into gap-closing estimands. A guiding principle is to partition the tasks the human user must do from the tasks that the package can automate.
-
-The human user must carry out these tasks:
+As a human, you will:
 
 \begin{itemize}
 \tightlist
 \item
-  Define the intervention
+  define the intervention
 \item
-  Make causal assumptions for identification
+  make causal assumptions for identification
 \item
-  Specify a treatment model and/or an outcome model
+  specify a treatment model and/or an outcome model
 \end{itemize}
 
-Given those inputs, the package will automatically:
+Then package will:
 
 \begin{itemize}
 \tightlist
 \item
-  Estimate models (GLM, GAM, ridge regression, or random forest)
+  estimate models
 \item
-  Convert models to doubly-robust estimates of gap-closing estimands, using sample splitting to improve convergence
+  produce doubly-robust estimates
 \item
-  Estimate standard errors by bootstrapping
+  sample split to improve convergence
 \item
-  Visualize the result
+  estimate standard errors by bootstrapping
+\item
+  visualize the result
 \end{itemize}
 
 \hypertarget{data-structure}{%
@@ -399,61 +398,61 @@ The \texttt{summary} function will print estimates, standard errors, and confide
 \CommentTok{\#\textgreater{} \# A tibble: 3 x 5}
 \CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
 \CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A         {-}1.09   0.100  {-}1.29  {-}0.894}
-\CommentTok{\#\textgreater{} 2 B         {-}0.0384 0.0759 {-}0.187  0.110}
-\CommentTok{\#\textgreater{} 3 C          0.495  0.0833  0.332  0.659}
+\CommentTok{\#\textgreater{} 1 A         {-}1.09   0.0698 {-}1.23  {-}0.954}
+\CommentTok{\#\textgreater{} 2 B         {-}0.0384 0.0875 {-}0.210  0.133}
+\CommentTok{\#\textgreater{} 3 C          0.495  0.0968  0.306  0.685}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Counterfactual mean outcomes (post{-}intervention means):}
 \CommentTok{\#\textgreater{} \# A tibble: 3 x 5}
-\CommentTok{\#\textgreater{}   category estimate     se  ci.min ci.max}
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}   \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A         {-}0.102  0.145  {-}0.386   0.182}
-\CommentTok{\#\textgreater{} 2 B          0.0409 0.0974 {-}0.150   0.232}
-\CommentTok{\#\textgreater{} 3 C          0.0805 0.0852 {-}0.0865  0.248}
+\CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 A         {-}0.102  0.128  {-}0.354  0.150}
+\CommentTok{\#\textgreater{} 2 B          0.0409 0.0969 {-}0.149  0.231}
+\CommentTok{\#\textgreater{} 3 C          0.0805 0.105  {-}0.126  0.287}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Factual disparities:}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
 \CommentTok{\#\textgreater{}   category estimate    se ci.min ci.max}
 \CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B      {-}1.05  0.145 {-}1.34  {-}0.768}
-\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.59  0.137 {-}1.85  {-}1.32 }
-\CommentTok{\#\textgreater{} 3 B {-} A       1.05  0.145  0.768  1.34 }
-\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.534 0.103 {-}0.737 {-}0.331}
-\CommentTok{\#\textgreater{} 5 C {-} A       1.59  0.137  1.32   1.85 }
-\CommentTok{\#\textgreater{} 6 C {-} B       0.534 0.103  0.331  0.737}
+\CommentTok{\#\textgreater{} 1 A {-} B      {-}1.05  0.121 {-}1.29  {-}0.815}
+\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.59  0.128 {-}1.84  {-}1.33 }
+\CommentTok{\#\textgreater{} 3 B {-} A       1.05  0.121  0.815  1.29 }
+\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.534 0.134 {-}0.796 {-}0.272}
+\CommentTok{\#\textgreater{} 5 C {-} A       1.59  0.128  1.33   1.84 }
+\CommentTok{\#\textgreater{} 6 C {-} B       0.534 0.134  0.272  0.796}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Counterfactual disparities (gap{-}closing estimands):}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
 \CommentTok{\#\textgreater{}   category estimate    se ci.min ci.max}
 \CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B     {-}0.143  0.178 {-}0.491  0.205}
-\CommentTok{\#\textgreater{} 2 A {-} C     {-}0.183  0.172 {-}0.520  0.155}
-\CommentTok{\#\textgreater{} 3 B {-} A      0.143  0.178 {-}0.205  0.491}
-\CommentTok{\#\textgreater{} 4 B {-} C     {-}0.0396 0.113 {-}0.260  0.181}
-\CommentTok{\#\textgreater{} 5 C {-} A      0.183  0.172 {-}0.155  0.520}
-\CommentTok{\#\textgreater{} 6 C {-} B      0.0396 0.113 {-}0.181  0.260}
+\CommentTok{\#\textgreater{} 1 A {-} B     {-}0.143  0.161 {-}0.459  0.173}
+\CommentTok{\#\textgreater{} 2 A {-} C     {-}0.183  0.165 {-}0.505  0.140}
+\CommentTok{\#\textgreater{} 3 B {-} A      0.143  0.161 {-}0.173  0.459}
+\CommentTok{\#\textgreater{} 4 B {-} C     {-}0.0396 0.168 {-}0.369  0.290}
+\CommentTok{\#\textgreater{} 5 C {-} A      0.183  0.165 {-}0.140  0.505}
+\CommentTok{\#\textgreater{} 6 C {-} B      0.0396 0.168 {-}0.290  0.369}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Additive gap closed: Counterfactual {-} Factual}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
 \CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
 \CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B      {-}0.909 0.157  {-}1.22  {-}0.602}
-\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.40  0.120  {-}1.64  {-}1.17 }
-\CommentTok{\#\textgreater{} 3 B {-} A       0.909 0.157   0.602  1.22 }
-\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.494 0.0979 {-}0.686 {-}0.302}
-\CommentTok{\#\textgreater{} 5 C {-} A       1.40  0.120   1.17   1.64 }
-\CommentTok{\#\textgreater{} 6 C {-} B       0.494 0.0979  0.302  0.686}
+\CommentTok{\#\textgreater{} 1 A {-} B      {-}0.909 0.154  {-}1.21  {-}0.608}
+\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.40  0.132  {-}1.66  {-}1.14 }
+\CommentTok{\#\textgreater{} 3 B {-} A       0.909 0.154   0.608  1.21 }
+\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.494 0.0957 {-}0.682 {-}0.307}
+\CommentTok{\#\textgreater{} 5 C {-} A       1.40  0.132   1.14   1.66 }
+\CommentTok{\#\textgreater{} 6 C {-} B       0.494 0.0957  0.307  0.682}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Proportional gap closed: (Counterfactual {-} Factual) / Factual}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
-\CommentTok{\#\textgreater{}   category estimate    se ci.min ci.max}
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B       0.864 0.155  0.559   1.17}
-\CommentTok{\#\textgreater{} 2 A {-} C       0.885 0.102  0.685   1.09}
-\CommentTok{\#\textgreater{} 3 B {-} A       0.864 0.155  0.559   1.17}
-\CommentTok{\#\textgreater{} 4 B {-} C       0.926 0.198  0.537   1.31}
-\CommentTok{\#\textgreater{} 5 C {-} A       0.885 0.102  0.685   1.09}
-\CommentTok{\#\textgreater{} 6 C {-} B       0.926 0.198  0.537   1.31}
+\CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 A {-} B       0.864 0.141   0.589   1.14}
+\CommentTok{\#\textgreater{} 2 A {-} C       0.885 0.0955  0.698   1.07}
+\CommentTok{\#\textgreater{} 3 B {-} A       0.864 0.141   0.589   1.14}
+\CommentTok{\#\textgreater{} 4 B {-} C       0.926 0.323   0.292   1.56}
+\CommentTok{\#\textgreater{} 5 C {-} A       0.885 0.0955  0.698   1.07}
+\CommentTok{\#\textgreater{} 6 C {-} B       0.926 0.323   0.292   1.56}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Type plot(name\_of\_this\_object) to visualize results.}
 \end{Highlighting}
@@ -772,7 +771,7 @@ The \texttt{gapclosing} package is designed to support inquiry into gap closing 
 
 If you use this package and find a bug, it would be most helpful if you would create an issue on \href{https://github.com/ilundberg/gapclosing}{GitHub}. Suggestions for additional features are also welcome.
 
-This vignette was compiled on 2023-03-08 21:51:50.
+This vignette was compiled on 2023-03-08 23:03:09.
 
 \hypertarget{computing-environment}{%
 \subsection{Computing environment}\label{computing-environment}}

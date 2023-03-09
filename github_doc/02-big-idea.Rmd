@@ -6,24 +6,25 @@ This part introduces the big ideas: why we should do this, what data look like, 
 
 Gaps across social categories like race, class, and gender are important to understand. We would like to know whether there is anything we can do to close these gaps. What if we intervened to reduce incarceration or increase access to education? Would those interventions close gaps across categories of race, class, or gender?
 
-These types of questions are at the core of a growing literature in epidemiology addresses these questions with techniques for causal decomposition analysis (@vanderweele2014, @jackson2018, @jackson2020). The paper which accompanies this software package introduces these methods to a broader set of social scientists.
+These types of questions are at the core of a growing literature in epidemiology addresses these questions with techniques for causal decomposition analysis (@vanderweele2014, @jackson2018, @jackson2020). This package provides software to support inquiry into gap-closing estimands, as discussed in @lundberg2021.
 
->Lundberg, Ian. 2022. "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories." _Sociological Methods and Research_. [[published version]](https://doi.org/10.1177/00491241211055769) [[open access preprint]](https://doi.org/10.31235/osf.io/gx4y3) [[software]](https://ilundberg.github.io/gapclosing/).
+A guiding principle is to distinguish human tasks from software tasks that can be automated.
 
-This package provides software to support inquiry into gap-closing estimands. A guiding principle is to partition the tasks the human user must do from the tasks that the package can automate.
 
-The human user must carry out these tasks:
+As a human, you will:
 
-* Define the intervention
-* Make causal assumptions for identification
-* Specify a treatment model and/or an outcome model
+* define the intervention
+* make causal assumptions for identification
+* specify a treatment model and/or an outcome model
 
-Given those inputs, the package will automatically:
 
-* Estimate models (GLM, GAM, ridge regression, or random forest)
-* Convert models to doubly-robust estimates of gap-closing estimands, using sample splitting to improve convergence
-* Estimate standard errors by bootstrapping
-* Visualize the result
+Then package will:
+
+* estimate models
+* produce doubly-robust estimates
+* sample split to improve convergence
+* estimate standard errors by bootstrapping
+* visualize the result
 
 ## Data structure
 

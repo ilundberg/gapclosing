@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 5 Advanced treatment assignments | gapclosing: An R package</title>
+<title>Chapter 4 Advanced treatment assignments | gapclosing: An R package</title>
 <meta name="author" content="Ian Lundberg (ilundberg@cornell.edu)">
 <meta name="description" content="So far, we have focused on estimation for a fixed treatment assignment: assign to treatment 1 with probability 1. We might also want to know about the gap-closing estimand if we assigned people to...">
 <meta name="generator" content="bookdown 0.33 with bs4_book()">
-<meta property="og:title" content="Chapter 5 Advanced treatment assignments | gapclosing: An R package">
+<meta property="og:title" content="Chapter 4 Advanced treatment assignments | gapclosing: An R package">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ilundberg.github.io/gapclosing/github_doc/index.html/advanced-treatment-assignments.html">
 <meta property="og:description" content="So far, we have focused on estimation for a fixed treatment assignment: assign to treatment 1 with probability 1. We might also want to know about the gap-closing estimand if we assigned people to...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 5 Advanced treatment assignments | gapclosing: An R package">
+<meta name="twitter:title" content="Chapter 4 Advanced treatment assignments | gapclosing: An R package">
 <meta name="twitter:description" content="So far, we have focused on estimation for a fixed treatment assignment: assign to treatment 1 with probability 1. We might also want to know about the gap-closing estimand if we assigned people to...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -66,12 +66,12 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> gapclosing: An R package</a></li>
-<li><a class="" href="big-idea.html"><span class="header-section-number">2</span> Big idea</a></li>
-<li><a class="" href="concepts-in-detail.html"><span class="header-section-number">3</span> Concepts in detail</a></li>
-<li><a class="" href="machine-learning-examples.html"><span class="header-section-number">4</span> Machine learning examples</a></li>
-<li><a class="active" href="advanced-treatment-assignments.html"><span class="header-section-number">5</span> Advanced treatment assignments</a></li>
-<li><a class="" href="conclusion.html"><span class="header-section-number">6</span> Conclusion</a></li>
+<li><a class="" href="index.html">Welcome!</a></li>
+<li><a class="" href="big-idea.html"><span class="header-section-number">1</span> Big idea</a></li>
+<li><a class="" href="concepts-in-detail.html"><span class="header-section-number">2</span> Concepts in detail</a></li>
+<li><a class="" href="machine-learning-examples.html"><span class="header-section-number">3</span> Machine learning examples</a></li>
+<li><a class="active" href="advanced-treatment-assignments.html"><span class="header-section-number">4</span> Advanced treatment assignments</a></li>
+<li><a class="" href="conclusion.html"><span class="header-section-number">5</span> Conclusion</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -80,9 +80,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="advanced-treatment-assignments" class="section level1" number="5">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="advanced-treatment-assignments" class="section level1" number="4">
 <h1>
-<span class="header-section-number">5</span> Advanced treatment assignments<a class="anchor" aria-label="anchor" href="#advanced-treatment-assignments"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4</span> Advanced treatment assignments<a class="anchor" aria-label="anchor" href="#advanced-treatment-assignments"><i class="fas fa-link"></i></a>
 </h1>
 <p>So far, we have focused on estimation for a fixed treatment assignment: assign to treatment 1 with probability 1.</p>
 <p>We might also want to know about the gap-closing estimand</p>
@@ -90,9 +90,9 @@
 <li>if we assigned people to treatment stochastically</li>
 <li>if each person’s assignment were individualized</li>
 </ul>
-<div id="stochastic-treatments" class="section level2" number="5.1">
+<div id="stochastic-treatments" class="section level2" number="4.1">
 <h2>
-<span class="header-section-number">5.1</span> Stochastic treatments<a class="anchor" aria-label="anchor" href="#stochastic-treatments"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1</span> Stochastic treatments<a class="anchor" aria-label="anchor" href="#stochastic-treatments"><i class="fas fa-link"></i></a>
 </h2>
 <p>We may want to study a counterfactual where treatment is assigned with some probability between 0 and 1. The <code>counterfactual_assignments</code> argument can handle this possibility.</p>
 <p>For example, consider the gap-closing estimand if assigned to treatment 1 with each probability .75.</p>
@@ -108,9 +108,9 @@
 <img src="github_doc_files/figure-html/unnamed-chunk-26-1.png" width="672">
 </div>
 </div>
-<div id="individualized-treatments" class="section level2" number="5.2">
+<div id="individualized-treatments" class="section level2" number="4.2">
 <h2>
-<span class="header-section-number">5.2</span> Individualized treatments<a class="anchor" aria-label="anchor" href="#individualized-treatments"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.2</span> Individualized treatments<a class="anchor" aria-label="anchor" href="#individualized-treatments"><i class="fas fa-link"></i></a>
 </h2>
 <p>Treatment may also be different (and possibly stochastic) for each unit in the counterfactual world of interest.</p>
 <p>For example, suppose we assign those in Category A to treatment 1 with probability .5, those in Category B to treatment with probability .4, and those in Category C to treatment with probability .3. In this case, <code>counterfactual_assignments</code> will be set to a vector of length <code>nrow(data)</code>.</p>
@@ -130,14 +130,14 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="machine-learning-examples.html"><span class="header-section-number">4</span> Machine learning examples</a></div>
-<div class="next"><a href="conclusion.html"><span class="header-section-number">6</span> Conclusion</a></div>
+<div class="prev"><a href="machine-learning-examples.html"><span class="header-section-number">3</span> Machine learning examples</a></div>
+<div class="next"><a href="conclusion.html"><span class="header-section-number">5</span> Conclusion</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#advanced-treatment-assignments"><span class="header-section-number">5</span> Advanced treatment assignments</a></li>
-<li><a class="nav-link" href="#stochastic-treatments"><span class="header-section-number">5.1</span> Stochastic treatments</a></li>
-<li><a class="nav-link" href="#individualized-treatments"><span class="header-section-number">5.2</span> Individualized treatments</a></li>
+<li><a class="nav-link" href="#advanced-treatment-assignments"><span class="header-section-number">4</span> Advanced treatment assignments</a></li>
+<li><a class="nav-link" href="#stochastic-treatments"><span class="header-section-number">4.1</span> Stochastic treatments</a></li>
+<li><a class="nav-link" href="#individualized-treatments"><span class="header-section-number">4.2</span> Individualized treatments</a></li>
 </ul>
 
       <div class="book-extra">

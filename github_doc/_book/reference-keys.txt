@@ -1,4 +1,3 @@
-gapclosing-an-r-package
 big-idea
 motivation
 data-structure
