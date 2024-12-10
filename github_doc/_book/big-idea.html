@@ -7,7 +7,7 @@
 <title>Chapter 1 Big idea | gapclosing: An R package</title>
 <meta name="author" content="Ian Lundberg">
 <meta name="description" content="This part introduces the big ideas: why we should do this, what data look like, and what’s going on under the hood. It closes with basic package functionality.  1.1 Motivation Gaps across social...">
-<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 1 Big idea | gapclosing: An R package">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ilundberg.github.io/gapclosing/github_doc/index.html/big-idea.html">
@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="This part introduces the big ideas: why we should do this, what data look like, and what’s going on under the hood. It closes with basic package functionality.  1.1 Motivation Gaps across social...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -27,6 +27,7 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+          margin-bottom: 0em;
         }
     .hanging div.csl-entry {
       margin-left:2em;
@@ -90,7 +91,7 @@
 <span class="header-section-number">1.1</span> Motivation<a class="anchor" aria-label="anchor" href="#motivation"><i class="fas fa-link"></i></a>
 </h2>
 <p>Gaps across social categories like race, class, and gender are important to understand. We would like to know whether there is anything we can do to close these gaps. What if we intervened to reduce incarceration or increase access to education? Would those interventions close gaps across categories of race, class, or gender?</p>
-<p>These types of questions are at the core of a growing literature in epidemiology addresses these questions with techniques for causal decomposition analysis (<span class="citation">VanderWeele and Robinson (<a href="references.html#ref-vanderweele2014" role="doc-biblioref">2014</a>)</span>, <span class="citation">Jackson and VanderWeele (<a href="references.html#ref-jackson2018" role="doc-biblioref">2018</a>)</span>, <span class="citation">Jackson (<a href="references.html#ref-jackson2020" role="doc-biblioref">2020</a>)</span>). This package provides software to support inquiry into gap-closing estimands, as discussed in <span class="citation">Lundberg (<a href="references.html#ref-lundberg2021" role="doc-biblioref">2022</a>)</span>.</p>
+<p>These types of questions are at the core of a growing literature in epidemiology addresses these questions with techniques for causal decomposition analysis (<span class="citation">VanderWeele and Robinson (<a href="references.html#ref-vanderweele2014">2014</a>)</span>, <span class="citation">Jackson and VanderWeele (<a href="references.html#ref-jackson2018">2018</a>)</span>, <span class="citation">Jackson (<a href="references.html#ref-jackson2020">2020</a>)</span>). This package provides software to support inquiry into gap-closing estimands, as discussed in <span class="citation">Lundberg (<a href="references.html#ref-lundberg2021">2022</a>)</span>.</p>
 <p>A guiding principle is to distinguish human tasks from software tasks that can be automated.</p>
 <p>As a human, you will:</p>
 <ul>
@@ -237,63 +238,63 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Factual mean outcomes:</span></span>
 <span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
-<span><span class="co">#&gt;   category estimate     se ci.min  ci.max</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 A         -1.09   0.0863 -1.26  -0.921 </span></span>
-<span><span class="co">#&gt; 2 B         -0.0384 0.0675 -0.171  0.0938</span></span>
-<span><span class="co">#&gt; 3 C          0.495  0.0821  0.334  0.656 </span></span>
+<span><span class="co">#&gt;   category estimate     se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A         -1.09   0.0716 -1.23  -0.950</span></span>
+<span><span class="co">#&gt; 2 B         -0.0384 0.0721 -0.180  0.103</span></span>
+<span><span class="co">#&gt; 3 C          0.495  0.0730  0.352  0.638</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Counterfactual mean outcomes (post-intervention means):</span></span>
 <span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
-<span><span class="co">#&gt;   category estimate     se  ci.min ci.max</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 A         -0.102  0.152  -0.400   0.196</span></span>
-<span><span class="co">#&gt; 2 B          0.0409 0.0866 -0.129   0.211</span></span>
-<span><span class="co">#&gt; 3 C          0.0805 0.0893 -0.0945  0.256</span></span>
+<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A         -0.102  0.125 -0.347  0.143</span></span>
+<span><span class="co">#&gt; 2 B          0.0409 0.136 -0.226  0.307</span></span>
+<span><span class="co">#&gt; 3 C          0.0805 0.104 -0.123  0.284</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Factual disparities:</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
-<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 A - B      -1.05  0.104 -1.26  -0.849</span></span>
-<span><span class="co">#&gt; 2 A - C      -1.59  0.120 -1.82  -1.35 </span></span>
-<span><span class="co">#&gt; 3 B - A       1.05  0.104  0.849  1.26 </span></span>
-<span><span class="co">#&gt; 4 B - C      -0.534 0.109 -0.747 -0.321</span></span>
-<span><span class="co">#&gt; 5 C - A       1.59  0.120  1.35   1.82 </span></span>
-<span><span class="co">#&gt; 6 C - B       0.534 0.109  0.321  0.747</span></span>
+<span><span class="co">#&gt;   category estimate     se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A - B      -1.05  0.105  -1.26  -0.847</span></span>
+<span><span class="co">#&gt; 2 A - C      -1.59  0.0930 -1.77  -1.40 </span></span>
+<span><span class="co">#&gt; 3 B - A       1.05  0.105   0.847  1.26 </span></span>
+<span><span class="co">#&gt; 4 B - C      -0.534 0.120  -0.768 -0.300</span></span>
+<span><span class="co">#&gt; 5 C - A       1.59  0.0930  1.40   1.77 </span></span>
+<span><span class="co">#&gt; 6 C - B       0.534 0.120   0.300  0.768</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Counterfactual disparities (gap-closing estimands):</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
 <span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 A - B     -0.143  0.149 -0.435  0.150</span></span>
-<span><span class="co">#&gt; 2 A - C     -0.183  0.178 -0.532  0.167</span></span>
-<span><span class="co">#&gt; 3 B - A      0.143  0.149 -0.150  0.435</span></span>
-<span><span class="co">#&gt; 4 B - C     -0.0396 0.110 -0.255  0.175</span></span>
-<span><span class="co">#&gt; 5 C - A      0.183  0.178 -0.167  0.532</span></span>
-<span><span class="co">#&gt; 6 C - B      0.0396 0.110 -0.175  0.255</span></span>
+<span><span class="co">#&gt; 1 A - B     -0.143  0.182 -0.500  0.214</span></span>
+<span><span class="co">#&gt; 2 A - C     -0.183  0.176 -0.528  0.163</span></span>
+<span><span class="co">#&gt; 3 B - A      0.143  0.182 -0.214  0.500</span></span>
+<span><span class="co">#&gt; 4 B - C     -0.0396 0.183 -0.398  0.319</span></span>
+<span><span class="co">#&gt; 5 C - A      0.183  0.176 -0.163  0.528</span></span>
+<span><span class="co">#&gt; 6 C - B      0.0396 0.183 -0.319  0.398</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Additive gap closed: Counterfactual - Factual</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
-<span><span class="co">#&gt;   category estimate     se ci.min ci.max</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 A - B      -0.909 0.120  -1.15  -0.673</span></span>
-<span><span class="co">#&gt; 2 A - C      -1.40  0.112  -1.62  -1.18 </span></span>
-<span><span class="co">#&gt; 3 B - A       0.909 0.120   0.673  1.15 </span></span>
-<span><span class="co">#&gt; 4 B - C      -0.494 0.0644 -0.620 -0.368</span></span>
-<span><span class="co">#&gt; 5 C - A       1.40  0.112   1.18   1.62 </span></span>
-<span><span class="co">#&gt; 6 C - B       0.494 0.0644  0.368  0.620</span></span>
+<span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 A - B      -0.909 0.138 -1.18  -0.638</span></span>
+<span><span class="co">#&gt; 2 A - C      -1.40  0.138 -1.67  -1.13 </span></span>
+<span><span class="co">#&gt; 3 B - A       0.909 0.138  0.638  1.18 </span></span>
+<span><span class="co">#&gt; 4 B - C      -0.494 0.102 -0.694 -0.294</span></span>
+<span><span class="co">#&gt; 5 C - A       1.40  0.138  1.13   1.67 </span></span>
+<span><span class="co">#&gt; 6 C - B       0.494 0.102  0.294  0.694</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Proportional gap closed: (Counterfactual - Factual) / Factual</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
 <span><span class="co">#&gt;   category estimate    se ci.min ci.max</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 A - B       0.864 0.141  0.588   1.14</span></span>
-<span><span class="co">#&gt; 2 A - C       0.885 0.105  0.679   1.09</span></span>
-<span><span class="co">#&gt; 3 B - A       0.864 0.141  0.588   1.14</span></span>
-<span><span class="co">#&gt; 4 B - C       0.926 0.207  0.520   1.33</span></span>
-<span><span class="co">#&gt; 5 C - A       0.885 0.105  0.679   1.09</span></span>
-<span><span class="co">#&gt; 6 C - B       0.926 0.207  0.520   1.33</span></span>
+<span><span class="co">#&gt; 1 A - B       0.864 0.162  0.547   1.18</span></span>
+<span><span class="co">#&gt; 2 A - C       0.885 0.107  0.675   1.10</span></span>
+<span><span class="co">#&gt; 3 B - A       0.864 0.162  0.547   1.18</span></span>
+<span><span class="co">#&gt; 4 B - C       0.926 0.335  0.269   1.58</span></span>
+<span><span class="co">#&gt; 5 C - A       0.885 0.107  0.675   1.10</span></span>
+<span><span class="co">#&gt; 6 C - B       0.926 0.335  0.269   1.58</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Type plot(name_of_this_object) to visualize results.</span></span></code></pre></div>
 
@@ -327,7 +328,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>gapclosing: An R package</strong>" was written by Ian Lundberg. It was last built on 2023-03-09.</p>
+    <p>"<strong>gapclosing: An R package</strong>" was written by Ian Lundberg. It was last built on 2024-12-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

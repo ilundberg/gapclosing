@@ -7,7 +7,7 @@
 <title>Chapter 2 Concepts in detail | gapclosing: An R package</title>
 <meta name="author" content="Ian Lundberg">
 <meta name="description" content="This section provides a more detailed overview of the use of gapclosing(). It is structured from the perspective of the three key tasks for the researcher: define the intervention make causal...">
-<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 2 Concepts in detail | gapclosing: An R package">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ilundberg.github.io/gapclosing/github_doc/index.html/concepts-in-detail.html">
@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="This section provides a more detailed overview of the use of gapclosing(). It is structured from the perspective of the three key tasks for the researcher: define the intervention make causal...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -27,6 +27,7 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+          margin-bottom: 0em;
         }
     .hanging div.csl-entry {
       margin-left:2em;
@@ -114,7 +115,7 @@
 <h2>
 <span class="header-section-number">2.2</span> Make causal assumptions for identification<a class="anchor" aria-label="anchor" href="#make-causal-assumptions-for-identification"><i class="fas fa-link"></i></a>
 </h2>
-<p>The package does help you with this step. Gap-closing estimands involve unobserved potential outcomes. Because they are unobserved, the data cannot tell us which variables are needed for estimation. Instead, that is a conceptual choice to be carried out with tools like Directed Acyclic Graphs (DAGs). See the accompanying <span class="citation">Lundberg (<a href="references.html#ref-lundberg2021" role="doc-biblioref">2022</a>)</span> paper for more on identification.</p>
+<p>The package does help you with this step. Gap-closing estimands involve unobserved potential outcomes. Because they are unobserved, the data cannot tell us which variables are needed for estimation. Instead, that is a conceptual choice to be carried out with tools like Directed Acyclic Graphs (DAGs). See the accompanying <span class="citation">Lundberg (<a href="references.html#ref-lundberg2021">2022</a>)</span> paper for more on identification.</p>
 <blockquote>
 <p><em>Example.</em> Assume that the set of variables <span class="math inline">\(\{X,L\}\)</span> is a sufficient conditioning set to identify the gap-closing estimand. Formally, this requires us to assume that within each stratum of <span class="math inline">\(X\)</span> and <span class="math inline">\(L\)</span> the expected value of the potential outcome <span class="math inline">\(Y(1)\)</span> is the same as the expected value among units who factually have <span class="math inline">\(T = 1\)</span> within those strata.
 <span class="math display">\[\mathbb{E}(Y(1)\mid X, L) = \mathbb{E}(Y\mid X, L, T = 1)\]</span>
@@ -143,7 +144,7 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 <p>Whether <code>treatment_formula</code> or <code>outcome_formula</code> is left <code>NULL</code> will determine the estimation procedure.</p>
 <ul>
 <li>If only <code>treatment_formula</code> is provided, then estimation will be by inverse probability of treatment weighting.</li>
-<li>If only <code>outcome_formula</code> is provided, then estimation will be by prediction of unobserved potential outcomes (the <span class="math inline">\(g\)</span>-formula, see <span class="citation">Hernán and Robins (<a href="references.html#ref-hernan2021" role="doc-biblioref">2021</a>)</span>).</li>
+<li>If only <code>outcome_formula</code> is provided, then estimation will be by prediction of unobserved potential outcomes (the <span class="math inline">\(g\)</span>-formula, see <span class="citation">Hernán and Robins (<a href="references.html#ref-hernan2021">2021</a>)</span>).</li>
 <li>If both <code>treatment_formula</code> and <code>outcome_formula</code> are provided, then the primary estimate will be doubly robust, with separate treatment and outcome modeling estimates accessible through the returned object.</li>
 </ul>
 <div id="choose-an-estimation-algorithm" class="section level3" number="2.3.1">
@@ -157,11 +158,11 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 <li>
 <code>lm</code> (for <code>outcome_algorithm</code> only): An OLS regression model estimated by the <code>lm</code> function. If there are important interactions among treatment, category, and covariates, these should be included explicitly.</li>
 <li>
-<code>ridge</code>: A ridge (i.e. L<sub>2</sub>-penalized) logistic regression model (for <code>treatment_algorithm</code>) or linear regression model (for <code>outcome_algorithm</code>) estimated by the <code>glmnet</code> function in the <code>glmnet</code> package <span class="citation">(<a href="references.html#ref-glmnet" role="doc-biblioref">Friedman, Hastie, and Tibshirani 2010</a>)</span>, with <code>alpha = 0</code> to indicate the ridge penalty. Elastic net and lasso regression are not supported because those approaches could regularize some coefficients to exactly zero, and if you have chosen the needed confounders (step 2) then you would not want their coefficients to be regularized to zero. The penalty term is chosen by <code>cv.glmnet</code> and is set to the value <code>lambda.min</code> (see <code>glmnet</code> documentation). If there are important interactions among treatment, category, and covariates, these should be included explicitly.</li>
+<code>ridge</code>: A ridge (i.e. L<sub>2</sub>-penalized) logistic regression model (for <code>treatment_algorithm</code>) or linear regression model (for <code>outcome_algorithm</code>) estimated by the <code>glmnet</code> function in the <code>glmnet</code> package <span class="citation">(<a href="references.html#ref-glmnet">Friedman, Hastie, and Tibshirani 2010</a>)</span>, with <code>alpha = 0</code> to indicate the ridge penalty. Elastic net and lasso regression are not supported because those approaches could regularize some coefficients to exactly zero, and if you have chosen the needed confounders (step 2) then you would not want their coefficients to be regularized to zero. The penalty term is chosen by <code>cv.glmnet</code> and is set to the value <code>lambda.min</code> (see <code>glmnet</code> documentation). If there are important interactions among treatment, category, and covariates, these should be included explicitly.</li>
 <li>
-<code>gam</code>: A Generalized Additive Model (logistic if used as <code>treatment_algorithm</code>, linear if used as <code>outcome_algorithm</code>) estimated by the <code>gam</code> function in the <code>mgcv</code> package <span class="citation">(<a href="references.html#ref-mgcv" role="doc-biblioref">Wood 2017</a>)</span>. The model formula should be specified as in the <code>mgcv</code> documentation and may include smooth terms <code>s()</code> for continuous covariates. If there are important interactions among treatment, category, and covariates, these should be included explicitly.</li>
+<code>gam</code>: A Generalized Additive Model (logistic if used as <code>treatment_algorithm</code>, linear if used as <code>outcome_algorithm</code>) estimated by the <code>gam</code> function in the <code>mgcv</code> package <span class="citation">(<a href="references.html#ref-mgcv">Wood 2017</a>)</span>. The model formula should be specified as in the <code>mgcv</code> documentation and may include smooth terms <code>s()</code> for continuous covariates. If there are important interactions among treatment, category, and covariates, these should be included explicitly.</li>
 <li>
-<code>ranger</code>: A random forest estimated by the <code>ranger</code> function in the <code>ranger</code> package <span class="citation">(<a href="references.html#ref-ranger" role="doc-biblioref">Wright and Ziegler 2017</a>)</span>. If used as <code>treatment_algorithm</code>, one forest will be fit and predicted treatment probabilities will be truncated to the [.001,.999] range to avoid extreme inverse probability of treatment weights. If used as <code>outcome_algorithm</code>, the forest will be estimated separately on treated and control units; the treatment variable does not need to be included in <code>outcome_formula</code> in this case.</li>
+<code>ranger</code>: A random forest estimated by the <code>ranger</code> function in the <code>ranger</code> package <span class="citation">(<a href="references.html#ref-ranger">Wright and Ziegler 2017</a>)</span>. If used as <code>treatment_algorithm</code>, one forest will be fit and predicted treatment probabilities will be truncated to the [.001,.999] range to avoid extreme inverse probability of treatment weights. If used as <code>outcome_algorithm</code>, the forest will be estimated separately on treated and control units; the treatment variable does not need to be included in <code>outcome_formula</code> in this case.</li>
 </ul>
 <blockquote>
 <p><em>Example.</em><br><code>treatment_algorithm = "glm"</code><br><code>outcome_algorithm = "lm"</code></p>
@@ -174,9 +175,9 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 </h3>
 <p>Doubly-robust estimation yields advantages that can be conceptualized in two ways.</p>
 <ul>
-<li>From the perspective of parametric models, if either the treatment or the outcome model is correct, then the estimator is consistent <span class="citation">(<a href="references.html#ref-bang2005" role="doc-biblioref">Bang and Robins 2005</a>)</span>. See <span class="citation">Glynn and Quinn (<a href="references.html#ref-glynn2010" role="doc-biblioref">2010</a>)</span> for an accessible introduction.<br>
+<li>From the perspective of parametric models, if either the treatment or the outcome model is correct, then the estimator is consistent <span class="citation">(<a href="references.html#ref-bang2005">Bang and Robins 2005</a>)</span>. See <span class="citation">Glynn and Quinn (<a href="references.html#ref-glynn2010">2010</a>)</span> for an accessible introduction.<br>
 </li>
-<li>From the perspective of machine learning, double robustness adjusts for the fact that outcome modeling alone is optimized for the wrong prediction task. An outcome model would be optimized to predict where we observed data, but our actual task is to predict over a predictor distribution <em>different</em> from that which was observed (because the treatment has been changed). This is an opportunity to improve the predictions. By building a model of treatment, we can reweight the residuals of the outcome model to estimate the average prediction error over the space where we want to make predictions. Subtracting off this bias can improve the outcome modeling estimator. This pivot is at the core of moves toward targeted learning <span class="citation">(<a href="references.html#ref-vanderlaan2011" role="doc-biblioref">Van der Laan and Rose 2011</a>)</span> and double machine learning <span class="citation">(<a href="references.html#ref-chernozhukov2018" role="doc-biblioref">Chernozhukov et al. 2018</a>)</span>, building on a long line of research in efficient estimation <span class="citation">(<a href="references.html#ref-robins1995" role="doc-biblioref">Robins and Rotnitzky 1995</a>; <a href="references.html#ref-hahn1998" role="doc-biblioref">Hahn 1998</a>)</span>.</li>
+<li>From the perspective of machine learning, double robustness adjusts for the fact that outcome modeling alone is optimized for the wrong prediction task. An outcome model would be optimized to predict where we observed data, but our actual task is to predict over a predictor distribution <em>different</em> from that which was observed (because the treatment has been changed). This is an opportunity to improve the predictions. By building a model of treatment, we can reweight the residuals of the outcome model to estimate the average prediction error over the space where we want to make predictions. Subtracting off this bias can improve the outcome modeling estimator. This pivot is at the core of moves toward targeted learning <span class="citation">(<a href="references.html#ref-vanderlaan2011">Van der Laan and Rose 2011</a>)</span> and double machine learning <span class="citation">(<a href="references.html#ref-chernozhukov2018">Chernozhukov et al. 2018</a>)</span>, building on a long line of research in efficient estimation <span class="citation">(<a href="references.html#ref-robins1995">Robins and Rotnitzky 1995</a>; <a href="references.html#ref-hahn1998">Hahn 1998</a>)</span>.</li>
 </ul>
 <p>Although double robustness has strong mathematical properties, in any given application with a finite sample it is possible that treatment or outcome modeling could outperform doubly-robust estimation. Therefore, the package supports all three approaches.</p>
 </div>
@@ -195,7 +196,7 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 </li>
 <li>Average the estimate that results from (2) and (3) repeated <code>n_folds</code> times with each fold playing the role of <span class="math inline">\(f'\)</span> in turn</li>
 </ol>
-<p>This is the procedure that <span class="citation">Chernozhukov et al. (<a href="references.html#ref-chernozhukov2018" role="doc-biblioref">2018</a>)</span> argue is critical to double machine learning for causal estimation, although this type of sample splitting is not new <span class="citation">(<a href="references.html#ref-bickel1982" role="doc-biblioref">Bickel 1982</a>)</span>.</p>
+<p>This is the procedure that <span class="citation">Chernozhukov et al. (<a href="references.html#ref-chernozhukov2018">2018</a>)</span> argue is critical to double machine learning for causal estimation, although this type of sample splitting is not new <span class="citation">(<a href="references.html#ref-bickel1982">Bickel 1982</a>)</span>.</p>
 <p>If <code>sample_split = "cross_fit"</code>, the default is to conduct 2-fold cross-fitting, but this can be changed with the <code>n_folds</code> argument. The user can also specify their own vector <code>folds</code> of fold assignments of length <code>nrow(data)</code>, if there is something about the particular setting that would make a manual fold assignment preferable.</p>
 <blockquote>
 <p><em>Example.</em> (this is the default and can be left implicit)<br><code>sample_split = "one_sample"</code></p>
@@ -250,7 +251,7 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>gapclosing: An R package</strong>" was written by Ian Lundberg. It was last built on 2023-03-09.</p>
+    <p>"<strong>gapclosing: An R package</strong>" was written by Ian Lundberg. It was last built on 2024-12-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

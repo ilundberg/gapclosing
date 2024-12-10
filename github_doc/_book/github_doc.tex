@@ -5,16 +5,19 @@
 \documentclass[
 ]{article}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -45,13 +48,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -59,7 +62,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -68,7 +71,7 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
@@ -107,9 +110,9 @@
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={gapclosing: An R package},
   pdfauthor={Ian Lundberg},
@@ -118,7 +121,7 @@
 
 \title{gapclosing: An R package}
 \author{Ian Lundberg}
-\date{2023-03-09}
+\date{2024-12-09}
 
 \begin{document}
 \maketitle
@@ -127,8 +130,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-\hypertarget{welcome}{%
-\section*{Welcome!}\label{welcome}}
+\section*{Welcome!}\label{welcome}
 \addcontentsline{toc}{section}{Welcome!}
 
 This website documents the \href{https://cran.r-project.org/web/packages/gapclosing/}{\textbf{gapclosing}} package for R. The package helps answers questions of the form: to what degree would a hypothetical intervention close gaps across populations?
@@ -136,7 +138,7 @@ This website documents the \href{https://cran.r-project.org/web/packages/gapclos
 This causal question is of paramount importance for those who want to intervene to reduce disparities across categories such as gender, race, and class. How to answer that question is the subject of the companion papaer to this package.
 
 \begin{quote}
-Lundberg, Ian. 2022. \href{https://doi.org/10.1177/00491241211055769}{\textbf{The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.}} Sociological Methods and Research.
+Lundberg, Ian. 2024. \href{https://doi.org/10.1177/00491241211055769}{\textbf{The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.}} Sociological Methods \& Research, 53(2), 507-570.
 \end{quote}
 
 To get started with these methods, first install \href{https://rstudio-education.github.io/hopr/starting.html}{R and RStudio}. Then install the package from CRAN.
@@ -161,15 +163,13 @@ You can now do lots of things!
   Visualize the result
 \end{itemize}
 
-Questions and comments to Ian Lundberg, \href{mailto:ilundberg@cornell.edu}{\nolinkurl{ilundberg@cornell.edu}}.
+Questions and comments to Ian Lundberg, \href{mailto:ianlundberg@ucla.edu}{\nolinkurl{ianlundberg@ucla.edu}}.
 
-\hypertarget{big-idea}{%
-\section{Big idea}\label{big-idea}}
+\section{Big idea}\label{big-idea}
 
 This part introduces the big ideas: why we should do this, what data look like, and what's going on under the hood. It closes with basic package functionality.
 
-\hypertarget{motivation}{%
-\subsection{Motivation}\label{motivation}}
+\subsection{Motivation}\label{motivation}
 
 Gaps across social categories like race, class, and gender are important to understand. We would like to know whether there is anything we can do to close these gaps. What if we intervened to reduce incarceration or increase access to education? Would those interventions close gaps across categories of race, class, or gender?
 
@@ -205,8 +205,7 @@ Then package will:
   visualize the result
 \end{itemize}
 
-\hypertarget{data-structure}{%
-\subsection{Data structure}\label{data-structure}}
+\subsection{Data structure}\label{data-structure}
 
 In a data frame \texttt{data}, we have a gap-defining category such as race, gender, or class. We have a binary treatment variable that could have counterfactually been different for any individual. We want to know the degree to which an intervention to change the treatment would close gaps across the categories.
 
@@ -251,8 +250,7 @@ In a data frame \texttt{data}, we have a gap-defining category such as race, gen
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{coding-from-scratch}{%
-\subsection{Coding from scratch}\label{coding-from-scratch}}
+\subsection{Coding from scratch}\label{coding-from-scratch}
 
 With the most simple models, you can carry out a gap-closing analysis without the software package. First, fit any prediction function for the outcome as a function of the category of interest, confounders, and treatment.
 
@@ -319,8 +317,7 @@ The software package supports these steps as well as more complex things you mig
   easy visualization
 \end{itemize}
 
-\hypertarget{basic-package-functionality}{%
-\subsection{Basic package functionality}\label{basic-package-functionality}}
+\subsection{Basic package functionality}\label{basic-package-functionality}
 
 The \texttt{gapclosing()} function estimates gaps across categories and the degree to which they would close under the specified \texttt{counterfactual\_assignments} of the treatment.
 
@@ -396,70 +393,69 @@ The \texttt{summary} function will print estimates, standard errors, and confide
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Factual mean outcomes:}
 \CommentTok{\#\textgreater{} \# A tibble: 3 x 5}
-\CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A         {-}1.09   0.0782 {-}1.24  {-}0.938}
-\CommentTok{\#\textgreater{} 2 B         {-}0.0384 0.0773 {-}0.190  0.113}
-\CommentTok{\#\textgreater{} 3 C          0.495  0.0838  0.331  0.660}
+\CommentTok{\#\textgreater{}   category estimate     se ci.min  ci.max}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}   \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 A         {-}1.09   0.109  {-}1.30  {-}0.877 }
+\CommentTok{\#\textgreater{} 2 B         {-}0.0384 0.0642 {-}0.164  0.0874}
+\CommentTok{\#\textgreater{} 3 C          0.495  0.0828  0.333  0.658 }
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Counterfactual mean outcomes (post{-}intervention means):}
 \CommentTok{\#\textgreater{} \# A tibble: 3 x 5}
 \CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
 \CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A         {-}0.102  0.158  {-}0.412  0.208}
-\CommentTok{\#\textgreater{} 2 B          0.0409 0.0880 {-}0.132  0.213}
-\CommentTok{\#\textgreater{} 3 C          0.0805 0.0943 {-}0.104  0.265}
+\CommentTok{\#\textgreater{} 1 A         {-}0.102  0.168  {-}0.431  0.227}
+\CommentTok{\#\textgreater{} 2 B          0.0409 0.0844 {-}0.124  0.206}
+\CommentTok{\#\textgreater{} 3 C          0.0805 0.112  {-}0.138  0.299}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Factual disparities:}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
-\CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B      {-}1.05  0.107  {-}1.26  {-}0.842}
-\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.59  0.131  {-}1.84  {-}1.33 }
-\CommentTok{\#\textgreater{} 3 B {-} A       1.05  0.107   0.842  1.26 }
-\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.534 0.0926 {-}0.715 {-}0.352}
-\CommentTok{\#\textgreater{} 5 C {-} A       1.59  0.131   1.33   1.84 }
-\CommentTok{\#\textgreater{} 6 C {-} B       0.534 0.0926  0.352  0.715}
+\CommentTok{\#\textgreater{}   category estimate    se ci.min ci.max}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 A {-} B      {-}1.05  0.130 {-}1.31  {-}0.797}
+\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.59  0.127 {-}1.83  {-}1.34 }
+\CommentTok{\#\textgreater{} 3 B {-} A       1.05  0.130  0.797  1.31 }
+\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.534 0.113 {-}0.756 {-}0.312}
+\CommentTok{\#\textgreater{} 5 C {-} A       1.59  0.127  1.34   1.83 }
+\CommentTok{\#\textgreater{} 6 C {-} B       0.534 0.113  0.312  0.756}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Counterfactual disparities (gap{-}closing estimands):}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
 \CommentTok{\#\textgreater{}   category estimate    se ci.min ci.max}
 \CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B     {-}0.143  0.181 {-}0.497  0.211}
-\CommentTok{\#\textgreater{} 2 A {-} C     {-}0.183  0.191 {-}0.556  0.191}
-\CommentTok{\#\textgreater{} 3 B {-} A      0.143  0.181 {-}0.211  0.497}
-\CommentTok{\#\textgreater{} 4 B {-} C     {-}0.0396 0.108 {-}0.250  0.171}
-\CommentTok{\#\textgreater{} 5 C {-} A      0.183  0.191 {-}0.191  0.556}
-\CommentTok{\#\textgreater{} 6 C {-} B      0.0396 0.108 {-}0.171  0.250}
+\CommentTok{\#\textgreater{} 1 A {-} B     {-}0.143  0.183 {-}0.501  0.215}
+\CommentTok{\#\textgreater{} 2 A {-} C     {-}0.183  0.202 {-}0.579  0.214}
+\CommentTok{\#\textgreater{} 3 B {-} A      0.143  0.183 {-}0.215  0.501}
+\CommentTok{\#\textgreater{} 4 B {-} C     {-}0.0396 0.144 {-}0.322  0.243}
+\CommentTok{\#\textgreater{} 5 C {-} A      0.183  0.202 {-}0.214  0.579}
+\CommentTok{\#\textgreater{} 6 C {-} B      0.0396 0.144 {-}0.243  0.322}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Additive gap closed: Counterfactual {-} Factual}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
-\CommentTok{\#\textgreater{}   category estimate     se ci.min ci.max}
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B      {-}0.909 0.130  {-}1.17  {-}0.654}
-\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.40  0.143  {-}1.68  {-}1.12 }
-\CommentTok{\#\textgreater{} 3 B {-} A       0.909 0.130   0.654  1.17 }
-\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.494 0.0575 {-}0.607 {-}0.382}
-\CommentTok{\#\textgreater{} 5 C {-} A       1.40  0.143   1.12   1.68 }
-\CommentTok{\#\textgreater{} 6 C {-} B       0.494 0.0575  0.382  0.607}
+\CommentTok{\#\textgreater{}   category estimate    se ci.min ci.max}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 A {-} B      {-}0.909 0.125 {-}1.16  {-}0.663}
+\CommentTok{\#\textgreater{} 2 A {-} C      {-}1.40  0.149 {-}1.70  {-}1.11 }
+\CommentTok{\#\textgreater{} 3 B {-} A       0.909 0.125  0.663  1.16 }
+\CommentTok{\#\textgreater{} 4 B {-} C      {-}0.494 0.111 {-}0.712 {-}0.277}
+\CommentTok{\#\textgreater{} 5 C {-} A       1.40  0.149  1.11   1.70 }
+\CommentTok{\#\textgreater{} 6 C {-} B       0.494 0.111  0.277  0.712}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Proportional gap closed: (Counterfactual {-} Factual) / Factual}
 \CommentTok{\#\textgreater{} \# A tibble: 6 x 5}
 \CommentTok{\#\textgreater{}   category estimate    se ci.min ci.max}
 \CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
-\CommentTok{\#\textgreater{} 1 A {-} B       0.864 0.170  0.530   1.20}
-\CommentTok{\#\textgreater{} 2 A {-} C       0.885 0.120  0.650   1.12}
-\CommentTok{\#\textgreater{} 3 B {-} A       0.864 0.170  0.530   1.20}
-\CommentTok{\#\textgreater{} 4 B {-} C       0.926 0.185  0.564   1.29}
-\CommentTok{\#\textgreater{} 5 C {-} A       0.885 0.120  0.650   1.12}
-\CommentTok{\#\textgreater{} 6 C {-} B       0.926 0.185  0.564   1.29}
+\CommentTok{\#\textgreater{} 1 A {-} B       0.864 0.161  0.548   1.18}
+\CommentTok{\#\textgreater{} 2 A {-} C       0.885 0.125  0.640   1.13}
+\CommentTok{\#\textgreater{} 3 B {-} A       0.864 0.161  0.548   1.18}
+\CommentTok{\#\textgreater{} 4 B {-} C       0.926 0.254  0.428   1.42}
+\CommentTok{\#\textgreater{} 5 C {-} A       0.885 0.125  0.640   1.13}
+\CommentTok{\#\textgreater{} 6 C {-} B       0.926 0.254  0.428   1.42}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Type plot(name\_of\_this\_object) to visualize results.}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{concepts-in-detail}{%
-\section{Concepts in detail}\label{concepts-in-detail}}
+\section{Concepts in detail}\label{concepts-in-detail}
 
 This section provides a more detailed overview of the use of \texttt{gapclosing()}.
 
@@ -478,8 +474,7 @@ It is structured from the perspective of the three key tasks for the researcher:
 
 Along the way, this section introduces many of the possible arguments in a \texttt{gapclosing()} call.
 
-\hypertarget{define-the-intervention}{%
-\subsection{Define the intervention}\label{define-the-intervention}}
+\subsection{Define the intervention}\label{define-the-intervention}
 
 To answer a gap-closing question, we first need to define what that intervention would be. To what treatment value would units be counterfactually assigned? There are several options.
 
@@ -498,8 +493,7 @@ To answer a gap-closing question, we first need to define what that intervention
 \texttt{counterfactual\_assignments\ =\ 1}
 \end{quote}
 
-\hypertarget{make-causal-assumptions-for-identification}{%
-\subsection{Make causal assumptions for identification}\label{make-causal-assumptions-for-identification}}
+\subsection{Make causal assumptions for identification}\label{make-causal-assumptions-for-identification}
 
 The package does help you with this step. Gap-closing estimands involve unobserved potential outcomes. Because they are unobserved, the data cannot tell us which variables are needed for estimation. Instead, that is a conceptual choice to be carried out with tools like Directed Acyclic Graphs (DAGs). See the accompanying \citet{lundberg2021} paper for more on identification.
 
@@ -513,8 +507,7 @@ DAGs are a good way to reason about this assumption: in this example, conditioni
 
 Once we select a sufficient conditioning set, those predictors will appear in both the treatment and/or the outcome model used for estimation.
 
-\hypertarget{specify-a-treatment-model-andor-an-outcome-model}{%
-\subsection{Specify a treatment model and/or an outcome model}\label{specify-a-treatment-model-andor-an-outcome-model}}
+\subsection{Specify a treatment model and/or an outcome model}\label{specify-a-treatment-model-andor-an-outcome-model}
 
 We need to estimate one or both of (1) the probability of treatment given confounders and (2) the conditional mean of the outcome given treatment and confounders. We do that by providing one or both of the following.
 
@@ -552,8 +545,7 @@ Whether \texttt{treatment\_formula} or \texttt{outcome\_formula} is left \texttt
   If both \texttt{treatment\_formula} and \texttt{outcome\_formula} are provided, then the primary estimate will be doubly robust, with separate treatment and outcome modeling estimates accessible through the returned object.
 \end{itemize}
 
-\hypertarget{choose-an-estimation-algorithm}{%
-\subsubsection{Choose an estimation algorithm}\label{choose-an-estimation-algorithm}}
+\subsubsection{Choose an estimation algorithm}\label{choose-an-estimation-algorithm}
 
 The \texttt{treatment\_formula} and \texttt{outcome\_formula} are handed to \texttt{treatment\_algorithm} and \texttt{outcome\_algorithm}, which can take the following values.
 
@@ -579,8 +571,7 @@ The \texttt{treatment\_formula} and \texttt{outcome\_formula} are handed to \tex
 
 If the data are a sample from a population selected with unequal probabilities, you can also use the \texttt{weight\_name} option to pass estimation functions the name of the sampling weight (a variable in \texttt{data} proportional to the inverse probability of sample inclusion). If omitted, a simple random sample is assumed.
 
-\hypertarget{why-doubly-robust-a-side-note}{%
-\subsubsection{Why doubly robust? A side note}\label{why-doubly-robust-a-side-note}}
+\subsubsection{Why doubly robust? A side note}\label{why-doubly-robust-a-side-note}
 
 Doubly-robust estimation yields advantages that can be conceptualized in two ways.
 
@@ -594,8 +585,7 @@ Doubly-robust estimation yields advantages that can be conceptualized in two way
 
 Although double robustness has strong mathematical properties, in any given application with a finite sample it is possible that treatment or outcome modeling could outperform doubly-robust estimation. Therefore, the package supports all three approaches.
 
-\hypertarget{why-sample-splitting-another-side-note}{%
-\subsubsection{Why sample splitting? Another side note}\label{why-sample-splitting-another-side-note}}
+\subsubsection{Why sample splitting? Another side note}\label{why-sample-splitting-another-side-note}
 
 Taking the bias-correction view of double robustness above, it is clear that sample splitting affords a further opportunity for improvement: if you learn an outcome model \emph{and} estimate its average bias on the same sample, you might get a poor estimate of the bias. For this reason, one should consider using one sample (which I call \texttt{data\_learn}) to learn the prediction functions and another sample (which I call \texttt{data\_estimate}) to estimate the bias and aggregate to an estimate of the estimand.
 
@@ -623,8 +613,7 @@ If \texttt{sample\_split\ =\ "cross\_fit"}, the default is to conduct 2-fold cro
 \texttt{sample\_split\ =\ "one\_sample"}
 \end{quote}
 
-\hypertarget{produce-standard-errors}{%
-\subsubsection{Produce standard errors}\label{produce-standard-errors}}
+\subsubsection{Produce standard errors}\label{produce-standard-errors}
 
 The package supports bootstrapped standard error estimation. The procedure with \texttt{bootstrap\_method\ =\ "simple"} (the default) is valid when the data are a simple random sample from the target population. In this case, each bootstrap iteration conducts estimation on a resampled dataset selected with replacement with equal probabilities. The standard error is calculated as the standard deviation of the estimate across bootstrap samples, and confidence intervals are calculated by a normal approximation.
 
@@ -638,13 +627,11 @@ In some settings, the sample size may be small and categories or treatments of i
 
 Many samples are not simple random samples. In complex sample settings, users should implement their own standard error procedures to accurately capture sampling variation related to how their data were collected. The way the data were collected could motivate a resampling strategy to mimic the sources of variation in that sampling process, which the user can implement manually by calling \texttt{gapclosing} to calculate a point estimate on each resampled dataset with \texttt{se\ =\ FALSE}.
 
-\hypertarget{machine-learning-examples}{%
-\section{Machine learning examples}\label{machine-learning-examples}}
+\section{Machine learning examples}\label{machine-learning-examples}
 
 Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the \texttt{gapclosing()} function.
 
-\hypertarget{generalized-additive-models}{%
-\subsection{Generalized Additive Models}\label{generalized-additive-models}}
+\subsection{Generalized Additive Models}\label{generalized-additive-models}
 
 Perhaps you are concerned about linearity assumptions: the continuous confounder, for instance, might actually have a nonlinear association with the outcome. We know the truth is linear in this simulated example, but in practice you would never know. You can address this concern by estimating with a GAM, using the \texttt{s()} operator from \texttt{mgcv} for smooth terms (see \citet{mgcv}).
 
@@ -665,8 +652,7 @@ Perhaps you are concerned about linearity assumptions: the continuous confounder
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{random-forests}{%
-\subsection{Random forests}\label{random-forests}}
+\subsection{Random forests}\label{random-forests}
 
 Perhaps you are concerned that the true treatment probability and expected outcome functions have many interactions among the predictors. You can set \texttt{treatment\_algorithm} and \texttt{outcome\_algorithm} to ``ranger'' to estimate via the \texttt{ranger} function in the \texttt{ranger} package \citep{ranger}.
 
@@ -689,8 +675,7 @@ One aspect of the way \texttt{gapclosing()} operationalizes \texttt{ranger()} is
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{estimates-from-these-three-algorithms-are-roughly-the-same}{%
-\subsection{Estimates from these three algorithms are roughly the same}\label{estimates-from-these-three-algorithms-are-roughly-the-same}}
+\subsection{Estimates from these three algorithms are roughly the same}\label{estimates-from-these-three-algorithms-are-roughly-the-same}
 
 In this simulation, the GLM models are correctly specified and there are no nonlinearities or interactions for the machine learning approaches to learn. In this case, the sample size is large enough that those approaches correctly learn the linear functional form, and all three estimation strategies yield similar estimates.
 
@@ -698,13 +683,11 @@ In this simulation, the GLM models are correctly specified and there are no nonl
 
 Note that confidence intervals for GAM and random forest can also be generated with \texttt{SE\ =\ TRUE}, which is turned off here only to speed vignette build time.
 
-\hypertarget{word-of-warning}{%
-\subsection{Word of warning}\label{word-of-warning}}
+\subsection{Word of warning}\label{word-of-warning}
 
 The assumptions of a parametric model are always doubtful, leading to a common question of whether one should always use a more flexible machine learning approach like \texttt{ranger}. In a very large sample, a flexible learner would likely be the correct choice. In the sample sizes of social science settings, the amount of data may sometimes be insufficient for these algorithms to discover a complex functional form. When the parametric assumptions are approximately true, the parametric estimators may have better performance in small sample sizes. What counts as ``small'' and ``large'' is difficult to say outside of any specific setting.
 
-\hypertarget{advanced-treatment-assignments}{%
-\section{Advanced treatment assignments}\label{advanced-treatment-assignments}}
+\section{Advanced treatment assignments}\label{advanced-treatment-assignments}
 
 So far, we have focused on estimation for a fixed treatment assignment: assign to treatment 1 with probability 1.
 
@@ -718,8 +701,7 @@ We might also want to know about the gap-closing estimand
   if each person's assignment were individualized
 \end{itemize}
 
-\hypertarget{stochastic-treatments}{%
-\subsection{Stochastic treatments}\label{stochastic-treatments}}
+\subsection{Stochastic treatments}\label{stochastic-treatments}
 
 We may want to study a counterfactual where treatment is assigned with some probability between 0 and 1. The \texttt{counterfactual\_assignments} argument can handle this possibility.
 
@@ -740,8 +722,7 @@ For example, consider the gap-closing estimand if assigned to treatment 1 with e
 The disparity between categories A and B under that stochastic intervention (0.75 probability of treatment = 1) is estimated to be 0.44, whereas under the previous deterministic intervention to assign treatment to the value 1 the disparity would be 0.14. This illustrates an important point: the gap-closing estimand can be different depending on the counterfactual assignment rule, as the figure below shows for counterfactuals in which treatment is assigned with probabilities ranging from 0 to 1.
 \includegraphics{github_doc_files/figure-latex/unnamed-chunk-26-1.pdf}
 
-\hypertarget{individualized-treatments}{%
-\subsection{Individualized treatments}\label{individualized-treatments}}
+\subsection{Individualized treatments}\label{individualized-treatments}
 
 Treatment may also be different (and possibly stochastic) for each unit in the counterfactual world of interest.
 
@@ -764,57 +745,59 @@ For example, suppose we assign those in Category A to treatment 1 with probabili
 
 That intervention would close the B - A gap by 31\%.
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{Conclusion}\label{conclusion}
 
 The \texttt{gapclosing} package is designed to support inquiry into gap closing estimands, thus promoting new understanding about interventions that can close gaps across social categories. The goal of the package is to automate technical tasks (sample splitting, aggregation to doubly robust estimates, visualization), thus freeing the researcher to devote more attention to scientific tasks like defining the intervention and making causal assumptions.
 
 If you use this package and find a bug, it would be most helpful if you would create an issue on \href{https://github.com/ilundberg/gapclosing}{GitHub}. Suggestions for additional features are also welcome.
 
-This vignette was compiled on 2023-03-09 08:29:32.
+This vignette was compiled on 2024-12-09 16:01:33.119242.
 
-\hypertarget{computing-environment}{%
-\subsection{Computing environment}\label{computing-environment}}
+\subsection{Computing environment}\label{computing-environment}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{sessionInfo}\NormalTok{()}
-\CommentTok{\#\textgreater{} R version 4.2.2 (2022{-}10{-}31)}
-\CommentTok{\#\textgreater{} Platform: aarch64{-}apple{-}darwin20 (64{-}bit)}
-\CommentTok{\#\textgreater{} Running under: macOS Ventura 13.2.1}
+\CommentTok{\#\textgreater{} R version 4.4.1 (2024{-}06{-}14)}
+\CommentTok{\#\textgreater{} Platform: aarch64{-}apple{-}darwin20}
+\CommentTok{\#\textgreater{} Running under: macOS 15.1.1}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} Matrix products: default}
-\CommentTok{\#\textgreater{} BLAS:   /Library/Frameworks/R.framework/Versions/4.2{-}arm64/Resources/lib/libRblas.0.dylib}
-\CommentTok{\#\textgreater{} LAPACK: /Library/Frameworks/R.framework/Versions/4.2{-}arm64/Resources/lib/libRlapack.dylib}
+\CommentTok{\#\textgreater{} BLAS:   /Library/Frameworks/R.framework/Versions/4.4{-}arm64/Resources/lib/libRblas.0.dylib }
+\CommentTok{\#\textgreater{} LAPACK: /Library/Frameworks/R.framework/Versions/4.4{-}arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} locale:}
 \CommentTok{\#\textgreater{} [1] en\_US.UTF{-}8/en\_US.UTF{-}8/en\_US.UTF{-}8/C/en\_US.UTF{-}8/en\_US.UTF{-}8}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} time zone: America/Los\_Angeles}
+\CommentTok{\#\textgreater{} tzcode source: internal}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} attached base packages:}
 \CommentTok{\#\textgreater{} [1] stats     graphics  grDevices utils     datasets }
 \CommentTok{\#\textgreater{} [6] methods   base     }
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} other attached packages:}
-\CommentTok{\#\textgreater{} [1] ggplot2\_3.4.0    dplyr\_1.1.0      gapclosing\_1.0.2}
+\CommentTok{\#\textgreater{} [1] ggplot2\_3.5.1    dplyr\_1.1.4      gapclosing\_1.0.2}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} loaded via a namespace (and not attached):}
-\CommentTok{\#\textgreater{}  [1] Rcpp\_1.0.10       highr\_0.10        pillar\_1.8.1     }
-\CommentTok{\#\textgreater{}  [4] compiler\_4.2.2    forcats\_1.0.0     iterators\_1.0.14 }
-\CommentTok{\#\textgreater{}  [7] tools\_4.2.2       digest\_0.6.31     lattice\_0.20{-}45  }
-\CommentTok{\#\textgreater{} [10] nlme\_3.1{-}162      evaluate\_0.20     lifecycle\_1.0.3  }
-\CommentTok{\#\textgreater{} [13] tibble\_3.1.8      gtable\_0.3.1      mgcv\_1.8{-}41      }
-\CommentTok{\#\textgreater{} [16] pkgconfig\_2.0.3   rlang\_1.0.6       Matrix\_1.5{-}3     }
-\CommentTok{\#\textgreater{} [19] foreach\_1.5.2     cli\_3.6.0         rstudioapi\_0.14  }
-\CommentTok{\#\textgreater{} [22] yaml\_2.3.7        parallel\_4.2.2    xfun\_0.37        }
-\CommentTok{\#\textgreater{} [25] fastmap\_1.1.0     ranger\_0.14.1     withr\_2.5.0      }
-\CommentTok{\#\textgreater{} [28] knitr\_1.42        generics\_0.1.3    vctrs\_0.5.2      }
-\CommentTok{\#\textgreater{} [31] grid\_4.2.2        tidyselect\_1.2.0  glue\_1.6.2       }
-\CommentTok{\#\textgreater{} [34] R6\_2.5.1          fansi\_1.0.4       rmarkdown\_2.20   }
-\CommentTok{\#\textgreater{} [37] bookdown\_0.33     farver\_2.1.1      tidyr\_1.3.0      }
-\CommentTok{\#\textgreater{} [40] purrr\_1.0.1       magrittr\_2.0.3    splines\_4.2.2    }
-\CommentTok{\#\textgreater{} [43] scales\_1.2.1      codetools\_0.2{-}19  htmltools\_0.5.4  }
-\CommentTok{\#\textgreater{} [46] colorspace\_2.1{-}0  labeling\_0.4.2    utf8\_1.2.3       }
-\CommentTok{\#\textgreater{} [49] munsell\_0.5.0     doParallel\_1.0.17}
+\CommentTok{\#\textgreater{}  [1] utf8\_1.2.4        generics\_0.1.3    tidyr\_1.3.1      }
+\CommentTok{\#\textgreater{}  [4] lattice\_0.22{-}6    digest\_0.6.36     magrittr\_2.0.3   }
+\CommentTok{\#\textgreater{}  [7] evaluate\_0.24.0   grid\_4.4.1        bookdown\_0.41    }
+\CommentTok{\#\textgreater{} [10] iterators\_1.0.14  fastmap\_1.2.0     foreach\_1.5.2    }
+\CommentTok{\#\textgreater{} [13] doParallel\_1.0.17 Matrix\_1.7{-}0      tinytex\_0.52     }
+\CommentTok{\#\textgreater{} [16] mgcv\_1.9{-}1        purrr\_1.0.2       fansi\_1.0.6      }
+\CommentTok{\#\textgreater{} [19] scales\_1.3.0      codetools\_0.2{-}20  cli\_3.6.3        }
+\CommentTok{\#\textgreater{} [22] rlang\_1.1.4       crayon\_1.5.3      munsell\_0.5.1    }
+\CommentTok{\#\textgreater{} [25] splines\_4.4.1     withr\_3.0.1       yaml\_2.3.10      }
+\CommentTok{\#\textgreater{} [28] tools\_4.4.1       parallel\_4.4.1    colorspace\_2.1{-}1 }
+\CommentTok{\#\textgreater{} [31] ranger\_0.17.0     forcats\_1.0.0     vctrs\_0.6.5      }
+\CommentTok{\#\textgreater{} [34] R6\_2.5.1          lifecycle\_1.0.4   pkgconfig\_2.0.3  }
+\CommentTok{\#\textgreater{} [37] pillar\_1.9.0      gtable\_0.3.5      Rcpp\_1.0.13      }
+\CommentTok{\#\textgreater{} [40] glue\_1.7.0        xfun\_0.49         tibble\_3.2.1     }
+\CommentTok{\#\textgreater{} [43] tidyselect\_1.2.1  highr\_0.11        rstudioapi\_0.16.0}
+\CommentTok{\#\textgreater{} [46] knitr\_1.48        farver\_2.1.2      htmltools\_0.5.8.1}
+\CommentTok{\#\textgreater{} [49] nlme\_3.1{-}164      rmarkdown\_2.27    labeling\_0.4.3   }
+\CommentTok{\#\textgreater{} [52] compiler\_4.4.1}
 \end{Highlighting}
 \end{Shaded}
 

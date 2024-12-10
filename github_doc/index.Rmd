@@ -18,7 +18,7 @@ This website documents the [**gapclosing**](https://cran.r-project.org/web/packa
 
 This causal question is of paramount importance for those who want to intervene to reduce disparities across categories such as gender, race, and class. How to answer that question is the subject of the companion papaer to this package.
 
->Lundberg, Ian. 2022. [**The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.**](https://doi.org/10.1177/00491241211055769) Sociological Methods and Research.
+>Lundberg, Ian. 2024. [**The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.**](https://doi.org/10.1177/00491241211055769) Sociological Methods & Research, 53(2), 507-570.
 
 To get started with these methods, first install [R and RStudio](https://rstudio-education.github.io/hopr/starting.html). Then install the package from CRAN.
 
@@ -33,4 +33,4 @@ You can now do lots of things!
 * Produce confidence intervals by the bootstrap
 * Visualize the result
 
-Questions and comments to Ian Lundberg, [ilundberg@cornell.edu](mailto:ilundberg@cornell.edu).
+Questions and comments to Ian Lundberg, [ianlundberg@ucla.edu](mailto:ianlundberg@ucla.edu).

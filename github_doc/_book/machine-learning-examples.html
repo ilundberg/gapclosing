@@ -7,7 +7,7 @@
 <title>Chapter 3 Machine learning examples | gapclosing: An R package</title>
 <meta name="author" content="Ian Lundberg">
 <meta name="description" content="Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the gapclosing() function....">
-<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 3 Machine learning examples | gapclosing: An R package">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ilundberg.github.io/gapclosing/github_doc/index.html/machine-learning-examples.html">
@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Suppose you want to relax parametric functional form assumptions by plugging in a machine learning estimator. As the user, this simply involves changing the arguments to the gapclosing() function....">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -27,6 +27,7 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+          margin-bottom: 0em;
         }
     .hanging div.csl-entry {
       margin-left:2em;
@@ -89,7 +90,7 @@
 <h2>
 <span class="header-section-number">3.1</span> Generalized Additive Models<a class="anchor" aria-label="anchor" href="#generalized-additive-models"><i class="fas fa-link"></i></a>
 </h2>
-<p>Perhaps you are concerned about linearity assumptions: the continuous confounder, for instance, might actually have a nonlinear association with the outcome. We know the truth is linear in this simulated example, but in practice you would never know. You can address this concern by estimating with a GAM, using the <code>s()</code> operator from <code>mgcv</code> for smooth terms (see <span class="citation">Wood (<a href="references.html#ref-mgcv" role="doc-biblioref">2017</a>)</span>).</p>
+<p>Perhaps you are concerned about linearity assumptions: the continuous confounder, for instance, might actually have a nonlinear association with the outcome. We know the truth is linear in this simulated example, but in practice you would never know. You can address this concern by estimating with a GAM, using the <code>s()</code> operator from <code>mgcv</code> for smooth terms (see <span class="citation">Wood (<a href="references.html#ref-mgcv">2017</a>)</span>).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estimate_gam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">simulated_data</span>,</span>
@@ -108,7 +109,7 @@
 <h2>
 <span class="header-section-number">3.2</span> Random forests<a class="anchor" aria-label="anchor" href="#random-forests"><i class="fas fa-link"></i></a>
 </h2>
-<p>Perhaps you are concerned that the true treatment probability and expected outcome functions have many interactions among the predictors. You can set <code>treatment_algorithm</code> and <code>outcome_algorithm</code> to “ranger” to estimate via the <code>ranger</code> function in the <code>ranger</code> package <span class="citation">(<a href="references.html#ref-ranger" role="doc-biblioref">Wright and Ziegler 2017</a>)</span>.</p>
+<p>Perhaps you are concerned that the true treatment probability and expected outcome functions have many interactions among the predictors. You can set <code>treatment_algorithm</code> and <code>outcome_algorithm</code> to “ranger” to estimate via the <code>ranger</code> function in the <code>ranger</code> package <span class="citation">(<a href="references.html#ref-ranger">Wright and Ziegler 2017</a>)</span>.</p>
 <p>One aspect of the way <code><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing()</a></code> operationalizes <code>ranger()</code> is unique out of all the estimation algorithm options. When you choose a random forest, it is because you believe there are many important interactions. Some of the most important interactions may be between the treatment and the other predictors. Therefore, <code>outcome_algorithm = ranger</code> enforces those interactions by estimating the outcome model separately for treated and control units. For this reason, when <code>outcome_algorithm = ranger</code> there is no need to include the treatment variable explicitly in the <code>outcome_formula</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estimate_ranger</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gapclosing/man/gapclosing.html">gapclosing</a></span><span class="op">(</span></span>
@@ -168,7 +169,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>gapclosing: An R package</strong>" was written by Ian Lundberg. It was last built on 2023-03-09.</p>
+    <p>"<strong>gapclosing: An R package</strong>" was written by Ian Lundberg. It was last built on 2024-12-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
