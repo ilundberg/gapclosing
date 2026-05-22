@@ -1,0 +1,10 @@
+book_filename: "github_doc"
+new_session: no
+before_chapter_script: _common.R
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
+bibliography: "gapclosing.bib"
+biblio-style: apalike
+link-citations: yes
