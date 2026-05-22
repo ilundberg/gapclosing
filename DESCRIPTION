@@ -27,7 +27,8 @@ Imports:
     foreach,
     tidyselect,
     parallel,
-    doParallel
+    doParallel,
+    doRNG
 Suggests: 
     testthat (>= 3.0.0),
     knitr,

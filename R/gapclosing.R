@@ -39,7 +39,7 @@
 #' @references Wood S (2017). Generalized Additive Models: An Introduction with R, 2 edition. Chapman and Hall/CRC.
 #' @references Wright MN, Ziegler A (2017). "ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R." Journal of Statistical Software, 77(1), 1–17. doi: 10.18637/jss.v077.i01.
 #' @importFrom foreach %do%
-#' @importFrom foreach %dopar%
+#' @importFrom doRNG %dorng%
 #' @importFrom magrittr %>%
 #' @export
 #'
@@ -377,7 +377,7 @@ gapclosing <- function(
     if (!is.null(parallel_cores)) {
       cl <- parallel::makeCluster(parallel_cores)
       doParallel::registerDoParallel(cl)
-      `%domethod%` <- `%dopar%`
+      `%domethod%` <- `%dorng%`
     } else {
       `%domethod%` <- `%do%`
     }

@@ -1,13 +1,11 @@
-Acyclic
+CMD
 CRC
 DAGs
-Estimands
-Github
 Hastie
 Preprint
+Rdpack
 Tibshirani
 confounder
-confounders
 counterfactually
 counterfactuals
 disparityplot
@@ -17,7 +15,9 @@ estimands
 gam
 ggplot
 glm
+gridExtra
 gx
+htaccess
 https
 io
 jss
@@ -27,6 +27,7 @@ mathbb
 nrow
 operationalizes
 osf
+php
 quantileplot
 reweight
 tibble
