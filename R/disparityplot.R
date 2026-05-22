@@ -48,13 +48,13 @@ disparityplot <- function(x, category_A, category_B, custom_ylab = "Mean Outcome
                                     x = ifelse(setting == "Factual", 1.25, 1.75),
                                     y = estimate),
                        position = ggplot2::position_dodge(width = .1),
-                       size = .5) +
+                       linewidth = .5) +
     ggplot2::geom_segment(ggplot2::aes(color = setting,
                                        x = gapclosing.category, xend = ifelse(setting == "Factual", 1.25, 1.75),
                                        y = estimate, yend = estimate),
                           linetype = "dashed",
                           position = ggplot2::position_dodge(width = .1),
-                          size = .5) +
+                          linewidth = .5) +
     ggplot2::geom_text(data = disparities,
                        ggplot2::aes(color = setting,
                                     x = ifelse(setting == "Factual", 1.25, 1.75),
@@ -84,9 +84,11 @@ disparityplot <- function(x, category_A, category_B, custom_ylab = "Mean Outcome
                           color = "gray") +
     ggplot2::geom_text(data = means %>%
                          dplyr::group_by(gapclosing.category) %>%
-                         dplyr::summarize(y = mean(estimate),
-                                          x = ifelse(gapclosing.category == category_A, .8, 2.2),
-                                          .groups = "drop"),
+                         dplyr::summarize(
+                           y = mean(estimate),
+                           .groups = "drop"
+                         ) %>%
+                         dplyr::mutate(x = ifelse(gapclosing.category == category_A, .8, 2.2)),
                        ggplot2::aes(x = x, y = y, vjust = ifelse(gapclosing.category == category_A,-1,2)),
                        label = "Causal Effect", color = "gray",
                        size = 2, angle = 90) +
