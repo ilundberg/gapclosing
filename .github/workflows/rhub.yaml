@@ -64,6 +64,7 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+          args: "--no-build-vignettes"
 
   other-platforms:
     needs: setup
@@ -93,3 +94,4 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+          args: "--no-build-vignettes"
