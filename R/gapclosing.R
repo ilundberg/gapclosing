@@ -398,20 +398,20 @@ gapclosing <- function(
           dplyr::slice_sample(prop = 1, replace = TRUE) %>%
           dplyr::ungroup()
       }
-      gapclosing_star <- gapclosing(data = data_star,
-                                    outcome_formula = outcome_formula,
-                                    treatment_name = treatment_name,
-                                    treatment_formula = treatment_formula,
-                                    outcome_name = outcome_name,
-                                    category_name = category_name,
-                                    counterfactual_assignments = counterfactual_assignments,
-                                    weight_name = weight_name,
-                                    se = FALSE,
-                                    treatment_algorithm = treatment_algorithm,
-                                    outcome_algorithm = outcome_algorithm,
-                                    sample_split = sample_split,
-                                    n_folds = n_folds,
-                                    folds_name = folds_name)
+      gapclosing_star <- gapclosing::gapclosing(data = data_star,
+                                                outcome_formula = outcome_formula,
+                                                treatment_name = treatment_name,
+                                                treatment_formula = treatment_formula,
+                                                outcome_name = outcome_name,
+                                                category_name = category_name,
+                                                counterfactual_assignments = counterfactual_assignments,
+                                                weight_name = weight_name,
+                                                se = FALSE,
+                                                treatment_algorithm = treatment_algorithm,
+                                                outcome_algorithm = outcome_algorithm,
+                                                sample_split = sample_split,
+                                                n_folds = n_folds,
+                                                folds_name = folds_name)
       return(as.data.frame(gapclosing_star))
     }
     if (!is.null(parallel_cores)) {
