@@ -1,9 +1,16 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^doc$
+^assets$
+^github_doc$
 ^Meta$
 ^_config\.yml$
 ^cran-comments\.md$
 ^index\.md$
 ^news\.md$
 ^CRAN-RELEASE$
+^\.github$
+^\.nojekyll$
+^index\.html$
+
+

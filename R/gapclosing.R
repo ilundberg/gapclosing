@@ -382,7 +382,7 @@ gapclosing <- function(
       `%domethod%` <- `%do%`
     }
     # Produce standard errors by bootstrapping
-    bs_estimates <- foreach::foreach(i = 1:bootstrap_samples, .combine = "rbind", .packages = c("dplyr", "gapclosing")) %domethod% {
+    bs_estimates <- foreach::foreach(i = 1:bootstrap_samples, .combine = "rbind", .packages = "dplyr") %domethod% {
       if (i %% bootstrap_samples == 100) {
         print(paste("Beginning draw",i,"of",bootstrap_samples))
       }
