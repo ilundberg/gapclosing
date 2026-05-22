@@ -1,12 +1,10 @@
 citHeader("To cite gapclosing in publications use:")
-
-citEntry(entry = "Article",
+bibentry(bibtype = "Article",
   title        = "The gap-closing estimand: A causal approach to study interventions that close disparities across social categories",
-  author       = personList(as.person("Ian Lundberg")),
+  author       = c(person("Ian Lundberg")),
   journal      = "Working Paper",
   year         = "2021",
   url          = "https://doi.org/10.31235/osf.io/gx4y3",
-
   textVersion  =
   paste("Lundberg, Ian. 2021.",
 	"The gap-closing estimand: A causal approach to study interventions that close disparities across social categories.",
